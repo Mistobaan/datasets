@@ -48,28 +48,28 @@ _CITATION = """\
 """
 
 
-class Food101(tfds.core.GeneratorBasedBuilder):
+class Food101(tfds.GeneratorBasedBuilder):
   """Food-101 Images dataset."""
 
-  VERSION = tfds.core.Version("2.0.0")
+  VERSION = tfds.Version("2.0.0")
   SUPPORTED_VERSIONS = [
-      tfds.core.Version(
+      tfds.Version(
           "1.0.0",
           tfds_version_to_prepare="8cea22f06d74d5848608fe7ac6d6faac7bc05b55"),
-      tfds.core.Version("2.1.0"),
+      tfds.Version("2.1.0"),
   ]
 
   def _info(self):
     """Define Dataset Info."""
 
-    names_file = tfds.core.get_tfds_path(_LABELS_FNAME)
+    names_file = tfds.get_tfds_path(_LABELS_FNAME)
     features_dict = {
         "image": tfds.features.Image(),
         "label": tfds.features.ClassLabel(names_file=names_file),
     }
     if self.version > "2.0.0":
       features_dict["id"] = tfds.features.Text()
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=(_DESCRIPTION),
         features=tfds.features.FeaturesDict(features_dict),
@@ -85,7 +85,7 @@ class Food101(tfds.core.GeneratorBasedBuilder):
     image_dir_path = os.path.join(dl_path, "food-101", "images")
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "json_file_path": os.path.join(meta_path, "train.json"),
@@ -93,7 +93,7 @@ class Food101(tfds.core.GeneratorBasedBuilder):
             },
         ),
 
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "json_file_path": os.path.join(meta_path, "test.json"),

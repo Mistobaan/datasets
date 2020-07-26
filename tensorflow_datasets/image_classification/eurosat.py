@@ -59,7 +59,7 @@ _URL = 'https://github.com/phelber/eurosat'
 _DATA_OPTIONS = ['rgb', 'all']
 
 
-class EurosatConfig(tfds.core.BuilderConfig):
+class EurosatConfig(tfds.BuilderConfig):
   """BuilderConfig for eurosat."""
 
   def __init__(self, selection=None, download_url=None, subdir=None, **kwargs):
@@ -74,14 +74,14 @@ class EurosatConfig(tfds.core.BuilderConfig):
     if selection not in _DATA_OPTIONS:
       raise ValueError('selection must be one of %s' % _DATA_OPTIONS)
 
-    super(EurosatConfig, self).__init__(version=tfds.core.Version('2.0.0'),
+    super(EurosatConfig, self).__init__(version=tfds.Version('2.0.0'),
                                         **kwargs)
     self.selection = selection
     self.download_url = download_url
     self.subdir = subdir
 
 
-class Eurosat(tfds.core.GeneratorBasedBuilder):
+class Eurosat(tfds.GeneratorBasedBuilder):
   """Eurosat remote sensing benchmarking dataset."""
 
   BUILDER_CONFIGS = [
@@ -118,7 +118,7 @@ class Eurosat(tfds.core.GeneratorBasedBuilder):
       })
       supervised_keys = ('sentinel2', 'label')
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=features,
@@ -132,7 +132,7 @@ class Eurosat(tfds.core.GeneratorBasedBuilder):
     path = dl_manager.download_and_extract(self.builder_config.download_url)
     path = os.path.join(path, self.builder_config.subdir)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'path': path,
@@ -162,7 +162,7 @@ class Eurosat(tfds.core.GeneratorBasedBuilder):
 
 def _extract_channels(filename):
   with tf.io.gfile.GFile(filename, 'rb') as f:
-    arr = tfds.core.lazy_imports.skimage.external.tifffile.imread(
+    arr = tfds.lazy_imports.skimage.external.tifffile.imread(
         io.BytesIO(f.read()))
 
   arr = arr.astype('float32')

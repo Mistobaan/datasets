@@ -61,10 +61,10 @@ required to submit final prediction files, which we shall proceed to evaluate.
 """
 
 
-class WiderFace(tfds.core.GeneratorBasedBuilder):
+class WiderFace(tfds.GeneratorBasedBuilder):
   """WIDER FACE Dataset."""
 
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
 
   def _info(self):
     features = {
@@ -83,7 +83,7 @@ class WiderFace(tfds.core.GeneratorBasedBuilder):
                 'invalid': tf.bool,
             }),
     }
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
@@ -100,19 +100,19 @@ class WiderFace(tfds.core.GeneratorBasedBuilder):
         'wider_annot': _WIDER_ANNOT_URL,
     })
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'split': 'train',
                 'extracted_dirs': extracted_dirs
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'split': 'val',
                 'extracted_dirs': extracted_dirs
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'split': 'test',
@@ -146,7 +146,7 @@ class WiderFace(tfds.core.GeneratorBasedBuilder):
         if split != 'test':
           # Train and val contain also face information.
           with tf.io.gfile.GFile(image_fullpath, 'rb') as fp:
-            image = tfds.core.lazy_imports.PIL_Image.open(fp)
+            image = tfds.lazy_imports.PIL_Image.open(fp)
             width, height = image.size
 
           # Read number of bounding boxes.

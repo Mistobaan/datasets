@@ -40,7 +40,7 @@ Create your own config to choose which data / language pair to load.
 
 ```
 config = tfds.translate.opus.OpusConfig(
-    version=tfds.core.Version('0.1.0'),
+    version=tfds.Version('0.1.0'),
     language_pair=("de", "en"),
     subsets=["GNOME", "EMEA"]
 )
@@ -143,10 +143,10 @@ DATASET_MAP = {ds.name: ds for ds in [  # pylint:disable=g-complex-comprehension
 ]}
 
 
-class OpusConfig(tfds.core.BuilderConfig):
+class OpusConfig(tfds.BuilderConfig):
   """BuilderConfig for Opus."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, language_pair, subsets, **kwargs):
     """BuilderConfig for Opus.
 
@@ -169,7 +169,7 @@ class OpusConfig(tfds.core.BuilderConfig):
     self.subsets = subsets
 
 
-class Opus(tfds.core.GeneratorBasedBuilder):
+class Opus(tfds.GeneratorBasedBuilder):
   """OPUS is a collection of translated texts from the web."""
 
   _KK_SUBSETS = [
@@ -185,7 +185,7 @@ class Opus(tfds.core.GeneratorBasedBuilder):
   Knowles (2017) https://www.aclweb.org/anthology/W17-3204.pdf"""
   BUILDER_CONFIGS = [
       OpusConfig(  # pylint:disable=g-complex-comprehension
-          version=tfds.core.Version("0.1.0"),
+          version=tfds.Version("0.1.0"),
           language_pair=("de", "en"),
           subsets=subsets,
           name=name
@@ -205,7 +205,7 @@ class Opus(tfds.core.GeneratorBasedBuilder):
 
   def _info(self):
     src, target = self.builder_config.language_pair
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION + "\n" + self.builder_config.description,
         features=tfds.features.Translation(
@@ -234,7 +234,7 @@ class Opus(tfds.core.GeneratorBasedBuilder):
       })
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"subsets": subsets}
         )

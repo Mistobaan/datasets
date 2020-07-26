@@ -11,8 +11,8 @@
 Every `DatasetBuilder` defined in TFDS comes with a version, for example:
 
 ```py
-class MNIST(tfds.core.GeneratorBasedBuilder):
-  VERSION = tfds.core.Version("1.0.0")
+class MNIST(tfds.GeneratorBasedBuilder):
+  VERSION = tfds.Version("1.0.0")
 ```
 
 The version follows
@@ -52,12 +52,12 @@ A `DatasetBuilder` can support several versions, which can be both higher or
 lower than the canonical version. For example:
 
 ```py
-class Imagenet2012(tfds.core.GeneratorBasedBuilder):
-  VERSION = tfds.core.Version('2.0.1', 'Encoding fix. No changes from user POV')
+class Imagenet2012(tfds.GeneratorBasedBuilder):
+  VERSION = tfds.Version('2.0.1', 'Encoding fix. No changes from user POV')
   SUPPORTED_VERSIONS = [
-      tfds.core.Version('3.0.0', 'S3: tensorflow.org/datasets/splits'),
-      tfds.core.Version('1.0.0'),
-      tfds.core.Version('0.0.9', tfds_version_to_prepare="v1.0.0"),
+      tfds.Version('3.0.0', 'S3: tensorflow.org/datasets/splits'),
+      tfds.Version('1.0.0'),
+      tfds.Version('0.0.9', tfds_version_to_prepare="v1.0.0"),
   ]
 ```
 
@@ -109,11 +109,11 @@ This will typically be done on "future" versions (not made canonical yet) at
 first. For example:
 
 ```py
-class MNIST(tfds.core.GeneratorBasedBuilder):
-  VERSION = tfds.core.Version("1.0.0")
+class MNIST(tfds.GeneratorBasedBuilder):
+  VERSION = tfds.Version("1.0.0")
   SUPPORTED_VERSIONS = [
-      tfds.core.Version("2.0.0", "EXP1: Opt-in for experiment 1",
-                        experiments={tfds.core.Experiment.EXP1: True}),
+      tfds.Version("2.0.0", "EXP1: Opt-in for experiment 1",
+                        experiments={tfds.Experiment.EXP1: True}),
   ]
 ```
 
@@ -122,11 +122,11 @@ all or most datasets, at which point it can be enabled by default, and the above
 definition would then look like:
 
 ```py
-class MNIST(tfds.core.GeneratorBasedBuilder):
-  VERSION = tfds.core.Version("1.0.0",
-                              experiments={tfds.core.Experiment.EXP1: False})
+class MNIST(tfds.GeneratorBasedBuilder):
+  VERSION = tfds.Version("1.0.0",
+                              experiments={tfds.Experiment.EXP1: False})
   SUPPORTED_VERSIONS = [
-      tfds.core.Version("2.0.0", "EXP1: Opt-in for experiment 1"),
+      tfds.Version("2.0.0", "EXP1: Opt-in for experiment 1"),
   ]
 ```
 
@@ -142,14 +142,14 @@ and `supported_versions` are defined on the config objects themselves. Other
 than that, semantics and usage are identical. For example:
 
 ```py
-class OpenImagesV4(tfds.core.GeneratorBasedBuilder):
+class OpenImagesV4(tfds.GeneratorBasedBuilder):
 
   BUILDER_CONFIGS = [
       OpenImagesV4Config(
           name='original',
-          version=tfds.core.Version('0.2.0'),
+          version=tfds.Version('0.2.0'),
           supported_versions=[
-            tfds.core.Version('1.0.0', "Major change in data"),
+            tfds.Version('1.0.0', "Major change in data"),
           ],
           description='Images at their original resolution and quality.'),
       ...

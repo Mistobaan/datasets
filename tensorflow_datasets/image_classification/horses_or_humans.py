@@ -43,14 +43,14 @@ _IMAGE_SHAPE = (_IMAGE_SIZE, _IMAGE_SIZE, 3)
 _NAME_RE = re.compile(r"^(humans|horses)(?:/|\\)[\w-]*\.png$")
 
 
-class HorsesOrHumans(tfds.core.GeneratorBasedBuilder):
+class HorsesOrHumans(tfds.GeneratorBasedBuilder):
   """Horses or Humans dataset."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "3.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description="A large set of images of horses and humans.",
         features=tfds.features.FeaturesDict({
@@ -67,12 +67,12 @@ class HorsesOrHumans(tfds.core.GeneratorBasedBuilder):
     train_path, test_path = dl_manager.download([_TRAIN_URL, _TEST_URL])
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(train_path)
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(test_path)

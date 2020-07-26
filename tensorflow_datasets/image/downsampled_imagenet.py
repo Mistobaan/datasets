@@ -52,10 +52,10 @@ _DL_URL = "http://image-net.org/small/"
 _DATA_OPTIONS = ["32x32", "64x64"]
 
 
-class DownsampledImagenetConfig(tfds.core.BuilderConfig):
+class DownsampledImagenetConfig(tfds.BuilderConfig):
   """BuilderConfig for Downsampled Imagenet."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, data=None, **kwargs):
     """Constructs a DownsampledImagenetConfig.
 
@@ -70,7 +70,7 @@ class DownsampledImagenetConfig(tfds.core.BuilderConfig):
     self.data = data
 
 
-class DownsampledImagenet(tfds.core.GeneratorBasedBuilder):
+class DownsampledImagenet(tfds.GeneratorBasedBuilder):
   """Downsampled Imagenet dataset."""
 
   BUILDER_CONFIGS = [
@@ -79,7 +79,7 @@ class DownsampledImagenet(tfds.core.GeneratorBasedBuilder):
           description=(
               "A dataset consisting of Train and Validation images of " +
               config_name + " resolution."),
-          version=tfds.core.Version(
+          version=tfds.Version(
               "2.0.0",
               "New split API (https://tensorflow.org/datasets/splits)"),
           data=config_name,
@@ -87,7 +87,7 @@ class DownsampledImagenet(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -110,12 +110,12 @@ class DownsampledImagenet(tfds.core.GeneratorBasedBuilder):
     ])
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(train_path),
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(valid_path),

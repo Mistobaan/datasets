@@ -50,14 +50,14 @@ _DESCRIPTION = (("A large set of images of cats and dogs."
 _NAME_RE = re.compile(r"^PetImages[\\/](Cat|Dog)[\\/]\d+\.jpg$")
 
 
-class CatsVsDogs(tfds.core.GeneratorBasedBuilder):
+class CatsVsDogs(tfds.GeneratorBasedBuilder):
   """Cats vs Dogs."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "4.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -76,7 +76,7 @@ class CatsVsDogs(tfds.core.GeneratorBasedBuilder):
 
     # There is no predefined train/val/test split for this dataset.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(path),

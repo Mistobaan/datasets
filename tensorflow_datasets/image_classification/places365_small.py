@@ -54,14 +54,14 @@ _CITATION = """\
 """
 
 
-class Places365Small(tfds.core.GeneratorBasedBuilder):
+class Places365Small(tfds.GeneratorBasedBuilder):
   """Places365 Images dataset."""
 
-  VERSION = tfds.core.Version("2.0.0")
+  VERSION = tfds.Version("2.0.0")
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(_LABELS_FNAME)
-    return tfds.core.DatasetInfo(
+    names_file = tfds.get_tfds_path(_LABELS_FNAME)
+    return tfds.DatasetInfo(
         builder=self,
         description=(_DESCRIPTION),
         features=tfds.features.FeaturesDict({
@@ -82,7 +82,7 @@ class Places365Small(tfds.core.GeneratorBasedBuilder):
         urllib.parse.urljoin(_BASE_URL, _FILE_ANNOTATION_URL))
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="train",
             gen_kwargs={
                 "archive":
@@ -96,7 +96,7 @@ class Places365Small(tfds.core.GeneratorBasedBuilder):
                     "train",
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="test",
             gen_kwargs={
                 "archive":
@@ -109,7 +109,7 @@ class Places365Small(tfds.core.GeneratorBasedBuilder):
                     "test",
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="validation",
             gen_kwargs={
                 "archive":

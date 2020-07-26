@@ -41,15 +41,15 @@ _CITATION = """\
 """
 
 
-class BinaryAlphaDigits(tfds.core.GeneratorBasedBuilder):
+class BinaryAlphaDigits(tfds.GeneratorBasedBuilder):
   """Binary alphadigits dataset."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   def _info(self):
     """Define the Dataset info."""
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=(_DESCRIPTION),
         features=tfds.features.FeaturesDict({
@@ -67,7 +67,7 @@ class BinaryAlphaDigits(tfds.core.GeneratorBasedBuilder):
         {'train': urllib.parse.urljoin(_URL, 'binaryalphadigs.mat')})
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name='train',
             gen_kwargs={
                 'data_dir_path': path['train'],
@@ -79,7 +79,7 @@ class BinaryAlphaDigits(tfds.core.GeneratorBasedBuilder):
     """Generate Splits for training data."""
 
     with tf.io.gfile.GFile(data_dir_path, 'rb') as f:
-      mat = tfds.core.lazy_imports.scipy.io.loadmat(f)
+      mat = tfds.lazy_imports.scipy.io.loadmat(f)
     for i in range(len(mat['dat'])):
       label = mat['classlabels'][0][i].item()
       for j in range(len(mat['dat'][i])):

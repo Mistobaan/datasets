@@ -77,10 +77,10 @@ _CITATION = """\
 _DOWNLOAD_URL = "https://s3.amazonaws.com/fast-ai-nlp/yelp_review_polarity_csv.tgz"
 
 
-class YelpPolarityReviewsConfig(tfds.core.BuilderConfig):
+class YelpPolarityReviewsConfig(tfds.BuilderConfig):
   """BuilderConfig for YelpPolarityReviews."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, text_encoder_config=None, **kwargs):
     """BuilderConfig for YelpPolarityReviews.
 
@@ -95,7 +95,7 @@ class YelpPolarityReviewsConfig(tfds.core.BuilderConfig):
         text_encoder_config or tfds.features.text.TextEncoderConfig())
 
 
-class YelpPolarityReviews(tfds.core.GeneratorBasedBuilder):
+class YelpPolarityReviews(tfds.GeneratorBasedBuilder):
   """Yelp Polarity reviews dataset."""
   BUILDER_CONFIGS = [
       YelpPolarityReviewsConfig(
@@ -132,7 +132,7 @@ class YelpPolarityReviews(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -159,10 +159,10 @@ class YelpPolarityReviews(tfds.core.GeneratorBasedBuilder):
     self.info.features["text"].maybe_build_from_corpus(
         self._vocab_text_gen(train_file))
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"filepath": train_file}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"filepath": test_file}),
     ]

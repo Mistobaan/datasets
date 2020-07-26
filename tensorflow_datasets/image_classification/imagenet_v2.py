@@ -47,7 +47,7 @@ represented as a dictionary with the following keys:
 """
 
 # Note: Bump the version if the links change.
-_VERSION = tfds.core.Version('0.1.0')
+_VERSION = tfds.Version('0.1.0')
 _ROOT_URL = 'https://s3-us-west-2.amazonaws.com/imagenetv2public'
 _IMAGENET_V2_URLS = {
     'matched-frequency': _ROOT_URL + '/imagenetv2-matched-frequency.tar.gz',
@@ -63,10 +63,10 @@ _TAR_TOPDIR = {
 _IMAGENET_LABELS_FILENAME = r'image_classification/imagenet2012_labels.txt'
 
 
-class ImagenetV2Config(tfds.core.BuilderConfig):
+class ImagenetV2Config(tfds.BuilderConfig):
   """"Configuration specifying the variant to use."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, variant, **kwargs):
     """The parameters specifying how the dataset will be processed.
 
@@ -92,14 +92,14 @@ def _create_builder_configs():
                            description=_DESCRIPTION)
 
 
-class ImagenetV2(tfds.core.GeneratorBasedBuilder):
+class ImagenetV2(tfds.GeneratorBasedBuilder):
   """An ImageNet test set recollected by following the original protocol."""
 
   BUILDER_CONFIGS = list(_create_builder_configs())
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(_IMAGENET_LABELS_FILENAME)
-    return tfds.core.DatasetInfo(
+    names_file = tfds.get_tfds_path(_IMAGENET_LABELS_FILENAME)
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=_DESCRIPTION,
@@ -123,7 +123,7 @@ class ImagenetV2(tfds.core.GeneratorBasedBuilder):
         dl_manager.download_and_extract(variant_url),
         _TAR_TOPDIR[self.builder_config.variant])
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             # The dataset provides only a test split.
             name=tfds.Split.TEST,
             # These kwargs will be passed to _generate_examples

@@ -81,21 +81,21 @@ _HIGHLIGHTS = 'highlights'
 _ARTICLE = 'article'
 _SUPPORTED_VERSIONS = [
     # Same data as 0.0.2
-    tfds.core.Version('1.0.0',
+    tfds.Version('1.0.0',
                       'New split API (https://tensorflow.org/datasets/splits)'),
     # Having the model predict newline separators makes it easier to evaluate
     # using summary-level ROUGE.
-    tfds.core.Version('2.0.0', 'Separate target sentences with newline.')
+    tfds.Version('2.0.0', 'Separate target sentences with newline.')
 ]
 
 # Using cased version.
-_DEFAULT_VERSION = tfds.core.Version('3.0.0', 'Using cased version.')
+_DEFAULT_VERSION = tfds.Version('3.0.0', 'Using cased version.')
 
 
-class CnnDailymailConfig(tfds.core.BuilderConfig):
+class CnnDailymailConfig(tfds.BuilderConfig):
   """BuilderConfig for CnnDailymail."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, text_encoder_config=None, **kwargs):
     """BuilderConfig for CnnDailymail.
 
@@ -231,7 +231,7 @@ def _get_art_abs(story_file, tfds_version):
   return article, abstract
 
 
-class CnnDailymail(tfds.core.GeneratorBasedBuilder):
+class CnnDailymail(tfds.GeneratorBasedBuilder):
   """CNN/DailyMail non-anonymized summarization dataset."""
   BUILDER_CONFIGS = [
       CnnDailymailConfig(
@@ -256,8 +256,8 @@ class CnnDailymail(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    # Should return a tfds.core.DatasetInfo object
-    return tfds.core.DatasetInfo(
+    # Should return a tfds.DatasetInfo object
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -290,15 +290,15 @@ class CnnDailymail(tfds.core.GeneratorBasedBuilder):
     self.info.features[_HIGHLIGHTS].maybe_set_encoder(encoder)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'files': train_files}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'files': _subset_filenames(dl_paths, tfds.Split.VALIDATION)
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'files': _subset_filenames(dl_paths, tfds.Split.TEST)})
     ]

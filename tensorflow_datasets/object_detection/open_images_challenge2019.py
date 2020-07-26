@@ -61,11 +61,11 @@ _TEST_IMAGES_URL = _FIGURE_EIGHT_BASE_URL + "test_challenge.zip"
 _NUM_CLASSES = 500
 
 
-class OpenImagesChallenge2019Config(tfds.core.BuilderConfig):
+class OpenImagesChallenge2019Config(tfds.BuilderConfig):
   """BuilderConfig for OpenImages Challenge 2019 datasets."""
 
   def __init__(self, target_pixels=None, **kwargs):
-    kwargs.setdefault("version", tfds.core.Version("1.0.0"))
+    kwargs.setdefault("version", tfds.Version("1.0.0"))
     super(OpenImagesChallenge2019Config, self).__init__(**kwargs)
     self._target_pixels = target_pixels
 
@@ -74,7 +74,7 @@ class OpenImagesChallenge2019Config(tfds.core.BuilderConfig):
     return self._target_pixels
 
 
-class _OpenImagesChallenge2019(tfds.core.BeamBasedBuilder):
+class _OpenImagesChallenge2019(tfds.BeamBasedBuilder):
   """Base abstract class for Open Images Challenge 2019 datasets."""
 
   BUILDER_CONFIGS = [
@@ -111,15 +111,15 @@ class _OpenImagesChallenge2019(tfds.core.BeamBasedBuilder):
     urls.update(self.annotation_urls)
     paths = dl_manager.download(urls)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(paths=paths, split="train"),
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(paths=paths, split="test"),
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs=dict(paths=paths, split="validation"),
         ),
@@ -145,7 +145,7 @@ class OpenImagesChallenge2019Detection(_OpenImagesChallenge2019):
 
   def _info(self):
     label = tfds.features.ClassLabel(num_classes=_NUM_CLASSES)
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION + "\n\n" + _DESCRIPTION_DETECTION,
         features=tfds.features.FeaturesDict({
@@ -171,7 +171,7 @@ class OpenImagesChallenge2019Detection(_OpenImagesChallenge2019):
     )
 
   def _build_pcollection(self, pipeline, paths, split):
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
     # We need to lazily import the oi_beam module (and thus, violate the
     # "imports only at the top" rule), so that beam is only required during the
     # generation of the dataset, and not to use the dataset itself (once built).

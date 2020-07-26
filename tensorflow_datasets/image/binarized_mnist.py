@@ -49,13 +49,13 @@ _VALID_DATA_FILENAME = "binarized_mnist_valid.amat"
 _TEST_DATA_FILENAME = "binarized_mnist_test.amat"
 
 
-class BinarizedMNIST(tfds.core.GeneratorBasedBuilder):
+class BinarizedMNIST(tfds.GeneratorBasedBuilder):
   """A specific binarization of the MNIST dataset."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -77,17 +77,17 @@ class BinarizedMNIST(tfds.core.GeneratorBasedBuilder):
         {k: urllib.parse.urljoin(_URL, v) for k, v in filenames.items()})
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(
                 data_path=files["train_data"],
             )),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs=dict(
                 data_path=files["validation_data"],
             )),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(
                 data_path=files["test_data"],

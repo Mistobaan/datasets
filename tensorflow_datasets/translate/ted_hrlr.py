@@ -59,10 +59,10 @@ _VALID_LANGUAGE_PAIRS = (
 )
 
 
-class TedHrlrConfig(tfds.core.BuilderConfig):
+class TedHrlrConfig(tfds.BuilderConfig):
   """BuilderConfig for TED talk data comparing high/low resource languages."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, language_pair=(None, None), **kwargs):
     """BuilderConfig for TED talk data comparing high/low resource languages.
 
@@ -99,20 +99,20 @@ class TedHrlrConfig(tfds.core.BuilderConfig):
     self.language_pair = language_pair
 
 
-class TedHrlrTranslate(tfds.core.GeneratorBasedBuilder):
+class TedHrlrTranslate(tfds.GeneratorBasedBuilder):
   """TED talk data set for comparing high and low resource languages."""
 
   BUILDER_CONFIGS = [
       TedHrlrConfig(  # pylint: disable=g-complex-comprehension
           language_pair=pair,
-          version=tfds.core.Version(
+          version=tfds.Version(
               "1.0.0",
               "New split API (https://tensorflow.org/datasets/splits)"),
       ) for pair in _VALID_LANGUAGE_PAIRS
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.Translation(
@@ -129,7 +129,7 @@ class TedHrlrTranslate(tfds.core.GeneratorBasedBuilder):
     data_dir = os.path.join(dl_dir, "datasets", "%s_to_%s" % (source, target))
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "source_file":
@@ -138,7 +138,7 @@ class TedHrlrTranslate(tfds.core.GeneratorBasedBuilder):
                 "target_file":
                     os.path.join(data_dir, "{}.train".format(target))
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "source_file":
@@ -147,7 +147,7 @@ class TedHrlrTranslate(tfds.core.GeneratorBasedBuilder):
                 "target_file":
                     os.path.join(data_dir, "{}.dev".format(target))
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "source_file":

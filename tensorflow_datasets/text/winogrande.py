@@ -43,13 +43,13 @@ The  WinoGrande, a large-scale dataset of 44k problems, inspired by the original
 _DATA_URL = 'https://storage.googleapis.com/ai2-mosaic/public/winogrande/winogrande_1.1.zip'
 
 
-class Winogrande(tfds.core.GeneratorBasedBuilder):
+class Winogrande(tfds.GeneratorBasedBuilder):
   """The Winogrande challenge."""
 
-  VERSION = tfds.core.Version('1.1.0')
+  VERSION = tfds.Version('1.1.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -75,17 +75,17 @@ class Winogrande(tfds.core.GeneratorBasedBuilder):
     train_splits = []
     for size in data_sizes:
       train_splits.append(
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split('train_{}'.format(size)),
               gen_kwargs={
                   'filepath':
                       os.path.join(data_dir, 'train_{}.jsonl'.format(size))
               }))
     return train_splits + [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'filepath': os.path.join(data_dir, 'test.jsonl')}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'filepath': os.path.join(data_dir, 'dev.jsonl')}),
     ]

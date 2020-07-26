@@ -52,14 +52,14 @@ stored in metadata.csv which contains
 _DATA_DIR = 'gs://deepmind-gutenberg'
 
 
-class Pg19(tfds.core.GeneratorBasedBuilder):
+class Pg19(tfds.GeneratorBasedBuilder):
   """This dataset contains the PG-19 language modeling benchmark."""
 
-  VERSION = tfds.core.Version('0.1.1')
+  VERSION = tfds.Version('0.1.1')
 
   def _info(self):
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -88,19 +88,19 @@ class Pg19(tfds.core.GeneratorBasedBuilder):
       metadata_dict[int(row_split[0])] = row_split[1:]
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'metadata': metadata_dict,
                 'filepath': os.path.join(_DATA_DIR, 'train')},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'metadata': metadata_dict,
                 'filepath': os.path.join(_DATA_DIR, 'validation')},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'metadata': metadata_dict,

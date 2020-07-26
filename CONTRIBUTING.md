@@ -46,7 +46,7 @@ Argument lines should be formatted as
 
 References to `tfds` methods or classes within a docstring should go in
 backticks and use the publicly accessible path to that symbol. For example
-`` `tfds.core.DatasetBuilder` ``.
+`` `tfds.DatasetBuilder` ``.
 Doing so ensures that the API documentation will insert a link to the
 documentation for that symbol.
 

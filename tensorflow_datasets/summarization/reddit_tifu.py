@@ -59,10 +59,10 @@ _TLDR = "tldr"
 _ADDITIONAL_FEATURES = ["ups", "num_comments", "score", "upvote_ratio"]
 
 
-class RedditTifuConfig(tfds.core.BuilderConfig):
+class RedditTifuConfig(tfds.BuilderConfig):
   """BuilderConfig for RedditTifu."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, summary_key=None, **kwargs):
     """BuilderConfig for RedditTifu.
 
@@ -72,11 +72,11 @@ class RedditTifuConfig(tfds.core.BuilderConfig):
     """
     # Version 1.1.0 remove empty document and summary strings.
     super(RedditTifuConfig, self).__init__(
-        version=tfds.core.Version("1.1.0"), **kwargs)
+        version=tfds.Version("1.1.0"), **kwargs)
     self.summary_key = summary_key
 
 
-class RedditTifu(tfds.core.GeneratorBasedBuilder):
+class RedditTifu(tfds.GeneratorBasedBuilder):
   """Reddit TIFU Dataset."""
 
   BUILDER_CONFIGS = [
@@ -99,7 +99,7 @@ class RedditTifu(tfds.core.GeneratorBasedBuilder):
     }
     features.update(
         {k: tfds.features.Text() for k in [_DOCUMENT, _TLDR, _TITLE]})
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
@@ -112,7 +112,7 @@ class RedditTifu(tfds.core.GeneratorBasedBuilder):
     """Returns SplitGenerators."""
     dl_path = dl_manager.download_and_extract(_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"path": dl_path},
         )

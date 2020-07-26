@@ -573,10 +573,10 @@ _CZENG17_FILTER = SubDataset(
 )
 
 
-class WmtConfig(tfds.core.BuilderConfig):
+class WmtConfig(tfds.BuilderConfig):
   """BuilderConfig for WMT."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self,
                url=None,
                citation=None,
@@ -616,7 +616,7 @@ class WmtConfig(tfds.core.BuilderConfig):
     self.subsets = subsets
 
 
-class WmtTranslate(tfds.core.GeneratorBasedBuilder):
+class WmtTranslate(tfds.GeneratorBasedBuilder):
   """WMT translation dataset."""
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
@@ -659,7 +659,7 @@ class WmtTranslate(tfds.core.GeneratorBasedBuilder):
 
   def _info(self):
     src, target = self.builder_config.language_pair
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.Translation(
@@ -720,7 +720,7 @@ class WmtTranslate(tfds.core.GeneratorBasedBuilder):
               self.subsets[tfds.Split.TRAIN], extraction_map, language))
 
     return [
-        tfds.core.SplitGenerator(  # pylint:disable=g-complex-comprehension
+        tfds.SplitGenerator(  # pylint:disable=g-complex-comprehension
             name=split,
             gen_kwargs={"split_subsets": split_subsets,
                         "extraction_map": extraction_map})

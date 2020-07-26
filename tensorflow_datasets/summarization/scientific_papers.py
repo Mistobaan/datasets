@@ -64,10 +64,10 @@ _URLS = {
 }
 
 
-class ScientificPapersConfig(tfds.core.BuilderConfig):
+class ScientificPapersConfig(tfds.BuilderConfig):
   """BuilderConfig for Scientific Papers."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, filename=None, **kwargs):
     """BuilderConfig for Wikihow.
 
@@ -77,13 +77,13 @@ class ScientificPapersConfig(tfds.core.BuilderConfig):
     """
     # 1.1.0 remove sentence breaker <S> and </S> in summary.
     super(ScientificPapersConfig, self).__init__(
-        version=tfds.core.Version("1.1.1"),
-        supported_versions=[tfds.core.Version("1.1.0")],
+        version=tfds.Version("1.1.1"),
+        supported_versions=[tfds.Version("1.1.0")],
         **kwargs)
     self.filename = filename
 
 
-class ScientificPapers(tfds.core.GeneratorBasedBuilder):
+class ScientificPapers(tfds.GeneratorBasedBuilder):
   """Scientific Papers."""
 
   BUILDER_CONFIGS = [
@@ -94,7 +94,7 @@ class ScientificPapers(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -113,15 +113,15 @@ class ScientificPapers(tfds.core.GeneratorBasedBuilder):
     path = os.path.join(dl_paths[self.builder_config.name],
                         self.builder_config.name + "-dataset")
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"path": os.path.join(path, "train.txt")},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"path": os.path.join(path, "val.txt")},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"path": os.path.join(path, "test.txt")},
         ),

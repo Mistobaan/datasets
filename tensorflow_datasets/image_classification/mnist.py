@@ -92,14 +92,14 @@ _EMNIST_CITATION = """\
 """
 
 
-class MNIST(tfds.core.GeneratorBasedBuilder):
+class MNIST(tfds.GeneratorBasedBuilder):
   """MNIST."""
   URL = _MNIST_URL
 
-  VERSION = tfds.core.Version("3.0.1")
+  VERSION = tfds.Version("3.0.1")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=("The MNIST database of handwritten digits."),
         features=tfds.features.FeaturesDict({
@@ -126,14 +126,14 @@ class MNIST(tfds.core.GeneratorBasedBuilder):
     # MNIST provides TRAIN and TEST splits, not a VALIDATION split, so we only
     # write the TRAIN and TEST splits to disk.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(
                 num_examples=_TRAIN_EXAMPLES,
                 data_path=mnist_files["train_data"],
                 label_path=mnist_files["train_labels"],
             )),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(
                 num_examples=_TEST_EXAMPLES,
@@ -168,7 +168,7 @@ class FashionMNIST(MNIST):
 
   # TODO(afrozm): Try to inherit from MNIST's _info and mutate things as needed.
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=("Fashion-MNIST is a dataset of Zalando's article images "
                      "consisting of a training set of 60,000 examples and a "
@@ -194,7 +194,7 @@ class KMNIST(MNIST):
   URL = "http://codh.rois.ac.jp/kmnist/dataset/kmnist/"
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=("Kuzushiji-MNIST is a drop-in replacement for the MNIST "
                      "dataset (28x28 grayscale, 70,000 images), provided in "
@@ -216,10 +216,10 @@ class KMNIST(MNIST):
     )
 
 
-class EMNISTConfig(tfds.core.BuilderConfig):
+class EMNISTConfig(tfds.BuilderConfig):
   """BuilderConfig for EMNIST CONFIG."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, class_number, train_examples, test_examples, **kwargs):
     """BuilderConfig for EMNIST class number.
 
@@ -231,7 +231,7 @@ class EMNISTConfig(tfds.core.BuilderConfig):
       **kwargs: keyword arguments forwarded to super.
     """
     super(EMNISTConfig, self).__init__(
-        version=tfds.core.Version(
+        version=tfds.Version(
             "3.0.0",
             "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
@@ -292,7 +292,7 @@ class EMNIST(MNIST):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=(
             "The EMNIST dataset is a set of handwritten character digits "
@@ -338,14 +338,14 @@ class EMNIST(MNIST):
     })
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(
                 num_examples=self.builder_config.train_examples,
                 data_path=extracted["train_data"],
                 label_path=extracted["train_labels"],
             )),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(
                 num_examples=self.builder_config.test_examples,

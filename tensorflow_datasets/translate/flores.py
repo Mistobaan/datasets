@@ -49,10 +49,10 @@ TranslateData = collections.namedtuple("TranslateData",
                                        ["url", "language_to_file"])
 
 
-class FloresConfig(tfds.core.BuilderConfig):
+class FloresConfig(tfds.BuilderConfig):
   """BuilderConfig for FLoRes."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self,
                text_encoder_config=None,
                language_pair=(None, None),
@@ -77,7 +77,7 @@ class FloresConfig(tfds.core.BuilderConfig):
     super(FloresConfig, self).__init__(
         name=name,
         description=description,
-        version=tfds.core.Version(
+        version=tfds.Version(
             "1.1.0",
             "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
@@ -96,7 +96,7 @@ class FloresConfig(tfds.core.BuilderConfig):
     self.language_pair = language_pair
 
 
-class Flores(tfds.core.GeneratorBasedBuilder):
+class Flores(tfds.GeneratorBasedBuilder):
   """FLoRes machine translation dataset."""
 
   BUILDER_CONFIGS = [
@@ -110,7 +110,7 @@ class Flores(tfds.core.GeneratorBasedBuilder):
 
   def _info(self):
     source, target = self.builder_config.language_pair
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.Translation(
@@ -149,10 +149,10 @@ class Flores(tfds.core.GeneratorBasedBuilder):
           self._vocab_text_gen(files["dev"], language))
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs=files["dev"]),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=files["devtest"]),
     ]

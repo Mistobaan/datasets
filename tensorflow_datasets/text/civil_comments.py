@@ -100,16 +100,16 @@ IDENTITY_LABELS = [
 ]
 
 
-class CivilCommentsConfig(tfds.core.BuilderConfig):
+class CivilCommentsConfig(tfds.BuilderConfig):
   """Configuration for `CivilComments`."""
 
   def __init__(self, name, description, include_identity_labels):
     super(CivilCommentsConfig, self).__init__(
-        name=name, description=description, version=tfds.core.Version('1.0.0'))
+        name=name, description=description, version=tfds.Version('1.0.0'))
     self.include_identity_labels = include_identity_labels
 
 
-class CivilComments(tfds.core.GeneratorBasedBuilder):
+class CivilComments(tfds.GeneratorBasedBuilder):
   """Classification and tagging of 2M comments on news sites.
 
   This version of the CivilComments Dataset provides access to the primary
@@ -148,7 +148,7 @@ class CivilComments(tfds.core.GeneratorBasedBuilder):
     for label in labels:
       features[label] = tf.float32
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_COMMON_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
@@ -162,7 +162,7 @@ class CivilComments(tfds.core.GeneratorBasedBuilder):
     """Returns SplitGenerators."""
     dl_path = dl_manager.download_and_extract(_DOWNLOAD_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'filename':
@@ -173,7 +173,7 @@ class CivilComments(tfds.core.GeneratorBasedBuilder):
                     self.builder_config.include_identity_labels,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'filename':
@@ -184,7 +184,7 @@ class CivilComments(tfds.core.GeneratorBasedBuilder):
                     self.builder_config.include_identity_labels,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'filename':

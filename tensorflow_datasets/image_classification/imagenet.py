@@ -94,10 +94,10 @@ CMYK_IMAGES = [
 PNG_IMAGES = ['n02105855_2933.JPEG']
 
 
-class Imagenet2012(tfds.core.GeneratorBasedBuilder):
+class Imagenet2012(tfds.GeneratorBasedBuilder):
   """Imagenet 2012, aka ILSVRC 2012."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       '5.0.0', 'New split API (https://tensorflow.org/datasets/splits)')
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
@@ -108,8 +108,8 @@ class Imagenet2012(tfds.core.GeneratorBasedBuilder):
   """
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(_LABELS_FNAME)
-    return tfds.core.DatasetInfo(
+    names_file = tfds.get_tfds_path(_LABELS_FNAME)
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -133,7 +133,7 @@ class Imagenet2012(tfds.core.GeneratorBasedBuilder):
     Returns:
       dict, mapping from image name (str) to label (str).
     """
-    labels_path = tfds.core.get_tfds_path(_VALIDATION_LABELS_FNAME)
+    labels_path = tfds.get_tfds_path(_VALIDATION_LABELS_FNAME)
     with tf.io.gfile.GFile(labels_path) as labels_f:
       # `splitlines` to remove trailing `\r` in Windows
       labels = labels_f.read().strip().splitlines()
@@ -153,13 +153,13 @@ class Imagenet2012(tfds.core.GeneratorBasedBuilder):
           'the train and val set and place them into: {}, {}'.format(
               train_path, val_path))
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'archive': dl_manager.iter_archive(train_path),
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'archive': dl_manager.iter_archive(val_path),
@@ -173,9 +173,9 @@ class Imagenet2012(tfds.core.GeneratorBasedBuilder):
     if self.version < '3.0.0':
       return image
     if image_fname in CMYK_IMAGES:
-      image = io.BytesIO(tfds.core.utils.jpeg_cmyk_to_rgb(image.read()))
+      image = io.BytesIO(tfds.utils.jpeg_cmyk_to_rgb(image.read()))
     elif image_fname in PNG_IMAGES:
-      image = io.BytesIO(tfds.core.utils.png_to_jpeg(image.read()))
+      image = io.BytesIO(tfds.utils.png_to_jpeg(image.read()))
     return image
 
   def _generate_examples(self, archive, validation_labels=None):

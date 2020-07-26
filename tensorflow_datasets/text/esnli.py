@@ -47,7 +47,7 @@ relations.
 _URL = 'https://raw.githubusercontent.com/OanaMariaCamburu/e-SNLI/master/dataset/'
 
 
-class Esnli(tfds.core.GeneratorBasedBuilder):
+class Esnli(tfds.GeneratorBasedBuilder):
   """e-SNLI: Natural Language Inference with Natural Language Explanations corpus."""
 
   # Version History
@@ -55,15 +55,15 @@ class Esnli(tfds.core.GeneratorBasedBuilder):
   # splits only.
   # 0.0.1 Initial version
   BUILDER_CONFIGS = [
-      tfds.core.BuilderConfig(
+      tfds.BuilderConfig(
           name='plain_text',
-          version=tfds.core.Version('0.0.2'),
+          version=tfds.Version('0.0.2'),
           description='Plain text import of e-SNLI',
       )
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -97,15 +97,15 @@ class Esnli(tfds.core.GeneratorBasedBuilder):
     })
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'files': files['train']},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'files': files['validation']},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'files': files['test']},
         ),

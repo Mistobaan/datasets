@@ -55,10 +55,10 @@ basis for the shared task of the RepEval 2017 Workshop at EMNLP in Copenhagen.
 """
 
 
-class MultiNLIConfig(tfds.core.BuilderConfig):
+class MultiNLIConfig(tfds.BuilderConfig):
   """BuilderConfig for MultiNLI."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, text_encoder_config=None, **kwargs):
     """BuilderConfig for MultiNLI.
 
@@ -68,14 +68,14 @@ class MultiNLIConfig(tfds.core.BuilderConfig):
       **kwargs: keyword arguments forwarded to super.
     """
     super(MultiNLIConfig, self).__init__(
-        version=tfds.core.Version(
+        version=tfds.Version(
             "1.0.0", "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
     self.text_encoder_config = (
         text_encoder_config or tfds.features.text.TextEncoderConfig())
 
 
-class MultiNLI(tfds.core.GeneratorBasedBuilder):
+class MultiNLI(tfds.GeneratorBasedBuilder):
   """MultiNLI: The Stanford Question Answering Dataset. Version 1.1."""
 
   BUILDER_CONFIGS = [
@@ -86,7 +86,7 @@ class MultiNLI(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -132,13 +132,13 @@ class MultiNLI(tfds.core.GeneratorBasedBuilder):
     self.info.features["hypothesis"].maybe_set_encoder(encoder)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"filepath": train_path}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="validation_matched",
             gen_kwargs={"filepath": matched_validation_path}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="validation_mismatched",
             gen_kwargs={"filepath": mismatched_validation_path}),
     ]

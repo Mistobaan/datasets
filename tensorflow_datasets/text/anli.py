@@ -49,13 +49,13 @@ _ANLI_URL = "https://dl.fbaipublicfiles.com/anli/anli_v0.1.zip"
 
 EXTRACT_PATH_TOKEN = "anli_v0.1"
 
-VERSION = tfds.core.Version("0.1.0")
+VERSION = tfds.Version("0.1.0")
 
 
-class AnliConfig(tfds.core.BuilderConfig):
+class AnliConfig(tfds.BuilderConfig):
   """BuilderConfig for Anli."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, round_dir=None, **kwargs):
     """BuilderConfig for Anli.
 
@@ -69,7 +69,7 @@ class AnliConfig(tfds.core.BuilderConfig):
     self.round_dir = round_dir
 
 
-class Anli(tfds.core.GeneratorBasedBuilder):
+class Anli(tfds.GeneratorBasedBuilder):
   """ANLI: Adversarial NLI corpus."""
 
   BUILDER_CONFIGS = [
@@ -91,7 +91,7 @@ class Anli(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -111,19 +111,19 @@ class Anli(tfds.core.GeneratorBasedBuilder):
     dl_dir = dl_manager.download_and_extract(_ANLI_URL)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "filepath": os.path.join(
                     dl_dir, EXTRACT_PATH_TOKEN, self._builder_config.round_dir,
                     "test.jsonl")
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"filepath": os.path.join(
                 dl_dir, EXTRACT_PATH_TOKEN, self._builder_config.round_dir,
                 "dev.jsonl")}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "filepath": os.path.join(

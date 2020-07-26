@@ -65,13 +65,13 @@ while ensuring that all pixel outputs were different. No noise was added.
 """
 
 
-class Dsprites(tfds.core.GeneratorBasedBuilder):
+class Dsprites(tfds.GeneratorBasedBuilder):
   """dSprites data set."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "2.0.0", "New split API (https://tensorflow.org/datasets/splits)")
   SUPPORTED_VERSIONS = [
-      tfds.core.Version("2.1.0"),
+      tfds.Version("2.1.0"),
   ]
 
   def _info(self):
@@ -90,7 +90,7 @@ class Dsprites(tfds.core.GeneratorBasedBuilder):
     }
     if self.version > "2.0.0":
       features_dict["id"] = tfds.features.Text()
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features_dict),
@@ -103,7 +103,7 @@ class Dsprites(tfds.core.GeneratorBasedBuilder):
 
     # There is no predefined train/val/test split for this dataset.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(filepath=filepath)),
     ]
@@ -120,7 +120,7 @@ class Dsprites(tfds.core.GeneratorBasedBuilder):
     # Simultaneously iterating through the different data sets in the hdf5
     # file is >100x slower and the data set is small (26.7MB). Hence, we first
     # load everything into memory before yielding the samples.
-    with tfds.core.lazy_imports.h5py.File(filepath, "r") as h5dataset:
+    with tfds.lazy_imports.h5py.File(filepath, "r") as h5dataset:
       image_array = np.array(h5dataset["imgs"])
       class_array = np.array(h5dataset["latents"]["classes"])
       values_array = np.array(h5dataset["latents"]["values"])

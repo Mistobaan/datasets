@@ -62,13 +62,13 @@ locaization.
 """
 
 
-class The300wLp(tfds.core.GeneratorBasedBuilder):
+class The300wLp(tfds.GeneratorBasedBuilder):
   """300W-LP dataset."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -104,7 +104,7 @@ class The300wLp(tfds.core.GeneratorBasedBuilder):
     """Returns SplitGenerators."""
     extracted_path = dl_manager.download_and_extract(_DATASET_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "image_dir_path": os.path.join(extracted_path, "300W_LP"),
@@ -123,7 +123,7 @@ class The300wLp(tfds.core.GeneratorBasedBuilder):
     for image_file, label_file, landmark_file in zip(image_files, label_files,
                                                      landmark_files):
       with tf.io.gfile.GFile(label_file, "rb") as f:
-        mat = tfds.core.lazy_imports.scipy.io.loadmat(f)
+        mat = tfds.lazy_imports.scipy.io.loadmat(f)
       pt2d_origin = mat["pt2d"].T
       pt2d_origin = (pt2d_origin / 450.0).astype(np.float32)
       roi = mat["roi"].reshape(4).astype(np.float32)
@@ -134,7 +134,7 @@ class The300wLp(tfds.core.GeneratorBasedBuilder):
       exp_params = mat["Exp_Para"].reshape([-1]).astype(np.float32)
       pose_params = mat["Pose_Para"].reshape([-1]).astype(np.float32)
       with tf.io.gfile.GFile(landmark_file, "rb") as f:
-        ldm_mat = tfds.core.lazy_imports.scipy.io.loadmat(f)
+        ldm_mat = tfds.lazy_imports.scipy.io.loadmat(f)
         pt2d = (ldm_mat["pts_2d"] / 450.0).astype(np.float32)
         pt3d = (ldm_mat["pts_3d"] / 450.0).astype(np.float32)
       record = {

@@ -126,13 +126,13 @@ def _get_inter_splits_by_group(items_and_groups, split_probs, split_number):
   return split_to_ids
 
 
-class CremaD(tfds.core.GeneratorBasedBuilder):
+class CremaD(tfds.GeneratorBasedBuilder):
   """The audio part of CREMA-D dataset for emotion recognition."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -170,15 +170,15 @@ class CremaD(tfds.core.GeneratorBasedBuilder):
     split_probs = [('train', 0.7), ('validation', 0.1), ('test', 0.2)]
     splits = _get_inter_splits_by_group(wav_and_speaker_ids, split_probs, 0)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'file_paths_and_names': splits['train']},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'file_paths_and_names': splits['validation']},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'file_paths_and_names': splits['test']},
         ),

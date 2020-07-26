@@ -96,10 +96,10 @@ def _deduplicate(data):
                 key=lambda row: (row["link_id"], row["created_utc"]))
 
 
-class RedditDisentanglement(tfds.core.GeneratorBasedBuilder):
+class RedditDisentanglement(tfds.GeneratorBasedBuilder):
   """Reddit Disentanglement dataset."""
 
-  VERSION = tfds.core.Version("2.0.0")
+  VERSION = tfds.Version("2.0.0")
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
   Download https://github.com/henghuiz/MaskedHierarchicalTransformer, decompress
   raw_data.zip and run generate_dataset.py with your reddit api credentials.
@@ -108,7 +108,7 @@ class RedditDisentanglement(tfds.core.GeneratorBasedBuilder):
   """
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -128,17 +128,17 @@ class RedditDisentanglement(tfds.core.GeneratorBasedBuilder):
   def _split_generators(self, dl_manager):
     """Returns SplitGenerators."""
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"path": os.path.join(
                 dl_manager.manual_dir, "train.csv")},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"path": os.path.join(
                 dl_manager.manual_dir, "val.csv")},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"path": os.path.join(
                 dl_manager.manual_dir, "test.csv")},

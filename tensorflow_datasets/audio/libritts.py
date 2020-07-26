@@ -68,13 +68,13 @@ _DL_URLS = {
 }
 
 
-class Libritts(tfds.core.BeamBasedBuilder):
+class Libritts(tfds.BeamBasedBuilder):
   """LibriTTS dataset."""
 
-  VERSION = tfds.core.Version("1.0.1")
+  VERSION = tfds.Version("1.0.1")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -89,7 +89,7 @@ class Libritts(tfds.core.BeamBasedBuilder):
         supervised_keys=("text_normalized", "speech"),
         homepage=_URL,
         citation=_CITATION,
-        metadata=tfds.core.MetadataDict(sample_rate=24000,),
+        metadata=tfds.MetadataDict(sample_rate=24000,),
     )
 
   def _populate_metadata(self, archive_paths):
@@ -120,14 +120,14 @@ class Libritts(tfds.core.BeamBasedBuilder):
     archives = dl_manager.download(_DL_URLS)
     self._populate_metadata(archives)
     splits = [
-        tfds.core.SplitGenerator(name=k, gen_kwargs={"archive_path": v})
+        tfds.SplitGenerator(name=k, gen_kwargs={"archive_path": v})
         for k, v in archives.items()
     ]
     return splits
 
   def _build_pcollection(self, pipeline, archive_path):
     """Generates examples as dicts."""
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
     return (pipeline
             | beam.Create([archive_path])
             | beam.FlatMap(_extract_libritts_data)
@@ -152,7 +152,7 @@ def _generate_transcripts(transcript_csv_file):
 
 def _extract_libritts_data(archive_path):
   """Generate partial audio or transcript examples from a LibriTTS archive."""
-  for path, contents in tfds.core.download.extractor.iter_tar(archive_path):
+  for path, contents in tfds.download.extractor.iter_tar(archive_path):
     if path.endswith(".trans.tsv"):
       for key, example in _generate_transcripts(contents):
         yield key, example

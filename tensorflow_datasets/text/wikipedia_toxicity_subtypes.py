@@ -69,7 +69,7 @@ details.
 _DOWNLOAD_URL = 'https://storage.googleapis.com/jigsaw-unintended-bias-in-toxicity-classification/wikipedia_toxicity_subtypes.zip'
 
 
-class WikipediaToxicitySubtypes(tfds.core.GeneratorBasedBuilder):
+class WikipediaToxicitySubtypes(tfds.GeneratorBasedBuilder):
   """Classification of 220K Wikipedia talk page comments for types of toxicity.
 
   This version of the Wikipedia Toxicity Subtypes dataset provides access to the
@@ -82,11 +82,11 @@ class WikipediaToxicitySubtypes(tfds.core.GeneratorBasedBuilder):
   https://figshare.com/articles/Wikipedia_Talk_Labels_Toxicity/4563973 for more
   details.
   """
-  VERSION = tfds.core.Version('0.2.0', 'Updated features for consistency with '
+  VERSION = tfds.Version('0.2.0', 'Updated features for consistency with '
                               'CivilComments dataset.')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -107,13 +107,13 @@ class WikipediaToxicitySubtypes(tfds.core.GeneratorBasedBuilder):
     """Returns SplitGenerators."""
     dl_path = dl_manager.download_and_extract(_DOWNLOAD_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'filename': os.path.join(dl_path, 'wikidata_train.csv')
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'filename': os.path.join(dl_path, 'wikidata_test.csv')},
         ),

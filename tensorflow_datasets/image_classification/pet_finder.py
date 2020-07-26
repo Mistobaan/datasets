@@ -59,12 +59,12 @@ _DESCRIPTION = ((
     "Together with the metadata information of sentiment information."))
 
 
-class PetFinder(tfds.core.GeneratorBasedBuilder):
+class PetFinder(tfds.GeneratorBasedBuilder):
   """Pet Finder."""
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description="Dataset with images from 5 classes (see config name for "
         "information on the specific class)",
@@ -89,7 +89,7 @@ class PetFinder(tfds.core.GeneratorBasedBuilder):
     dl_paths = dl_manager.download_and_extract(_DL_URLS)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "csv_name": "train.csv",
@@ -97,7 +97,7 @@ class PetFinder(tfds.core.GeneratorBasedBuilder):
                 "img_paths": dl_paths["train_images"],
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "csv_name": "test.csv",
@@ -116,7 +116,7 @@ class PetFinder(tfds.core.GeneratorBasedBuilder):
         information.
       img_paths: Path to images.
     """
-    pd = tfds.core.lazy_imports.pandas
+    pd = tfds.lazy_imports.pandas
 
     if not tf.io.gfile.exists(csv_paths):
       raise AssertionError("{} not exist".format(csv_name))

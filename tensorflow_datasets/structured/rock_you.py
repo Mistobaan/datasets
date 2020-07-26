@@ -33,13 +33,13 @@ This dataset contains 14,344,391 passwords that were leaked or stolen from from 
 _DOWNLOAD_URL = "https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt"
 
 
-class RockYou(tfds.core.GeneratorBasedBuilder):
+class RockYou(tfds.GeneratorBasedBuilder):
   """This dataset contains passwords that were leaked or stolen from from various sites."""
 
-  VERSION = tfds.core.Version("0.1.0")
+  VERSION = tfds.Version("0.1.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -55,7 +55,7 @@ class RockYou(tfds.core.GeneratorBasedBuilder):
   def _split_generators(self, dl_manager):
     dl_path = dl_manager.download(_DOWNLOAD_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="train",
             gen_kwargs={
                 "path": dl_path,

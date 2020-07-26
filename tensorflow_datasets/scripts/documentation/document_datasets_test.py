@@ -31,16 +31,16 @@ class DummyNewDs(DummyMnist):
 
 class DummyNewConfig(DummyMnist):
   BUILDER_CONFIGS = [
-      tfds.core.BuilderConfig(
+      tfds.BuilderConfig(
           name='new_config',
-          version=tfds.core.Version('1.0.0'),
+          version=tfds.Version('1.0.0'),
           description='Config description.',
       ),
-      tfds.core.BuilderConfig(
+      tfds.BuilderConfig(
           name='old_config',
-          version=tfds.core.Version('2.0.0'),
+          version=tfds.Version('2.0.0'),
           supported_versions=[
-              tfds.core.Version('1.0.0'),
+              tfds.Version('1.0.0'),
           ],
           description='Config description.',
       ),
@@ -51,9 +51,9 @@ class DummyMnistConfigs(DummyMnist):
   """Builder with config and manual instructions."""
   MANUAL_DOWNLOAD_INSTRUCTIONS = """Some manual instructions."""
   BUILDER_CONFIGS = [
-      tfds.core.BuilderConfig(
+      tfds.BuilderConfig(
           name='config_name',
-          version=tfds.core.Version('0.0.1'),
+          version=tfds.Version('0.0.1'),
           description='Config description.',
       ),
   ]
@@ -81,7 +81,7 @@ class DocumentDatasetsTest(tfds.testing.TestCase):
     # to avoid invalid dataset errors.
     # Context: https://github.com/tensorflow/datasets/issues/1960
     cls._patch_register = mock.patch.object(
-        tfds.core.registered, 'list_full_names', return_value=[])
+        tfds.registered, 'list_full_names', return_value=[])
     cls._patch_register.start()
 
   @classmethod

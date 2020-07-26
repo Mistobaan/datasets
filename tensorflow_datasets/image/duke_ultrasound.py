@@ -73,10 +73,10 @@ _DEFAULT_SPLITS = {
 }
 
 
-class DukeUltrasound(tfds.core.GeneratorBasedBuilder):
+class DukeUltrasound(tfds.GeneratorBasedBuilder):
   """DAS beamformed phantom images and paired post-processed images."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   def __init__(self, custom_csv_splits=None, **kwargs):
     """custom_csv_splits is a dictionary of { 'name': 'csvpaths'}."""
@@ -84,7 +84,7 @@ class DukeUltrasound(tfds.core.GeneratorBasedBuilder):
     self.custom_csv_splits = custom_csv_splits if custom_csv_splits else {}
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -118,7 +118,7 @@ class DukeUltrasound(tfds.core.GeneratorBasedBuilder):
     downloads.update(_DATA_URL)
     dl_paths = dl_manager.download_and_extract(downloads)
     splits = [
-        tfds.core.SplitGenerator(  # pylint:disable=g-complex-comprehension
+        tfds.SplitGenerator(  # pylint:disable=g-complex-comprehension
             name=name,
             gen_kwargs={
                 'datapath': {
@@ -131,7 +131,7 @@ class DukeUltrasound(tfds.core.GeneratorBasedBuilder):
 
     for name, csv_path in self.custom_csv_splits.items():
       splits.append(
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=name,
               gen_kwargs={
                   'datapath': dl_paths['data'],
@@ -147,7 +147,7 @@ class DukeUltrasound(tfds.core.GeneratorBasedBuilder):
         data_key = 'mark_data' if row['target'] == 'mark' else 'phantom_data'
 
         filepath = os.path.join(datapath[data_key], row['filename'])
-        matfile = tfds.core.lazy_imports.scipy.io.loadmat(
+        matfile = tfds.lazy_imports.scipy.io.loadmat(
             tf.io.gfile.GFile(filepath, 'rb'))
 
         iq = np.abs(np.reshape(matfile['iq'], -1))

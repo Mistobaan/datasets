@@ -61,13 +61,13 @@ _SOURCE_NAMES = [
 ]
 
 
-class Scicite(tfds.core.GeneratorBasedBuilder):
+class Scicite(tfds.GeneratorBasedBuilder):
   """This is a dataset for classifying citation intents in academic papers."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=_DESCRIPTION,
@@ -122,15 +122,15 @@ class Scicite(tfds.core.GeneratorBasedBuilder):
     })
     path = os.path.join(dl_paths["scicite"], "scicite")
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"path": os.path.join(path, "train.jsonl")},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"path": os.path.join(path, "dev.jsonl")},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"path": os.path.join(path, "test.jsonl")},
         ),

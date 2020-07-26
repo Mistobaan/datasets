@@ -100,17 +100,17 @@ CelebA dataset.
 """
 
 
-class CelebA(tfds.core.GeneratorBasedBuilder):
+class CelebA(tfds.GeneratorBasedBuilder):
   """CelebA dataset. Aligned and cropped. With metadata."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "2.0.1", "New split API (https://tensorflow.org/datasets/splits)")
   SUPPORTED_VERSIONS = [
-      tfds.core.Version("2.0.0"),
+      tfds.Version("2.0.0"),
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -143,21 +143,21 @@ class CelebA(tfds.core.GeneratorBasedBuilder):
     }
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "file_id": 0,
                 "downloaded_dirs": downloaded_dirs,
                 "downloaded_images": all_images,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "file_id": 1,
                 "downloaded_dirs": downloaded_dirs,
                 "downloaded_images": all_images,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "file_id": 2,

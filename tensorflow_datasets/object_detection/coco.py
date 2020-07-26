@@ -80,7 +80,7 @@ class AnnotationType(object):
   NONE = 'none'
 
 
-class CocoConfig(tfds.core.BuilderConfig):
+class CocoConfig(tfds.BuilderConfig):
   """BuilderConfig for CocoConfig."""
 
   def __init__(
@@ -89,13 +89,13 @@ class CocoConfig(tfds.core.BuilderConfig):
       has_panoptic=False,
       **kwargs):
     super(CocoConfig, self).__init__(
-        version=tfds.core.Version('1.1.0'),
+        version=tfds.Version('1.1.0'),
         **kwargs)
     self.splits = splits
     self.has_panoptic = has_panoptic
 
 
-class Coco(tfds.core.GeneratorBasedBuilder):
+class Coco(tfds.GeneratorBasedBuilder):
   """Base MS Coco dataset."""
 
   BUILDER_CONFIGS = [
@@ -216,7 +216,7 @@ class Coco(tfds.core.GeneratorBasedBuilder):
     # More info could be added, like segmentation (as png mask), captions,
     # person key-points, more metadata (original flickr url,...).
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=self.builder_config.description,
         # More info could be added, like the segmentation (as png mask),
@@ -260,7 +260,7 @@ class Coco(tfds.core.GeneratorBasedBuilder):
             panoptic_dir, 'panoptic_{}'.format(split.images))
       else:
         panoptic_dir = None
-      splits.append(tfds.core.SplitGenerator(
+      splits.append(tfds.SplitGenerator(
           name=split.name,
           gen_kwargs=dict(
               image_dir=image_dir,

@@ -59,13 +59,13 @@ Bayesian Decision Trees from a standard physics package and
 _URL = 'https://archive.ics.uci.edu/ml/machine-learning-databases/00280/HIGGS.csv.gz'
 
 
-class Higgs(tfds.core.GeneratorBasedBuilder):
+class Higgs(tfds.GeneratorBasedBuilder):
   """HIGGS Data Set."""
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       '2.0.0', 'New split API (https://tensorflow.org/datasets/splits)')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -112,7 +112,7 @@ class Higgs(tfds.core.GeneratorBasedBuilder):
 
     # There is no predefined train/val/test split for this dataset.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'file_path': path,

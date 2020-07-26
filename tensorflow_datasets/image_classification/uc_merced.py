@@ -72,14 +72,14 @@ _ZIP_URL = "http://weegee.vision.ucmerced.edu/datasets/UCMerced_LandUse.zip"
 _ZIP_SUBDIR = "UCMerced_LandUse/Images"
 
 
-class UcMerced(tfds.core.GeneratorBasedBuilder):
+class UcMerced(tfds.GeneratorBasedBuilder):
   """Small 21 class remote sensing land use classification dataset."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "2.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -96,7 +96,7 @@ class UcMerced(tfds.core.GeneratorBasedBuilder):
     """Returns SplitGenerators."""
     path = dl_manager.download_and_extract(_ZIP_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"path": os.path.join(path, _ZIP_SUBDIR)},
         ),
@@ -118,5 +118,5 @@ class UcMerced(tfds.core.GeneratorBasedBuilder):
 
 def _load_tif(path):
   with tf.io.gfile.GFile(path, "rb") as fp:
-    image = tfds.core.lazy_imports.PIL_Image.open(fp)
+    image = tfds.lazy_imports.PIL_Image.open(fp)
   return np.array(image)

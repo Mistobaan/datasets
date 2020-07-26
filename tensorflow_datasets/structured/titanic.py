@@ -95,13 +95,13 @@ FEATURE_DICT = collections.OrderedDict([
 _URL = "https://www.openml.org/data/get_csv/16826755/phpMYEkMl"
 
 
-class Titanic(tfds.core.GeneratorBasedBuilder):
+class Titanic(tfds.GeneratorBasedBuilder):
   """Titanic dataset."""
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "2.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -119,7 +119,7 @@ class Titanic(tfds.core.GeneratorBasedBuilder):
 
     # There is no predefined train/val/test split for this dataset.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "file_path": path

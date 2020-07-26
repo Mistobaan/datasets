@@ -50,13 +50,13 @@ _URL = "https://keithito.com/LJ-Speech-Dataset/"
 _DL_URL = "https://data.keithito.com/data/speech/LJSpeech-1.1.tar.bz2"
 
 
-class Ljspeech(tfds.core.GeneratorBasedBuilder):
+class Ljspeech(tfds.GeneratorBasedBuilder):
   """LJSpeech dataset."""
 
-  VERSION = tfds.core.Version("1.1.0")
+  VERSION = tfds.Version("1.1.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -68,13 +68,13 @@ class Ljspeech(tfds.core.GeneratorBasedBuilder):
         supervised_keys=("text_normalized", "speech"),
         homepage=_URL,
         citation=_CITATION,
-        metadata=tfds.core.MetadataDict(sample_rate=22050),
+        metadata=tfds.MetadataDict(sample_rate=22050),
     )
 
   def _split_generators(self, dl_manager):
     extracted_dir = dl_manager.download_and_extract(_DL_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"directory": extracted_dir},
         ),

@@ -21,13 +21,13 @@ import tensorflow.compat.v2 as tf
 import tensorflow_datasets.public_api as tfds
 
 
-class DummyDataset(tfds.core.GeneratorBasedBuilder):
+class DummyDataset(tfds.GeneratorBasedBuilder):
   """Dummy dataset."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         features=tfds.features.FeaturesDict({'x': tf.int64}),
     )
@@ -36,7 +36,7 @@ class DummyDataset(tfds.core.GeneratorBasedBuilder):
     path = dl_manager.download('http://dummy.org/data.txt')
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'path': os.path.join(path, 'train.txt')

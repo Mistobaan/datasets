@@ -60,16 +60,16 @@ _CLASSES = [
 _IMAGENET_LABELS_FNAME = "image_classification/imagenet2012_labels.txt"
 
 
-class GeirhosConflictStimuli(tfds.core.GeneratorBasedBuilder):
+class GeirhosConflictStimuli(tfds.GeneratorBasedBuilder):
   """Shape/Texture conflict ."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
     """Define dataset info."""
 
-    imagenet_names_file = tfds.core.get_tfds_path(_IMAGENET_LABELS_FNAME)
-    return tfds.core.DatasetInfo(
+    imagenet_names_file = tfds.get_tfds_path(_IMAGENET_LABELS_FNAME)
+    return tfds.DatasetInfo(
         builder=self,
         description=(_DESCRIPTION),
         features=tfds.features.FeaturesDict({
@@ -96,7 +96,7 @@ class GeirhosConflictStimuli(tfds.core.GeneratorBasedBuilder):
     })
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "data_dir_path": os.path.join(

@@ -56,12 +56,12 @@ _CONFIG_DESCRIPTION_PATTERN = (
     'size of 72 pixels.')
 
 
-class VisualDomainDecathlonConfig(tfds.core.BuilderConfig):
+class VisualDomainDecathlonConfig(tfds.BuilderConfig):
 
   def __init__(self, num_classes, **kwargs):
     self.num_classes = num_classes
     if 'version' not in kwargs:
-      kwargs['version'] = tfds.core.Version('1.2.0')
+      kwargs['version'] = tfds.Version('1.2.0')
     super(VisualDomainDecathlonConfig, self).__init__(**kwargs)
 
 
@@ -87,14 +87,14 @@ def _get_builder_configs():
   return configs
 
 
-class VisualDomainDecathlon(tfds.core.GeneratorBasedBuilder):
+class VisualDomainDecathlon(tfds.GeneratorBasedBuilder):
   """Visual Domain Decathlon Datasets."""
 
   BUILDER_CONFIGS = _get_builder_configs()
 
   def _info(self):
     num_classes = self.builder_config.num_classes
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -125,21 +125,21 @@ class VisualDomainDecathlon(tfds.core.GeneratorBasedBuilder):
                                     self.builder_config.name + '.tar')
     annotations_path = os.path.join(devkit_path, 'decathlon-1.0', 'annotations')
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(
                 images_archive=images_archive,
                 annotations_path=annotations_path,
                 split='train'),
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(
                 images_archive=images_archive,
                 annotations_path=annotations_path,
                 split='test'),
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs=dict(
                 images_archive=images_archive,

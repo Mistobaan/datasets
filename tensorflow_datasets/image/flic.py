@@ -56,7 +56,7 @@ _URL_SUPERSET = "https://drive.google.com/uc?id=0B4K3PZp8xXDJd2VwblhhOVBfMDg&exp
 def _normalize_bbox(raw_bbox, img_path):
   """Normalize torsobox bbox values."""
   with tf.io.gfile.GFile(img_path, "rb") as fp:
-    img = tfds.core.lazy_imports.PIL_Image.open(fp)
+    img = tfds.lazy_imports.PIL_Image.open(fp)
     width, height = img.size
 
   return tfds.features.BBox(
@@ -67,10 +67,10 @@ def _normalize_bbox(raw_bbox, img_path):
   )
 
 
-class FlicConfig(tfds.core.BuilderConfig):
+class FlicConfig(tfds.BuilderConfig):
   """BuilderConfig for FLIC."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, data, **kwargs):
     """Constructs a FlicConfig."""
     if data not in _DATA_OPTIONS:
@@ -95,17 +95,17 @@ def _make_builder_configs():
   configs = []
   for data in _DATA_OPTIONS:
     configs.append(
-        FlicConfig(name=data, version=tfds.core.Version("2.0.0"), data=data))
+        FlicConfig(name=data, version=tfds.Version("2.0.0"), data=data))
   return configs
 
 
-class Flic(tfds.core.GeneratorBasedBuilder):
+class Flic(tfds.GeneratorBasedBuilder):
   """Frames Labeled In Cinema (FLIC)."""
 
   BUILDER_CONFIGS = _make_builder_configs()
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -136,11 +136,11 @@ class Flic(tfds.core.GeneratorBasedBuilder):
     mat_path = os.path.join(extract_path, self.builder_config.dir,
                             "examples.mat")
     with tf.io.gfile.GFile(mat_path, "rb") as f:
-      data = tfds.core.lazy_imports.scipy.io.loadmat(
+      data = tfds.lazy_imports.scipy.io.loadmat(
           f, struct_as_record=True, squeeze_me=True, mat_dtype=True)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "extract_path": extract_path,
@@ -148,7 +148,7 @@ class Flic(tfds.core.GeneratorBasedBuilder):
                 "selection_column": 7,  # indicates train split selection
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "extract_path": extract_path,

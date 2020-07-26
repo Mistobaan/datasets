@@ -77,10 +77,10 @@ _ADDITIONAL_FLOAT_FEATURES = [
 ]
 
 
-class Newsroom(tfds.core.GeneratorBasedBuilder):
+class Newsroom(tfds.GeneratorBasedBuilder):
   """NEWSROOM Dataset."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
   You should download the dataset from https://summari.es/download/
   The webpage requires registration.
@@ -97,7 +97,7 @@ class Newsroom(tfds.core.GeneratorBasedBuilder):
         k: tfds.features.Tensor(shape=[], dtype=tf.float32)
         for k in _ADDITIONAL_FLOAT_FEATURES
     })
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
@@ -109,19 +109,19 @@ class Newsroom(tfds.core.GeneratorBasedBuilder):
   def _split_generators(self, dl_manager):
     """Returns SplitGenerators."""
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "input_file": os.path.join(dl_manager.manual_dir, "train.jsonl")
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "input_file": os.path.join(dl_manager.manual_dir, "dev.jsonl")
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "input_file": os.path.join(dl_manager.manual_dir, "test.jsonl")

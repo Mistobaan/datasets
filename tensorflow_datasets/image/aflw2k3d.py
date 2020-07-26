@@ -56,13 +56,13 @@ _CITATION = """\
 """
 
 
-class Aflw2k3d(tfds.core.GeneratorBasedBuilder):
+class Aflw2k3d(tfds.GeneratorBasedBuilder):
   """AFLW2000-3D dataset."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -84,7 +84,7 @@ class Aflw2k3d(tfds.core.GeneratorBasedBuilder):
         "http://www.cbsr.ia.ac.cn/users/xiangyuzhu/projects/3DDFA/Database/AFLW2000-3D.zip"
     )
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "image_dir_path": os.path.join(extracted_path, "AFLW2000"),
@@ -98,7 +98,7 @@ class Aflw2k3d(tfds.core.GeneratorBasedBuilder):
 
     for image_file, label_file in zip(image_files, label_files):
       with tf.io.gfile.GFile(label_file, "rb") as f:
-        mat = tfds.core.lazy_imports.scipy.io.loadmat(f)
+        mat = tfds.lazy_imports.scipy.io.loadmat(f)
       landmarks_68_3d_xyz = mat["pt3d_68"].T.astype(np.float32)
       landmarks_68_3d_xy_normalized = landmarks_68_3d_xyz[..., 0:2] / 450.0
       landmarks_68_3d_z = landmarks_68_3d_xyz[..., 2:]

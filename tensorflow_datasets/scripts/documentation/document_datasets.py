@@ -52,7 +52,7 @@ NightlyDict = Dict[str, Union[bool, Dict[str, Union[bool, Dict[str, bool]]]]]
 class VisualizationDocUtil(object):
   """Small util which generate the path/urls for the visualizations."""
   # Url used to display images
-  BASE_PATH = tfds.core.gcs_path('visualization/')
+  BASE_PATH = tfds.gcs_path('visualization/')
   BASE_URL = 'https://storage.googleapis.com/tfds-data/visualization/'
 
   def _get_name(self, builder):
@@ -61,7 +61,7 @@ class VisualizationDocUtil(object):
   def get_url(self, builder):
     return self.BASE_URL + self._get_name(builder)
 
-  def get_html_tag(self, builder: tfds.core.DatasetBuilder) -> str:
+  def get_html_tag(self, builder: tfds.DatasetBuilder) -> str:
     """Returns the <img> html tag."""
     url = self.get_url(builder)
     return f'<img src="{url}" alt="Visualization" width="500px">'
@@ -73,7 +73,7 @@ class VisualizationDocUtil(object):
 
 def _split_full_name(full_name: str) -> Tuple[str, str, str]:
   """Extracts the `(ds name, config, version)` from the full_name."""
-  if not tfds.core.registered.is_full_name(full_name):
+  if not tfds.registered.is_full_name(full_name):
     raise ValueError(
         f'Parsing builder name string {full_name} failed.'
         'The builder name string must be of the following format:'
@@ -124,17 +124,17 @@ def _build_nightly_dict(
   return nightly_ds
 
 
-@tfds.core.utils.memoize()
+@tfds.utils.memoize()
 def _load_nightly_dict() -> NightlyDict:
   """Loads (and caches) the nightly dict."""
-  version_path = tfds.core.utils.get_tfds_path('stable_versions.txt')
+  version_path = tfds.utils.get_tfds_path('stable_versions.txt')
   with tf.io.gfile.GFile(version_path, 'r') as f:
     stable_versions = f.read().splitlines()
 
   # Build the `full_names_dict['dataset']['config']['version']` for both
   # nightly and stable version
   registered_ds = _full_names_to_dict(
-      tfds.core.registered.list_full_names())
+      tfds.registered.list_full_names())
   stable_version_ds = _full_names_to_dict(stable_versions)
 
   # Nightly versions are `registered - stable`
@@ -149,16 +149,16 @@ class NightlyDocUtil(object):
 
   def is_builder_nightly(
       self,
-      builder: Union[tfds.core.DatasetBuilder, str],
+      builder: Union[tfds.DatasetBuilder, str],
   ) -> bool:
     """Returns `True` if the builder is new."""
-    if isinstance(builder, tfds.core.DatasetBuilder):
+    if isinstance(builder, tfds.DatasetBuilder):
       builder_name = builder.name
     else:
       builder_name = builder
     return self._nightly_dict[builder_name] is True  # pylint: disable=g-bool-id-comparison
 
-  def is_config_nightly(self, builder: tfds.core.DatasetBuilder) -> bool:
+  def is_config_nightly(self, builder: tfds.DatasetBuilder) -> bool:
     """Returns `True` if the config is new."""
     ds_name, config, _ = _split_full_name(builder.info.full_name)
     if self.is_builder_nightly(builder):
@@ -167,7 +167,7 @@ class NightlyDocUtil(object):
 
   def is_version_nightly(
       self,
-      builder: tfds.core.DatasetBuilder,
+      builder: tfds.DatasetBuilder,
       version: str,
   ) -> bool:
     """Returns `True` if the version is new."""
@@ -176,7 +176,7 @@ class NightlyDocUtil(object):
       return False
     return self._nightly_dict[ds_name][config][version] is True  # pylint: disable=g-bool-id-comparison
 
-  def has_nightly(self, builder: tfds.core.DatasetBuilder) -> bool:
+  def has_nightly(self, builder: tfds.DatasetBuilder) -> bool:
     """Returns True if any of the builder/config/version is new."""
     def reduce(value):
       if isinstance(value, bool):
@@ -193,7 +193,7 @@ class NightlyDocUtil(object):
       'title="Available only in the tfds-nightly package">nights_stay</span>')
 
 
-@tfds.core.utils.memoize()
+@tfds.utils.memoize()
 def get_mako_template(tmpl_name):
   """Returns mako.lookup.Template object to use to render documentation.
 
@@ -203,7 +203,7 @@ def get_mako_template(tmpl_name):
   Returns:
     mako 'Template' instance that can be rendered.
   """
-  tmpl_path = tfds.core.utils.get_tfds_path(
+  tmpl_path = tfds.utils.get_tfds_path(
       'scripts/documentation/templates/%s.mako.md' % tmpl_name)
   with tf.io.gfile.GFile(tmpl_path, 'r') as tmpl_f:
     tmpl_content = tmpl_f.read()

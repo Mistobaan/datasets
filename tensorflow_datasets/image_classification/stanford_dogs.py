@@ -64,15 +64,15 @@ _ANNOTATIONS_URL = "http://vision.stanford.edu/aditya86/ImageNetDogs/annotation.
 _NAME_RE = re.compile(r"([\w-]*[/\\])*([\w]*.jpg)$")
 
 
-class StanfordDogs(tfds.core.GeneratorBasedBuilder):
+class StanfordDogs(tfds.GeneratorBasedBuilder):
   """Stanford Dogs dataset."""
 
   # Version 0.2.0: Fix non-deterministic label names
-  VERSION = tfds.core.Version("0.2.0")
+  VERSION = tfds.Version("0.2.0")
 
   def _info(self):
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -101,7 +101,7 @@ class StanfordDogs(tfds.core.GeneratorBasedBuilder):
     xml_file_list = collections.defaultdict(str)
 
     # Parsing the mat file which contains the list of train/test images
-    scipy = tfds.core.lazy_imports.scipy
+    scipy = tfds.lazy_imports.scipy
     def parse_mat_file(file_name):
       with tf.io.gfile.GFile(file_name, "rb") as f:
         parsed_mat_arr = scipy.io.loadmat(f, squeeze_me=True)
@@ -134,14 +134,14 @@ class StanfordDogs(tfds.core.GeneratorBasedBuilder):
           xml_file_list[fname] = ET.parse(f)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(images_path),
                 "file_names": train_list,
                 "annotation_files": xml_file_list,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(images_path),

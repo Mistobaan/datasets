@@ -42,13 +42,13 @@ _CITATION = """\
 """
 
 
-class Cifar10(tfds.core.GeneratorBasedBuilder):
+class Cifar10(tfds.GeneratorBasedBuilder):
   """CIFAR-10."""
 
-  VERSION = tfds.core.Version("3.0.2")
+  VERSION = tfds.Version("3.0.2")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=("The CIFAR-10 dataset consists of 60000 32x32 colour "
                      "images in 10 classes, with 6000 images per class. There "
@@ -99,13 +99,13 @@ class Cifar10(tfds.core.GeneratorBasedBuilder):
         yield os.path.join(cifar_path, f)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "split_prefix": "train_",
                 "filepaths": gen_filenames(cifar_info.train_files)
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "split_prefix": "test_",
@@ -143,7 +143,7 @@ class Cifar10(tfds.core.GeneratorBasedBuilder):
 class Cifar100(Cifar10):
   """CIFAR-100 dataset."""
 
-  VERSION = tfds.core.Version("3.0.2")
+  VERSION = tfds.Version("3.0.2")
 
   @property
   def _cifar_info(self):
@@ -158,7 +158,7 @@ class Cifar100(Cifar10):
     )
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=("This dataset is just like the CIFAR-10, except it has "
                      "100 classes containing 600 images each. There are 500 "

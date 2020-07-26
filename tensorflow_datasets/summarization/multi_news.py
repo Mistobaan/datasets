@@ -53,13 +53,13 @@ _DOCUMENT = "document"
 _SUMMARY = "summary"
 
 
-class MultiNews(tfds.core.GeneratorBasedBuilder):
+class MultiNews(tfds.GeneratorBasedBuilder):
   """Multi-News dataset."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -76,15 +76,15 @@ class MultiNews(tfds.core.GeneratorBasedBuilder):
     extract_path = os.path.join(
         dl_manager.download_and_extract(_URL), "multi-news-original")
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"path": os.path.join(extract_path, "train")},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"path": os.path.join(extract_path, "val")},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"path": os.path.join(extract_path, "test")},
         ),

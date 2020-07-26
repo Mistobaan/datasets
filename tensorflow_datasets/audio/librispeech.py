@@ -56,10 +56,10 @@ _DL_URLS = {
 }
 
 
-class LibrispeechConfig(tfds.core.BuilderConfig):
+class LibrispeechConfig(tfds.BuilderConfig):
   """BuilderConfig for Librispeech."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, text_encoder_config=None, **kwargs):
     """Constructs a LibrispeechConfig.
 
@@ -109,19 +109,19 @@ def _make_builder_configs():
   configs = []
   for text_encoder_config in text_encoder_configs:
     config = LibrispeechConfig(
-        version=tfds.core.Version("1.1.0"),
+        version=tfds.Version("1.1.0"),
         text_encoder_config=text_encoder_config)
     configs.append(config)
   return configs
 
 
-class Librispeech(tfds.core.BeamBasedBuilder):
+class Librispeech(tfds.BeamBasedBuilder):
   """Librispeech dataset."""
 
   BUILDER_CONFIGS = _make_builder_configs()
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -140,7 +140,7 @@ class Librispeech(tfds.core.BeamBasedBuilder):
         supervised_keys=("speech", "text"),
         homepage=_URL,
         citation=_CITATION,
-        metadata=tfds.core.MetadataDict(sample_rate=16000,),
+        metadata=tfds.MetadataDict(sample_rate=16000,),
     )
 
   def _vocab_text_gen(self, dirs):
@@ -181,13 +181,13 @@ class Librispeech(tfds.core.BeamBasedBuilder):
     self.info.features["text"].maybe_build_from_corpus(
         self._vocab_text_gen(all_train_dirs))
     self._populate_metadata(extracted_dirs)
-    splits = [tfds.core.SplitGenerator(name=k, gen_kwargs={"directory": v})
+    splits = [tfds.SplitGenerator(name=k, gen_kwargs={"directory": v})
               for k, v in extracted_dirs.items()]
     return splits
 
   def _build_pcollection(self, pipeline, directory):
     """Generates examples as dicts."""
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
     return (pipeline
             | beam.Create([directory])
             | beam.FlatMap(_generate_librispeech_examples)

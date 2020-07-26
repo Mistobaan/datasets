@@ -33,7 +33,7 @@ class OpusTestCustomConfigTest(tfds.testing.DatasetBuilderTestCase):
     super(OpusTestCustomConfigTest, cls).setUpClass()
 
     config = opus.OpusConfig(
-        version=tfds.core.Version("0.1.0"),
+        version=tfds.Version("0.1.0"),
         language_pair=("de", "en"),
         subsets=["Tanzil", "EMEA"]
     )

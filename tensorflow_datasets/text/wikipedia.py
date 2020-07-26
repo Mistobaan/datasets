@@ -93,10 +93,10 @@ _BASE_URL_TMPL = "https://dumps.wikimedia.your.org/{lang}wiki/{date}/"
 _INFO_FILE = "dumpstatus.json"
 
 
-class WikipediaConfig(tfds.core.BuilderConfig):
+class WikipediaConfig(tfds.BuilderConfig):
   """BuilderConfig for Wikipedia."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, language=None, date=None, **kwargs):
     """BuilderConfig for Wikipedia.
 
@@ -115,11 +115,11 @@ class WikipediaConfig(tfds.core.BuilderConfig):
     self.language = language
 
 
-_VERSION = tfds.core.Version(
+_VERSION = tfds.Version(
     "1.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
 
-class Wikipedia(tfds.core.BeamBasedBuilder):
+class Wikipedia(tfds.BeamBasedBuilder):
   """Wikipedia dataset."""
   # Use mirror (your.org) to avoid download caps.
 
@@ -140,7 +140,7 @@ class Wikipedia(tfds.core.BeamBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -186,7 +186,7 @@ class Wikipedia(tfds.core.BeamBasedBuilder):
     downloaded_files = dl_manager.download({"xml": xml_urls})
 
     return [
-        tfds.core.SplitGenerator(  # pylint:disable=g-complex-comprehension
+        tfds.SplitGenerator(  # pylint:disable=g-complex-comprehension
             name=tfds.Split.TRAIN,
             gen_kwargs={"filepaths": downloaded_files["xml"], "language": lang})
     ]
@@ -194,7 +194,7 @@ class Wikipedia(tfds.core.BeamBasedBuilder):
   def _build_pcollection(self, pipeline, filepaths, language):
     """Build PCollection of examples in the raw (text) form."""
 
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
 
     def _extract_content(filepath):
       """Extracts article content from a single WikiMedia XML file."""
@@ -243,7 +243,7 @@ class Wikipedia(tfds.core.BeamBasedBuilder):
       try:
         text = _parse_and_clean_wikicode(raw_content)
       except (
-          tfds.core.lazy_imports.mwparserfromhell.parser.ParserError) as e:
+          tfds.lazy_imports.mwparserfromhell.parser.ParserError) as e:
         beam.metrics.Metrics.counter(language, "parser-error").inc()
         logging.error("mwparserfromhell ParseError: %s", e)
         return
@@ -270,7 +270,7 @@ class Wikipedia(tfds.core.BeamBasedBuilder):
 
 def _parse_and_clean_wikicode(raw_content):
   """Strips formatting and unwanted sections from raw page content."""
-  wikicode = tfds.core.lazy_imports.mwparserfromhell.parse(raw_content)
+  wikicode = tfds.lazy_imports.mwparserfromhell.parse(raw_content)
 
   # Filters for references, tables, and file/image links.
   re_rm_wikilink = re.compile(

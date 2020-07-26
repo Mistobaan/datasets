@@ -49,10 +49,10 @@ from the corresponding reading passage, or the question might be unanswerable.
 """
 
 
-class SquadConfig(tfds.core.BuilderConfig):
+class SquadConfig(tfds.BuilderConfig):
   """BuilderConfig for SQUAD."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, **kwargs):
     """BuilderConfig for SQUAD.
 
@@ -62,7 +62,7 @@ class SquadConfig(tfds.core.BuilderConfig):
     super(SquadConfig, self).__init__(**kwargs)
 
 
-class Squad(tfds.core.GeneratorBasedBuilder):
+class Squad(tfds.GeneratorBasedBuilder):
   """SQUAD: The Stanford Question Answering Dataset. Version 1.1."""
   _URL = "https://rajpurkar.github.io/SQuAD-explorer/dataset/"
   _DEV_FILE = "dev-v1.1.json"
@@ -71,7 +71,7 @@ class Squad(tfds.core.GeneratorBasedBuilder):
   BUILDER_CONFIGS = [
       SquadConfig(
           name="plain_text",
-          version=tfds.core.Version(
+          version=tfds.Version(
               "1.0.0",
               "New split API (https://tensorflow.org/datasets/splits)"),
           description="Plain text",
@@ -79,7 +79,7 @@ class Squad(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -112,10 +112,10 @@ class Squad(tfds.core.GeneratorBasedBuilder):
     downloaded_files = dl_manager.download_and_extract(urls_to_download)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"filepath": downloaded_files["train"]}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"filepath": downloaded_files["dev"]}),
     ]

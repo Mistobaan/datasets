@@ -83,7 +83,7 @@ def _encode_image(image, image_format=None, fobj=None):
     image = image.reshape(image.shape[:-1])
 
   fobj = fobj or io.BytesIO()
-  image = tfds.core.lazy_imports.PIL_Image.fromarray(image)
+  image = tfds.lazy_imports.PIL_Image.fromarray(image)
   image.save(fobj, format=image_format)
   fobj.seek(0)
   return fobj
@@ -92,7 +92,7 @@ def _encode_image(image, image_format=None, fobj=None):
 def _generate_data():
   """Generate random data for testing the Sun397 dataset builder."""
 
-  names_file = tfds.core.get_tfds_path(
+  names_file = tfds.get_tfds_path(
       os.path.join("image", "sun397_labels.txt"))
   label_names = tfds.features.ClassLabel(names_file=names_file).names
 

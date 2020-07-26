@@ -51,13 +51,13 @@ answers and a rationalte. Each example in this dataset has the following 5 parts
 _DOWNLOAD_URL = 'http://www.eraserbenchmark.com/zipped/multirc.tar.gz'
 
 
-class EraserMultiRc(tfds.core.GeneratorBasedBuilder):
+class EraserMultiRc(tfds.GeneratorBasedBuilder):
   """Multi Sentence Reasoning with Explanations (Eraser Benchmark)."""
 
-  VERSION = tfds.core.Version('0.1.1')
+  VERSION = tfds.Version('0.1.1')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -77,19 +77,19 @@ class EraserMultiRc(tfds.core.GeneratorBasedBuilder):
     dl_dir = dl_manager.download_and_extract(_DOWNLOAD_URL)
     data_dir = os.path.join(dl_dir, 'multirc')
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             # These kwargs will be passed to _generate_examples
             gen_kwargs={'data_dir': data_dir,
                         'filepath': os.path.join(data_dir, 'train.jsonl')},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             # These kwargs will be passed to _generate_examples
             gen_kwargs={'data_dir': data_dir,
                         'filepath': os.path.join(data_dir, 'val.jsonl')},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             # These kwargs will be passed to _generate_examples
             gen_kwargs={'data_dir': data_dir,

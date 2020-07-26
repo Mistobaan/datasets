@@ -70,12 +70,12 @@ RawBoundingBox = collections.namedtuple("RawBoundingBox",
                                         ["top", "bottom", "left", "right"])
 
 
-class Kitti(tfds.core.GeneratorBasedBuilder):
+class Kitti(tfds.GeneratorBasedBuilder):
   """Kitti dataset."""
 
-  VERSION = tfds.core.Version("3.2.0", "Devkit updated.")
+  VERSION = tfds.Version("3.2.0", "Devkit updated.")
   SUPPORTED_VERSIONS = [
-      tfds.core.Version("3.1.0"),
+      tfds.Version("3.1.0"),
   ]
 
   def _info(self):
@@ -90,7 +90,7 @@ class Kitti(tfds.core.GeneratorBasedBuilder):
         "location": tfds.features.Tensor(shape=(3,), dtype=tf.float32),
         "rotation_y": tfds.features.Tensor(shape=(), dtype=tf.float32),
     }
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -113,7 +113,7 @@ class Kitti(tfds.core.GeneratorBasedBuilder):
         dl_manager.iter_archive(files["devkit"]))
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "images": dl_manager.iter_archive(files["images"]),
@@ -121,7 +121,7 @@ class Kitti(tfds.core.GeneratorBasedBuilder):
                 "subdir": "training",
                 "image_ids": train_images,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "images": dl_manager.iter_archive(files["images"]),
@@ -129,7 +129,7 @@ class Kitti(tfds.core.GeneratorBasedBuilder):
                 "subdir": "training",
                 "image_ids": validation_images,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "images": dl_manager.iter_archive(files["images"]),
@@ -152,7 +152,7 @@ class Kitti(tfds.core.GeneratorBasedBuilder):
     Yields:
       A tuple containing the example's key, and the example.
     """
-    cv2 = tfds.core.lazy_imports.cv2
+    cv2 = tfds.lazy_imports.cv2
 
     all_annotations = dict()
     for fpath, fobj in annotations:

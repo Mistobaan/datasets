@@ -90,15 +90,15 @@ _DESCRIPTION = \"""
 
 _DATASET_DEFAULTS = """\
 
-class {dataset_cls}(tfds.core.GeneratorBasedBuilder):
+class {dataset_cls}(tfds.GeneratorBasedBuilder):
   \"""{TODO}: Short description of my dataset.\"""
 
   # {TODO}: Set up version.
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
 
   def _info(self):
-    # {TODO}: Specifies the tfds.core.DatasetInfo object
-    return tfds.core.DatasetInfo(
+    # {TODO}: Specifies the tfds.DatasetInfo object
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=_DESCRIPTION,
@@ -121,7 +121,7 @@ class {dataset_cls}(tfds.core.GeneratorBasedBuilder):
     # dl_manager is a tfds.download.DownloadManager that can be used to
     # download and extract URLs
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             # These kwargs will be passed to _generate_examples
             gen_kwargs={{}},

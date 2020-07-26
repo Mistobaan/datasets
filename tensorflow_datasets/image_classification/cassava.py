@@ -50,13 +50,13 @@ _BASE_URL = "https://storage.googleapis.com/emcassavadata/cassavaleafdata.zip"
 _LABELS = ["cbb", "cbsd", "cgm", "cmd", "healthy"]
 
 
-class Cassava(tfds.core.GeneratorBasedBuilder):
+class Cassava(tfds.GeneratorBasedBuilder):
   """Cassava leaf image dataset."""
 
-  VERSION = tfds.core.Version("0.1.0")
+  VERSION = tfds.Version("0.1.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -77,19 +77,19 @@ class Cassava(tfds.core.GeneratorBasedBuilder):
     validation_path = os.path.join(path, "cassavaleafdata/validation")
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "datapath": train_path},
         ),
 
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "datapath": test_path},
         ),
 
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "datapath": validation_path},

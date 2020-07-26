@@ -43,13 +43,13 @@ quantities respectively.
 """
 
 
-class GermanCreditNumeric(tfds.core.GeneratorBasedBuilder):
+class GermanCreditNumeric(tfds.GeneratorBasedBuilder):
   """German Credit (numeric) dataset."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -71,7 +71,7 @@ class GermanCreditNumeric(tfds.core.GeneratorBasedBuilder):
     records = [l for l in all_lines if l]  # get rid of empty lines
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"records": records}),
     ]

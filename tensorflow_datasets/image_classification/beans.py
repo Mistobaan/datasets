@@ -52,13 +52,13 @@ _IMAGE_SHAPE = (_IMAGE_SIZE, _IMAGE_SIZE, 3)
 _LABELS = ["angular_leaf_spot", "bean_rust", "healthy"]
 
 
-class Beans(tfds.core.GeneratorBasedBuilder):
+class Beans(tfds.GeneratorBasedBuilder):
   """Beans plant leaf images dataset."""
 
-  VERSION = tfds.core.Version("0.1.0")
+  VERSION = tfds.Version("0.1.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -75,17 +75,17 @@ class Beans(tfds.core.GeneratorBasedBuilder):
         [_TRAIN_URL, _VALIDATION_URL, _TEST_URL])
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(train_path)},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(val_path)},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(test_path)},

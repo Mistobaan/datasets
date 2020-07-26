@@ -51,13 +51,13 @@ URL = "http://ai.stanford.edu/~acoates/stl10/stl10_binary.tar.gz"
 UNLABELLED = tfds.Split("unlabelled")
 
 
-class Stl10(tfds.core.GeneratorBasedBuilder):
+class Stl10(tfds.GeneratorBasedBuilder):
   """STL-10 dataset."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -89,13 +89,13 @@ class Stl10(tfds.core.GeneratorBasedBuilder):
 
     # Define the splits
     splits = [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"filepaths": gen_filenames(train_files)}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"filepaths": gen_filenames(test_files)}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=UNLABELLED,
             gen_kwargs={"filepaths": gen_filenames(unlabeled_files)}),
     ]

@@ -70,7 +70,7 @@ class Section(abc.ABC):
   EXTRA_DOC: str = ''
 
   @abc.abstractmethod
-  def get_key(self, builder: tfds.core.DatasetBuilder) -> Key:
+  def get_key(self, builder: tfds.DatasetBuilder) -> Key:
     """Get the key of the section.
 
     The key is used to merge similar sections across builder configs. For
@@ -87,11 +87,11 @@ class Section(abc.ABC):
     pass
 
   @abc.abstractmethod
-  def content(self, builder: tfds.core.DatasetBuilder) -> str:
+  def content(self, builder: tfds.DatasetBuilder) -> str:
     """Returns the section content."""
     pass
 
-  def display(self, builder: tfds.core.DatasetBuilder) -> str:
+  def display(self, builder: tfds.DatasetBuilder) -> str:
     """Returns the section content."""
     content = self.content(builder)
     if content is _SKIP_SECTION:
@@ -154,10 +154,10 @@ class SourceCodeSection(Section):
     return True  # Always common to all configs
 
   def content(self, builder):
-    class_path = tfds.core.utils.get_class_path(builder).split('.')
+    class_path = tfds.utils.get_class_path(builder).split('.')
     del class_path[-2]
     class_path = '.'.join(class_path)
-    class_url = tfds.core.utils.get_class_url(builder)
+    class_url = tfds.utils.get_class_url(builder)
     return f'[`{class_path}`]({class_url})'
 
 
@@ -228,7 +228,7 @@ class ManualDatasetSection(Section):
         This dataset requires you to
         download the source data manually into `download_config.manual_dir`
         (defaults to `~/tensorflow_datasets/download/manual/`):<br/>
-        {tfds.core.utils.indent(manual_instructions, '        ')}
+        {tfds.utils.indent(manual_instructions, '        ')}
         """
     )
 
@@ -313,7 +313,7 @@ class SplitInfoSection(Section):
             f"""
             Split  | Examples
             :----- | -------:
-            {tfds.core.utils.indent(splits_str, '            ')}
+            {tfds.utils.indent(splits_str, '            ')}
             """
         )
     )
@@ -366,7 +366,7 @@ class DatasetCitationSection(Section):
         textwrap.dedent(
             f"""
             ```
-            {tfds.core.utils.indent(builder.info.citation, '            ')}
+            {tfds.utils.indent(builder.info.citation, '            ')}
             ```
             """
         )
@@ -400,7 +400,7 @@ class DatasetVisualizationSection(Section):
 
 
 def _display_builder(
-    builder: tfds.core.DatasetBuilder,
+    builder: tfds.DatasetBuilder,
     sections: List[Section],
 ) -> str:
   """Display a single Builder / BuilderConfig."""
@@ -413,7 +413,7 @@ def _display_builder(
 
 def _display_all_builders(
     nightly_doc_util,
-    builders: List[tfds.core.DatasetBuilder],
+    builders: List[tfds.DatasetBuilder],
     all_sections: List[Section],
 ) -> str:
   """Display all sections for all Builder."""
@@ -474,9 +474,9 @@ def _display_manual_instructions(builder):
 
 
 def _display_builder_configs(
-    builder: tfds.core.DatasetBuilder,
+    builder: tfds.DatasetBuilder,
     nightly_doc_util,
-    config_builders: List[tfds.core.DatasetBuilder],
+    config_builders: List[tfds.DatasetBuilder],
     all_sections: List[Section],
 ) -> str:
   """Builder configs."""
@@ -488,8 +488,8 @@ def _display_builder_configs(
 
 
 def get_markdown_string(
-    builder: tfds.core.DatasetBuilder,
-    config_builders: List[tfds.core.DatasetBuilder],
+    builder: tfds.DatasetBuilder,
+    config_builders: List[tfds.DatasetBuilder],
     visu_doc_util,
     nightly_doc_util,
 ) -> str:
@@ -521,4 +521,4 @@ def get_markdown_string(
       ),
   ]
 
-  return '\n\n'.join([tfds.core.utils.dedent(s) for s in doc_str if s])
+  return '\n\n'.join([tfds.utils.dedent(s) for s in doc_str if s])

@@ -42,7 +42,7 @@ class TranslateWmtCustomConfigTest(testing.DatasetBuilderTestCase):
             "train": ["paracrawl_v3"],
             "validation": ["newstest2009", "newstest2010"],
         },
-        version=tfds.core.Version("1.0.0"),
+        version=tfds.Version("1.0.0"),
     )
     wmt.WmtTranslate.BUILDER_CONFIGS = [config]
 

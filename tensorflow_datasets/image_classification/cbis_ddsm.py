@@ -119,18 +119,18 @@ _DCIM_REGEX = re.compile(
 )
 
 
-class CuratedBreastImagingDDSMConfig(tfds.core.BuilderConfig):
+class CuratedBreastImagingDDSMConfig(tfds.BuilderConfig):
   """BuilderConfig for CuratedBreastImagingDDSM."""
 
   def __init__(self, image_size=None, patch_size=None, **kwargs):
-    kwargs['version'] = tfds.core.Version(
+    kwargs['version'] = tfds.Version(
         '2.0.1', 'New split API (https://tensorflow.org/datasets/splits)')
     super(CuratedBreastImagingDDSMConfig, self).__init__(**kwargs)
     self.image_size = image_size
     self.patch_size = patch_size
 
 
-class CuratedBreastImagingDDSM(tfds.core.GeneratorBasedBuilder):
+class CuratedBreastImagingDDSM(tfds.GeneratorBasedBuilder):
   """Curated Breast Imaging Subset of DDSM."""
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
@@ -168,7 +168,7 @@ class CuratedBreastImagingDDSM(tfds.core.GeneratorBasedBuilder):
       raise ValueError('Builder config named {} not supported!'.format(
           self.builder_config.name))
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=features_fn_map[self.builder_config.name](),
@@ -204,12 +204,12 @@ class CuratedBreastImagingDDSM(tfds.core.GeneratorBasedBuilder):
     features['abnormalities'].update({
         'calc_type':
             tfds.features.ClassLabel(
-                names_file=tfds.core.get_tfds_path(
+                names_file=tfds.get_tfds_path(
                     os.path.join(
                         'image_classification', 'cbis_ddsm_calc_types.txt'))),
         'calc_distribution':
             tfds.features.ClassLabel(
-                names_file=tfds.core.get_tfds_path(
+                names_file=tfds.get_tfds_path(
                     os.path.join(
                         'image_classification',
                         'cbis_ddsm_calc_distributions.txt'))),
@@ -223,12 +223,12 @@ class CuratedBreastImagingDDSM(tfds.core.GeneratorBasedBuilder):
     features['abnormalities'].update({
         'mass_shape':
             tfds.features.ClassLabel(
-                names_file=tfds.core.get_tfds_path(
+                names_file=tfds.get_tfds_path(
                     os.path.join(
                         'image_classification', 'cbis_ddsm_mass_shapes.txt'))),
         'mass_margins':
             tfds.features.ClassLabel(
-                names_file=tfds.core.get_tfds_path(
+                names_file=tfds.get_tfds_path(
                     os.path.join(
                         'image_classification', 'cbis_ddsm_mass_margins.txt'))),
     })
@@ -243,7 +243,7 @@ class CuratedBreastImagingDDSM(tfds.core.GeneratorBasedBuilder):
             tfds.features.Image(shape=(None, None, 1), encoding_format='jpeg'),
         'label':
             tfds.features.ClassLabel(
-                names_file=tfds.core.get_tfds_path(
+                names_file=tfds.get_tfds_path(
                     os.path.join(
                         'image_classification', 'cbis_ddsm_patch_labels.txt'))),
     })
@@ -273,7 +273,7 @@ class CuratedBreastImagingDDSM(tfds.core.GeneratorBasedBuilder):
     patients_data = _load_csv_files(dl_manager.manual_dir, resource_paths)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'generate_fn': self._generate_examples_original,
@@ -281,7 +281,7 @@ class CuratedBreastImagingDDSM(tfds.core.GeneratorBasedBuilder):
                 'yield_from_train_csv': True,  # Yield train examples.
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'generate_fn': self._generate_examples_original,
@@ -330,7 +330,7 @@ class CuratedBreastImagingDDSM(tfds.core.GeneratorBasedBuilder):
     patients_data_valid = _select_patients_data(patients_data, patients_valid)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'generate_fn': self._generate_examples_patches,
@@ -339,7 +339,7 @@ class CuratedBreastImagingDDSM(tfds.core.GeneratorBasedBuilder):
                 'patch_size': self.builder_config.patch_size,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'generate_fn': self._generate_examples_patches,
@@ -348,7 +348,7 @@ class CuratedBreastImagingDDSM(tfds.core.GeneratorBasedBuilder):
                 'patch_size': self.builder_config.patch_size,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'generate_fn': self._generate_examples_patches,
@@ -582,7 +582,7 @@ def _select_patients_data(data, patient_ids):
 
 def _read_image(filepath, image_size=None):
   """Read an image and optionally resize it (size must be: height, width)."""
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
   with tf.io.gfile.GFile(filepath, 'rb') as f:
     image = cv2.imdecode(
         np.fromstring(f.read(), dtype=np.uint8), flags=cv2.IMREAD_GRAYSCALE)
@@ -595,7 +595,7 @@ def _read_image(filepath, image_size=None):
 
 def _get_breast_mask(image, min_breast_color_threshold=0.05):
   """Get the binary mask of the breast region of the image."""
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
   threshold = int(image.max() * min_breast_color_threshold)
   _, image_binary = cv2.threshold(image, threshold, 255, cv2.THRESH_BINARY)
   _, contours, _ = cv2.findContours(image_binary, cv2.RETR_LIST,
@@ -608,7 +608,7 @@ def _get_breast_mask(image, min_breast_color_threshold=0.05):
 
 
 def _get_roi_from_mask(mask):
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
   _, contours, _ = cv2.findContours(mask, cv2.RETR_LIST,
                                     cv2.CHAIN_APPROX_SIMPLE)
   contours_areas = [cv2.contourArea(cont) for cont in contours]
@@ -686,7 +686,7 @@ def _sample_positive_patches(image,
   Yields:
     The patch cropped from the input image.
   """
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
 
   # The paper trying to be reproduced states that 90% of the are of each
   # positive patch should correspond to abnormal tissue. Thus if the total area
@@ -797,7 +797,7 @@ def _sample_negative_patches(image,
   Yields:
     The patch cropped from the input image.
   """
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
 
   breast_mask = _get_breast_mask(image)
 

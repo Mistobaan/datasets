@@ -57,10 +57,10 @@ _CITATION = """\
 """
 
 
-class RobonetConfig(tfds.core.BuilderConfig):
+class RobonetConfig(tfds.BuilderConfig):
   """"Configuration for RoboNet video rescaling."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, sample_dataset=False, width=None, height=None, **kwargs):
     """The parameters specifying how the dataset will be processed.
 
@@ -75,7 +75,7 @@ class RobonetConfig(tfds.core.BuilderConfig):
       **kwargs: Passed on to the constructor of `BuilderConfig`.
     """
     super(RobonetConfig, self).__init__(
-        version=tfds.core.Version('4.0.0'), **kwargs)
+        version=tfds.Version('4.0.0'), **kwargs)
     if (width is None) ^ (height is None):
       raise ValueError('Either both dimensions should be set, or none of them')
     self.sample_dataset = sample_dataset
@@ -83,7 +83,7 @@ class RobonetConfig(tfds.core.BuilderConfig):
     self.height = height
 
 
-class Robonet(tfds.core.BeamBasedBuilder):
+class Robonet(tfds.BeamBasedBuilder):
   """RoboNet: Large-Scale Multi-Robot Learning."""
 
   BUILDER_CONFIGS = [
@@ -144,7 +144,7 @@ class Robonet(tfds.core.BeamBasedBuilder):
             shape=(None, STATES_DIM), dtype=tf.float32)
     })
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=textwrap.dedent("""\
         RoboNet contains over 15 million video frames of robot-object
@@ -165,7 +165,7 @@ class Robonet(tfds.core.BeamBasedBuilder):
     files = dl_manager.download_and_extract(
         DATA_URL_SAMPLE if self.builder_config.sample_dataset else DATA_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'filedir': os.path.join(files, 'hdf5'),
@@ -174,11 +174,11 @@ class Robonet(tfds.core.BeamBasedBuilder):
 
   def _build_pcollection(self, pipeline, filedir):
     """Generate examples as dicts."""
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
 
     def _process_example(filename):
       """Converts one video from hdf5 format."""
-      h5py = tfds.core.lazy_imports.h5py
+      h5py = tfds.lazy_imports.h5py
       with h5py.File(filename) as hf:
         video_bytes = hf['env']['cam0_video']['frames'][:].tostring()
         states = hf['env']['state'][:].astype(np.float32)

@@ -62,12 +62,12 @@ _REMOVE_LINES = set([
 ])
 
 
-class Xsum(tfds.core.GeneratorBasedBuilder):
+class Xsum(tfds.GeneratorBasedBuilder):
   """Extreme Summarization (XSum) Dataset."""
 
   # Version 1.1.0 removes web contents.
-  VERSION = tfds.core.Version("1.1.0")
-  SUPPORTED_VERSIONS = [tfds.core.Version("1.0.0", "Dataset without cleaning.")]
+  VERSION = tfds.Version("1.1.0")
+  SUPPORTED_VERSIONS = [tfds.Version("1.0.0", "Dataset without cleaning.")]
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
   Detailed download instructions (which require running a custom script) are
@@ -77,7 +77,7 @@ class Xsum(tfds.core.GeneratorBasedBuilder):
   """
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -101,21 +101,21 @@ class Xsum(tfds.core.GeneratorBasedBuilder):
             os.path.join(dl_manager.manual_dir, folder_name + ".tar.gz")),
         folder_name)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "split_ids": split_ids["train"],
                 "path": extract_path,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "split_ids": split_ids["validation"],
                 "path": extract_path,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "split_ids": split_ids["test"],

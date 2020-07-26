@@ -31,8 +31,8 @@ import numpy as np
 import tensorflow.compat.v2 as tf
 import tensorflow_datasets.public_api as tfds
 
-beam = tfds.core.lazy_imports.apache_beam
-cv2 = tfds.core.lazy_imports.cv2
+beam = tfds.lazy_imports.apache_beam
+cv2 = tfds.lazy_imports.cv2
 
 Metrics = beam.metrics.Metrics
 

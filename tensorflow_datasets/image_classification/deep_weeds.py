@@ -67,12 +67,12 @@ _CITATION = """\
 """
 
 
-class DeepWeeds(tfds.core.GeneratorBasedBuilder):
+class DeepWeeds(tfds.GeneratorBasedBuilder):
   """DeepWeeds Image Dataset Class."""
 
-  VERSION = tfds.core.Version("2.0.0", "Fixes wrong labels in V1.")
+  VERSION = tfds.Version("2.0.0", "Fixes wrong labels in V1.")
   SUPPORTED_VERSIONS = [
-      tfds.core.Version(
+      tfds.Version(
           "1.0.0",
           tfds_version_to_prepare="c28a63fa9d9fb9ba3cced7052ea243e8884f9bf1"),
   ]
@@ -80,7 +80,7 @@ class DeepWeeds(tfds.core.GeneratorBasedBuilder):
   def _info(self):
     """Define Dataset Info."""
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=(_DESCRIPTION),
         features=tfds.features.FeaturesDict({
@@ -102,7 +102,7 @@ class DeepWeeds(tfds.core.GeneratorBasedBuilder):
         "label": _URL_LABELS})
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="train",
             gen_kwargs={
                 "data_dir_path": paths["image"],

@@ -118,7 +118,7 @@ _FORMAT_VERSIONS = ['25m', 'latest-small', '20m', '100k', '1m']
 _TABLE_OPTIONS = ['movies', 'ratings']
 
 
-class MovieLensConfig(tfds.core.BuilderConfig):
+class MovieLensConfig(tfds.BuilderConfig):
   """BuilderConfig for MovieLens dataset."""
 
   def __init__(
@@ -177,7 +177,7 @@ class MovieLensConfig(tfds.core.BuilderConfig):
     return self._parsing_fn
 
 
-class Movielens(tfds.core.GeneratorBasedBuilder):
+class Movielens(tfds.GeneratorBasedBuilder):
   """MovieLens rating dataset."""
 
   BUILDER_CONFIGS = [
@@ -354,9 +354,9 @@ class Movielens(tfds.core.GeneratorBasedBuilder):
       ),
   ]
 
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
 
-  def _info(self) -> tfds.core.DatasetInfo:
+  def _info(self) -> tfds.DatasetInfo:
     """Returns DatasetInfo according to self.builder_config."""
     movie_features_dict = {
         'movie_id': tf.string,
@@ -410,7 +410,7 @@ class Movielens(tfds.core.GeneratorBasedBuilder):
     else:
       features_dict.update(movie_features_dict)
       features_dict.update(rating_features_dict)
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features_dict),
@@ -422,7 +422,7 @@ class Movielens(tfds.core.GeneratorBasedBuilder):
   def _split_generators(
       self,
       dl_manager: tfds.download.DownloadManager
-  ) -> List[tfds.core.SplitGenerator]:
+  ) -> List[tfds.SplitGenerator]:
     """Returns SplitGenerators."""
     extracted_path = dl_manager.download_and_extract(
         self.builder_config.download_url,
@@ -432,7 +432,7 @@ class Movielens(tfds.core.GeneratorBasedBuilder):
         'ml-%s' % self.builder_config.format_version,
     )
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'dir_path': dir_path},
         ),

@@ -53,17 +53,17 @@ _SUMMARY = "summary"
 _ID = "id"
 
 
-class Samsum(tfds.core.GeneratorBasedBuilder):
+class Samsum(tfds.GeneratorBasedBuilder):
   """SAMSum dataset builder."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
   Download https://arxiv.org/src/1911.12237v2/anc/corpus.7z, decompress and
   place train.json, val.json and test.json in the manual follder.
   """
 
-  def _info(self) -> tfds.core.DatasetInfo:
-    return tfds.core.DatasetInfo(
+  def _info(self) -> tfds.DatasetInfo:
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -78,22 +78,22 @@ class Samsum(tfds.core.GeneratorBasedBuilder):
 
   def _split_generators(
       self, dl_manager: tfds.download.DownloadManager
-  ) -> List[tfds.core.SplitGenerator]:
+  ) -> List[tfds.SplitGenerator]:
     """Returns SplitGenerators."""
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "path": os.path.join(dl_manager.manual_dir, "train.json")
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "path": os.path.join(dl_manager.manual_dir, "val.json")
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "path": os.path.join(dl_manager.manual_dir, "test.json")

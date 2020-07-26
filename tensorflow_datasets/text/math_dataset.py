@@ -199,22 +199,22 @@ def _generate_builder_configs():
   configs = []
   for module in sorted(set(_MODULES)):
     configs.append(
-        tfds.core.BuilderConfig(
+        tfds.BuilderConfig(
             name=module,
-            version=tfds.core.Version("1.0.0"),
+            version=tfds.Version("1.0.0"),
             description=_DESCRIPTION,
         ))
 
   return configs
 
 
-class MathDataset(tfds.core.GeneratorBasedBuilder):
+class MathDataset(tfds.GeneratorBasedBuilder):
   """Math Dataset."""
 
   BUILDER_CONFIGS = _generate_builder_configs()
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -249,14 +249,14 @@ class MathDataset(tfds.core.GeneratorBasedBuilder):
     config = self.builder_config.name + ".txt"
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "directory": directory,
                 "config": config,
                 "categories": _TRAIN_CATEGORY,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "directory": directory,

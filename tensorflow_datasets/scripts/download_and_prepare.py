@@ -140,8 +140,8 @@ def download_and_prepare(builder):
 
   dl_config = download_config()
 
-  if isinstance(builder, tfds.core.BeamBasedBuilder):
-    beam = tfds.core.lazy_imports.apache_beam
+  if isinstance(builder, tfds.BeamBasedBuilder):
+    beam = tfds.lazy_imports.apache_beam
     # TODO(b/129149715): Restore compute stats. Currently skipped because not
     # beam supported.
     dl_config.compute_stats = tfds.download.ComputeStatsMode.SKIP

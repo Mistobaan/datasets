@@ -115,10 +115,10 @@ def _get_inter_splits_by_group(items_and_groups, split_probs, split_number):
   return split_to_ids
 
 
-class Dementiabank(tfds.core.GeneratorBasedBuilder):
+class Dementiabank(tfds.GeneratorBasedBuilder):
   """The DementiaBank dataset for voice classification of Dementia."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = textwrap.dedent("""
   manual dir should contain 2 folders with mp3 files:
@@ -131,7 +131,7 @@ class Dementiabank(tfds.core.GeneratorBasedBuilder):
   """.format(_CONTROL_FOLDER, _DEMENTIA_FOLDER))
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -165,15 +165,15 @@ class Dementiabank(tfds.core.GeneratorBasedBuilder):
                                         0)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'examples': splits['train']},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'examples': splits['validation']},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'examples': splits['test']},
         ),

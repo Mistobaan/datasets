@@ -72,12 +72,12 @@ _SIZE_TO_DIRNAME = {
 }
 
 
-class ImagewangConfig(tfds.core.BuilderConfig):
+class ImagewangConfig(tfds.BuilderConfig):
   """BuilderConfig for Imagewang."""
 
   def __init__(self, size, **kwargs):
     super(ImagewangConfig, self).__init__(
-        version=tfds.core.Version("2.0.0"), **kwargs)
+        version=tfds.Version("2.0.0"), **kwargs)
     self.size = size
 
 
@@ -89,14 +89,14 @@ def _make_builder_configs():
   return configs
 
 
-class Imagewang(tfds.core.GeneratorBasedBuilder):
+class Imagewang(tfds.GeneratorBasedBuilder):
   """Imagewang contains Imagenette and Imagewoof combined."""
 
   BUILDER_CONFIGS = _make_builder_configs()
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(_LABELS_FNAME)
-    return tfds.core.DatasetInfo(
+    names_file = tfds.get_tfds_path(_LABELS_FNAME)
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -121,13 +121,13 @@ class Imagewang(tfds.core.GeneratorBasedBuilder):
       raise ValueError("size must be one of %s" % _SIZES)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "datapath": train_path,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "datapath": val_path,

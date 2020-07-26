@@ -139,7 +139,7 @@ BBOX_SOURCES = [
 ]
 
 
-class OpenImagesV4Config(tfds.core.BuilderConfig):
+class OpenImagesV4Config(tfds.BuilderConfig):
   """BuilderConfig for OpenImagesV4."""
 
   def __init__(self, target_pixels=None, **kwargs):
@@ -150,7 +150,7 @@ class OpenImagesV4Config(tfds.core.BuilderConfig):
         is roughly this value.
       **kwargs: keyword arguments forward to super.
     """
-    kwargs['version'] = tfds.core.Version(
+    kwargs['version'] = tfds.Version(
         '2.0.0', 'New split API (https://tensorflow.org/datasets/splits)')
     super(OpenImagesV4Config, self).__init__(**kwargs)
     self._target_pixels = target_pixels
@@ -160,7 +160,7 @@ class OpenImagesV4Config(tfds.core.BuilderConfig):
     return self._target_pixels
 
 
-class OpenImagesV4(tfds.core.GeneratorBasedBuilder):
+class OpenImagesV4(tfds.GeneratorBasedBuilder):
   """Open Images v4."""
 
   BUILDER_CONFIGS = [
@@ -181,15 +181,15 @@ class OpenImagesV4(tfds.core.GeneratorBasedBuilder):
     source_class_label = tfds.features.ClassLabel(
         names=IMAGE_LEVEL_SOURCES + BBOX_SOURCES)
     all_class_label = tfds.features.ClassLabel(
-        names_file=tfds.core.get_tfds_path(os.path.join(
+        names_file=tfds.get_tfds_path(os.path.join(
             'object_detection', 'open_images_classes_all.txt')))
     trainable_class_label = tfds.features.ClassLabel(
-        names_file=tfds.core.get_tfds_path(os.path.join(
+        names_file=tfds.get_tfds_path(os.path.join(
             'object_detection', 'open_images_classes_trainable.txt')))
     boxable_class_label = tfds.features.ClassLabel(
-        names_file=tfds.core.get_tfds_path(os.path.join(
+        names_file=tfds.get_tfds_path(os.path.join(
             'object_detection', 'open_images_classes_boxable.txt')))
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -242,20 +242,20 @@ class OpenImagesV4(tfds.core.GeneratorBasedBuilder):
     test_bbox = load_boxes('test-annotations-bbox')
     validation_bbox = load_boxes('validation-annotations-bbox')
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(archive_paths=paths['train_images'],
                             objects_getter=train_objects,
                             bboxes_getter=train_bbox,
                             prefixes='0123456789abcdef'),
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(archive_paths=[paths['test_images']],
                             objects_getter=test_objects,
                             bboxes_getter=test_bbox),
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs=dict(archive_paths=[paths['validation_images']],
                             objects_getter=validation_objects,
@@ -307,7 +307,7 @@ def _resize_image_if_necessary(image_fobj, target_pixels=None):
   if target_pixels is None:
     return image_fobj
 
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
   # Decode image using OpenCV2.
   image = cv2.imdecode(
       np.fromstring(image_fobj.read(), dtype=np.uint8), flags=3)

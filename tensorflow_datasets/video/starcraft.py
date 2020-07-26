@@ -49,13 +49,13 @@ _CITATION = """\
 """
 
 
-class StarcraftVideoConfig(tfds.core.BuilderConfig):
+class StarcraftVideoConfig(tfds.BuilderConfig):
   """Config for StarcraftVideo dataset."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, map_name, resolution, size_in_gb, **kwargs):
     super(StarcraftVideoConfig, self).__init__(
-        version=tfds.core.Version(
+        version=tfds.Version(
             "1.0.0", "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
     self.map_name = map_name
@@ -63,7 +63,7 @@ class StarcraftVideoConfig(tfds.core.BuilderConfig):
     self.size_in_gb = size_in_gb
 
 
-class StarcraftVideo(tfds.core.GeneratorBasedBuilder):
+class StarcraftVideo(tfds.GeneratorBasedBuilder):
   """Starcraft video datasets."""
 
   BUILDER_CONFIGS = [
@@ -132,7 +132,7 @@ class StarcraftVideo(tfds.core.GeneratorBasedBuilder):
                 shape=(None, self.builder_config.resolution,
                        self.builder_config.resolution, 3)),
     })
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description="This data set contains videos generated from Starcraft.",
         features=features,
@@ -155,7 +155,7 @@ class StarcraftVideo(tfds.core.GeneratorBasedBuilder):
     downloaded_urls = dl_manager.download_and_extract(urls_to_download)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "files": [
@@ -163,10 +163,10 @@ class StarcraftVideo(tfds.core.GeneratorBasedBuilder):
                     if "train" in name
                 ]
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"files": [downloaded_urls["test"]]}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"files": [downloaded_urls["valid"]]}),
     ]

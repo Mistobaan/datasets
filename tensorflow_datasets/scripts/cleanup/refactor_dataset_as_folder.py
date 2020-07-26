@@ -42,7 +42,7 @@ from absl import app
 import dataclasses
 import tensorflow_datasets as tfds
 
-TFDS_PATH = pathlib.Path(tfds.core.utils.tfds_dir())
+TFDS_PATH = pathlib.Path(tfds.utils.tfds_dir())
 
 
 @dataclasses.dataclass(frozen=True)
@@ -66,7 +66,7 @@ class BuilderCodeInfo:
 
   @classmethod
   def from_builder_cls(
-      cls, builder_cls: Type[tfds.core.DatasetBuilder]
+      cls, builder_cls: Type[tfds.DatasetBuilder]
   ) -> 'BuilderCodeInfo':
     path = _extract_tfds_path(builder_cls.code_path)
     return cls(

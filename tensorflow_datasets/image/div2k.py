@@ -78,7 +78,7 @@ _DATA_OPTIONS = [
 ]
 
 
-class Div2kConfig(tfds.core.BuilderConfig):
+class Div2kConfig(tfds.BuilderConfig):
   """BuilderConfig for Div2k."""
 
   def __init__(self, name, **kwargs):
@@ -102,17 +102,17 @@ class Div2kConfig(tfds.core.BuilderConfig):
 def _make_builder_configs():
   configs = []
   for data in _DATA_OPTIONS:
-    configs.append(Div2kConfig(version=tfds.core.Version("2.0.0"), name=data))
+    configs.append(Div2kConfig(version=tfds.Version("2.0.0"), name=data))
   return configs
 
 
-class Div2k(tfds.core.GeneratorBasedBuilder):
+class Div2k(tfds.GeneratorBasedBuilder):
   """DIV2K dataset: DIVerse 2K resolution high quality images."""
 
   BUILDER_CONFIGS = _make_builder_configs()
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -131,14 +131,14 @@ class Div2k(tfds.core.GeneratorBasedBuilder):
         self.builder_config.download_urls)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "lr_path": extracted_paths["train_lr_url"],
                 "hr_path": os.path.join(extracted_paths["train_hr_url"],
                                         "DIV2K_train_HR"),
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "lr_path": extracted_paths["valid_lr_url"],

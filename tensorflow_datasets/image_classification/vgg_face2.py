@@ -47,10 +47,10 @@ average of 362 images for each subject.
 _LABELS_FNAME = 'image_classification/vgg_face2_labels.txt'
 
 
-class VggFace2(tfds.core.GeneratorBasedBuilder):
+class VggFace2(tfds.GeneratorBasedBuilder):
   """VGGFace2 - A large scale image dataset for face recognition."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
   manual_dir should contain two files: vggface2_test.tar.gz and
@@ -60,8 +60,8 @@ class VggFace2(tfds.core.GeneratorBasedBuilder):
   """
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(_LABELS_FNAME)
-    return tfds.core.DatasetInfo(
+    names_file = tfds.get_tfds_path(_LABELS_FNAME)
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=_DESCRIPTION,
@@ -87,13 +87,13 @@ class VggFace2(tfds.core.GeneratorBasedBuilder):
           'the train and test set and place them into: {}, {}'.format(
               train_path, test_path))
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'archive': dl_manager.iter_archive(train_path),
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'archive': dl_manager.iter_archive(test_path),

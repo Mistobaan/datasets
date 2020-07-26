@@ -77,14 +77,14 @@ class DownloadRetryLimitReachedError(Exception):
   pass
 
 
-class PlantaeK(tfds.core.GeneratorBasedBuilder):
+class PlantaeK(tfds.GeneratorBasedBuilder):
   """Healthy and unhealthy plant leaves dataset."""
 
-  VERSION = tfds.core.Version("0.1.0")
+  VERSION = tfds.Version("0.1.0")
 
   def _info(self):
     labels = sorted(set(list(zip(*_LABEL_MAPPING))[1]))
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -101,7 +101,7 @@ class PlantaeK(tfds.core.GeneratorBasedBuilder):
     """Returns SplitGenerators."""
     # Batch download for this dataset is broken, therefore images have to be
     # downloaded independently from a list of urls.
-    with tf.io.gfile.GFile(tfds.core.get_tfds_path(_URLS_FNAME)) as f:
+    with tf.io.gfile.GFile(tfds.get_tfds_path(_URLS_FNAME)) as f:
       name_to_url_map = {
           os.path.basename(l.strip()): l.strip() for l in f.readlines()
       }
@@ -119,7 +119,7 @@ class PlantaeK(tfds.core.GeneratorBasedBuilder):
             raise DownloadRetryLimitReachedError(
                 "Retry limit reached. Try downloading the dataset again.")
       return [
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.TRAIN,
               gen_kwargs={"image_files": image_files})
       ]

@@ -43,7 +43,7 @@ flags.DEFINE_string(
     'datasets', None,
     'Comma separated list of datasets to generates. None for all datasets.')
 flags.DEFINE_string(
-    'dst_dir', tfds.core.gcs_path('visualization'),
+    'dst_dir', tfds.gcs_path('visualization'),
     'Destination dir to save the images.')
 flags.DEFINE_boolean(
     'overwrite', False, 'If True, overwrite the existing visualizations.')
@@ -123,12 +123,12 @@ def _get_full_names(datasets: Optional[List[str]] = None) -> List[str]:
     builder_names: The builder names.
   """
   if datasets is None:
-    return tfds.core.registered.list_full_names(
+    return tfds.registered.list_full_names(
         current_version_only=True,
     )
   else:
     builder_names = list(itertools.chain.from_iterable([
-        tfds.core.registered.single_full_names(builder_name)
+        tfds.registered.single_full_names(builder_name)
         for builder_name in datasets
     ]))
     return builder_names

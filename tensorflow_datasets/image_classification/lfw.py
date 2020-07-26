@@ -40,13 +40,13 @@ LFW_CITATION = """\
 """
 
 
-class LFW(tfds.core.GeneratorBasedBuilder):
+class LFW(tfds.GeneratorBasedBuilder):
   """LFW Class."""
 
-  VERSION = tfds.core.Version("0.1.0")
+  VERSION = tfds.Version("0.1.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=("""Labeled Faces in the Wild:
         A Database for Studying Face Recognition in
@@ -66,7 +66,7 @@ class LFW(tfds.core.GeneratorBasedBuilder):
 
     # There is no train/test split predefined
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "data_path": path,

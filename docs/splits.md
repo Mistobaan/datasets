@@ -61,29 +61,29 @@ Examples using the `ReadInstruction` API (equivalent as above):
 
 ```py
 # The full `train` split.
-train_ds = tfds.load('mnist', split=tfds.core.ReadInstruction('train'))
+train_ds = tfds.load('mnist', split=tfds.ReadInstruction('train'))
 
 # The full `train` split and the full `test` split as two distinct datasets.
 train_ds, test_ds = tfds.load('mnist', split=[
-    tfds.core.ReadInstruction('train'),
-    tfds.core.ReadInstruction('test'),
+    tfds.ReadInstruction('train'),
+    tfds.ReadInstruction('test'),
 ])
 
 # The full `train` and `test` splits, interleaved together.
-ri = tfds.core.ReadInstruction('train') + tfds.core.ReadInstruction('test')
+ri = tfds.ReadInstruction('train') + tfds.ReadInstruction('test')
 train_test_ds = tfds.load('mnist', split=ri)
 
 # From record 10 (included) to record 20 (excluded) of `train` split.
-train_10_20_ds = tfds.load('mnist', split=tfds.core.ReadInstruction(
+train_10_20_ds = tfds.load('mnist', split=tfds.ReadInstruction(
     'train', from_=10, to=20, unit='abs'))
 
 # The first 10% of train split.
-train_10_20_ds = tfds.load('mnist', split=tfds.core.ReadInstruction(
+train_10_20_ds = tfds.load('mnist', split=tfds.ReadInstruction(
     'train', to=10, unit='%'))
 
 # The first 10% of train + the last 80% of train.
-ri = (tfds.core.ReadInstruction('train', to=10, unit='%') +
-      tfds.core.ReadInstruction('train', from_=-80, unit='%'))
+ri = (tfds.ReadInstruction('train', to=10, unit='%') +
+      tfds.ReadInstruction('train', from_=-80, unit='%'))
 train_10_80pct_ds = tfds.load('mnist', split=ri)
 
 # 10-fold cross-validation (see also next section on rounding behavior):
@@ -94,11 +94,11 @@ train_10_80pct_ds = tfds.load('mnist', split=ri)
 # [0%:10%] + [20%:100%] (for a validation set of [10%:20%]), ...,
 # [0%:90%] (for a validation set of [90%:100%]).
 vals_ds = tfds.load('mnist', [
-    tfds.core.ReadInstruction('train', from_=k, to=k+10, unit='%')
+    tfds.ReadInstruction('train', from_=k, to=k+10, unit='%')
     for k in range(0, 100, 10)])
 trains_ds = tfds.load('mnist', [
-    (tfds.core.ReadInstruction('train', to=k, unit='%') +
-     tfds.core.ReadInstruction('train', from_=k+10, unit='%'))
+    (tfds.ReadInstruction('train', to=k, unit='%') +
+     tfds.ReadInstruction('train', from_=k+10, unit='%'))
     for k in range(0, 100, 10)])
 ```
 
@@ -126,7 +126,7 @@ Example:
 
 ```py
 # Records 0 (included) to 99 (excluded).
-split = tfds.core.ReadInstruction(
+split = tfds.ReadInstruction(
     'test',
     to=99,
     rounding='pct1_dropremainder',

@@ -105,7 +105,7 @@ _ZIP_SUBIDR = 'BigEarthNet-v1.0'
 _OPTICAL_MAX_VALUE = 2000.
 
 
-class BigearthnetConfig(tfds.core.BuilderConfig):
+class BigearthnetConfig(tfds.BuilderConfig):
   """BuilderConfig for Bigearthnet."""
 
   def __init__(self, selection=None, **kwargs):
@@ -118,7 +118,7 @@ class BigearthnetConfig(tfds.core.BuilderConfig):
     if selection not in _DATA_OPTIONS:
       raise ValueError('selection must be one of %s' % _DATA_OPTIONS)
 
-    v100 = tfds.core.Version(
+    v100 = tfds.Version(
         '1.0.0', 'New split API (https://tensorflow.org/datasets/splits)')
     super(BigearthnetConfig, self).__init__(
         version=v100,
@@ -126,7 +126,7 @@ class BigearthnetConfig(tfds.core.BuilderConfig):
     self.selection = selection
 
 
-class Bigearthnet(tfds.core.BeamBasedBuilder):
+class Bigearthnet(tfds.BeamBasedBuilder):
   """Bigearthnet remote sensing dataset of Sentinel-2 image patches."""
 
   BUILDER_CONFIGS = [
@@ -199,7 +199,7 @@ class Bigearthnet(tfds.core.BeamBasedBuilder):
       })
       supervised_keys = None
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=features,
@@ -212,7 +212,7 @@ class Bigearthnet(tfds.core.BeamBasedBuilder):
     """Returns SplitGenerators."""
     dl_path = dl_manager.download(_ZIP_FILE)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'archive_path': dl_path,
@@ -222,7 +222,7 @@ class Bigearthnet(tfds.core.BeamBasedBuilder):
 
   def _build_pcollection(self, pipeline, archive_path):
     """Generates examples as dicts."""
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
     selection = self.builder_config.selection
 
     return (pipeline
@@ -236,7 +236,7 @@ def _read_archive(archive_path, selection):
   """Yields non-processed examples out of archive."""
   example = {}
   read_band_files = 0
-  for fpath, fobj in tfds.core.download.extractor.iter_tar_stream(
+  for fpath, fobj in tfds.download.extractor.iter_tar_stream(
       archive_path):
     read_band_files += 1
     _, patch_name, fname = fpath.split(os.path.sep)
@@ -277,6 +277,6 @@ def _create_rgb_image(d):
 
 def _load_tif(data):
   """Loads TIF file and returns as float32 numpy array."""
-  img = tfds.core.lazy_imports.PIL_Image.open(io.BytesIO(data))
+  img = tfds.lazy_imports.PIL_Image.open(io.BytesIO(data))
   img = np.array(img.getdata()).reshape(img.size).astype(np.float32)
   return img

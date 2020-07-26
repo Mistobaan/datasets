@@ -66,14 +66,14 @@ _DOWNLOAD_URLS = {
 }
 
 
-class NaturalQuestions(tfds.core.BeamBasedBuilder):
+class NaturalQuestions(tfds.BeamBasedBuilder):
   """Natural Questions: A Benchmark for Question Answering Research."""
 
-  VERSION = tfds.core.Version('0.0.2')
-  SUPPORTED_VERSIONS = [tfds.core.Version('0.0.1')]
+  VERSION = tfds.Version('0.0.2')
+  SUPPORTED_VERSIONS = [tfds.Version('0.0.1')]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -121,11 +121,11 @@ class NaturalQuestions(tfds.core.BeamBasedBuilder):
     files = dl_manager.download(_DOWNLOAD_URLS)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'filepaths': files['train']},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'filepaths': files['validation']},
         ),
@@ -133,7 +133,7 @@ class NaturalQuestions(tfds.core.BeamBasedBuilder):
 
   def _build_pcollection(self, pipeline, filepaths):
     """Build PCollection of examples."""
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
 
     def _parse_example(line):
       """Parse a single json line and emit an example dict."""

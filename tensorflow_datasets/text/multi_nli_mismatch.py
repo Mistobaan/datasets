@@ -57,10 +57,10 @@ basis for the shared task of the RepEval 2017 Workshop at EMNLP in Copenhagen.
 ROOT_URL = "https://cims.nyu.edu/~sbowman/multinli/multinli_1.0.zip"
 
 
-class MultiNLIMismatchConfig(tfds.core.BuilderConfig):
+class MultiNLIMismatchConfig(tfds.BuilderConfig):
   """BuilderConfig for MultiNLI Mismatch."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, text_encoder_config=None, **kwargs):
     """BuilderConfig for MultiNLI Mismatch.
 
@@ -74,7 +74,7 @@ class MultiNLIMismatchConfig(tfds.core.BuilderConfig):
         text_encoder_config or tfds.features.text.TextEncoderConfig())
 
 
-class MultiNLIMismatch(tfds.core.GeneratorBasedBuilder):
+class MultiNLIMismatch(tfds.GeneratorBasedBuilder):
   """MultiNLI: The Stanford Question Answering Dataset. Version 1.1."""
 
   BUILDER_CONFIGS = [
@@ -86,7 +86,7 @@ class MultiNLIMismatch(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -130,10 +130,10 @@ class MultiNLIMismatch(tfds.core.GeneratorBasedBuilder):
     self.info.features["label"].maybe_set_encoder(encoder)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"filepath": train_path}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"filepath": validation_path}),
     ]

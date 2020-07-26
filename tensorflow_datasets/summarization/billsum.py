@@ -55,16 +55,16 @@ _DOCUMENT = "text"
 _SUMMARY = "summary"
 
 
-class Billsum(tfds.core.GeneratorBasedBuilder):
+class Billsum(tfds.GeneratorBasedBuilder):
   """BillSum Dataset."""
 
   # 2.0.0 data source updated to filter near duplicates.
   # 3.0.0  none of the test examples are 'near duplicates' of an example in the
   #   train set AND they dont have the same title, regardless of similarity.
-  VERSION = tfds.core.Version("3.0.0")
+  VERSION = tfds.Version("3.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -81,7 +81,7 @@ class Billsum(tfds.core.GeneratorBasedBuilder):
     """Returns SplitGenerators."""
     dl_path = dl_manager.download_and_extract(_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "path":
@@ -90,7 +90,7 @@ class Billsum(tfds.core.GeneratorBasedBuilder):
                     "bill_id"
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "path":
@@ -99,7 +99,7 @@ class Billsum(tfds.core.GeneratorBasedBuilder):
                     "bill_id"
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="ca_test",
             gen_kwargs={
                 "path":

@@ -94,7 +94,7 @@ _BASE_DOWNLOAD_PATH = "http://download.magenta.tensorflow.org/datasets/nsynth/ns
 _SPLITS = ["train", "valid", "test"]
 
 
-class NsynthConfig(tfds.core.BuilderConfig):
+class NsynthConfig(tfds.BuilderConfig):
   """BuilderConfig for NSynth Dataset."""
 
   def __init__(self,
@@ -122,13 +122,13 @@ class NsynthConfig(tfds.core.BuilderConfig):
       name_parts.append("full")
     if estimate_f0_and_loudness:
       name_parts.append("f0_and_loudness")
-    v230 = tfds.core.Version(
+    v230 = tfds.Version(
         "2.3.0", "New `loudness_db` feature in decibels (unormalized).")
-    v231 = tfds.core.Version(
+    v231 = tfds.Version(
         "2.3.1", "F0 computed with normalization fix in CREPE.")
-    v232 = tfds.core.Version(
+    v232 = tfds.Version(
         "2.3.2", "Use Audio feature.")
-    v233 = tfds.core.Version(
+    v233 = tfds.Version(
         "2.3.3",
         "F0 computed with fix in CREPE wave normalization "
         "(https://github.com/marl/crepe/issues/49).")
@@ -141,7 +141,7 @@ class NsynthConfig(tfds.core.BuilderConfig):
     self.estimate_f0_and_loudness = estimate_f0_and_loudness
 
 
-class Nsynth(tfds.core.BeamBasedBuilder):
+class Nsynth(tfds.BeamBasedBuilder):
   """A large-scale and high-quality dataset of annotated musical notes."""
   BUILDER_CONFIGS = [
       NsynthConfig(description=_FULL_DESCRIPTION),
@@ -187,13 +187,13 @@ class Nsynth(tfds.core.BeamBasedBuilder):
       features["loudness"] = {
           "db": tfds.features.Tensor(shape=f0_and_ld_shape, dtype=tf.float32)
       }
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
         homepage="https://g.co/magenta/nsynth-dataset",
         citation=_CITATION,
-        metadata=tfds.core.BeamMetadataDict(sample_rate=_AUDIO_RATE,),
+        metadata=tfds.BeamMetadataDict(sample_rate=_AUDIO_RATE,),
     )
 
   def _split_generators(self, dl_manager):
@@ -225,7 +225,7 @@ class Nsynth(tfds.core.BeamBasedBuilder):
           split_ids[row["split"]].add(row["id"])
 
     return [
-        tfds.core.SplitGenerator(  # pylint: disable=g-complex-comprehension
+        tfds.SplitGenerator(  # pylint: disable=g-complex-comprehension
             name=split,
             gen_kwargs={
                 "tfrecord_dirs": split_dirs[split],
@@ -237,7 +237,7 @@ class Nsynth(tfds.core.BeamBasedBuilder):
 
   def _build_pcollection(self, pipeline, tfrecord_dirs, ids, split):
     """Build PCollection of examples for split."""
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
 
     def _emit_base_example(ex):
       """Maps an input example to a TFDS example."""
@@ -295,14 +295,14 @@ class Nsynth(tfds.core.BeamBasedBuilder):
       audio = np.pad(audio, (0, int(n_padding)), mode="constant")
       crepe_step_size = 1000 / _F0_AND_LOUDNESS_RATE  # milliseconds
 
-      _, f0_hz, f0_confidence, _ = tfds.core.lazy_imports.crepe.predict(
+      _, f0_hz, f0_confidence, _ = tfds.lazy_imports.crepe.predict(
           audio,
           sr=_AUDIO_RATE,
           viterbi=True,
           step_size=crepe_step_size,
           center=False,
           verbose=0)
-      f0_midi = tfds.core.lazy_imports.librosa.core.hz_to_midi(f0_hz)
+      f0_midi = tfds.lazy_imports.librosa.core.hz_to_midi(f0_hz)
       # Set -infs introduced by hz_to_midi to 0.
       f0_midi[f0_midi == -np.inf] = 0
       # Set nans to 0 in confidence.
@@ -333,7 +333,7 @@ class Nsynth(tfds.core.BeamBasedBuilder):
       pad = n_samples_final - n_samples_initial
       audio = np.pad(audio, ((0, pad),), "constant")
 
-      librosa = tfds.core.lazy_imports.librosa
+      librosa = tfds.lazy_imports.librosa
       spectra = librosa.stft(
           audio, n_fft=_LD_N_FFT, hop_length=hop_size, center=False).T
 

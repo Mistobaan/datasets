@@ -48,7 +48,7 @@ _URL = "https://doi.org/10.7488/ds/2645"
 _DL_URL = "https://datashare.is.ed.ac.uk/bitstream/handle/10283/3443/VCTK-Corpus-0.92.zip"
 
 
-class Vctk(tfds.core.GeneratorBasedBuilder):
+class Vctk(tfds.GeneratorBasedBuilder):
   """VCTK speech synthesis dataset.
 
   The dataset is broken into two separate configs, each containing audio
@@ -57,7 +57,7 @@ class Vctk(tfds.core.GeneratorBasedBuilder):
   """
 
   BUILDER_CONFIGS = [
-      tfds.core.BuilderConfig(
+      tfds.BuilderConfig(
           name="mic1",
           description="""
               Audio recorded using an omni-directional microphone (DPA 4035).
@@ -66,8 +66,8 @@ class Vctk(tfds.core.GeneratorBasedBuilder):
               This is the same audio released in previous versions of VCTK:
               https://doi.org/10.7488/ds/1994
           """,
-          version=tfds.core.Version("1.0.0", "VCTK release 0.92.0.")),
-      tfds.core.BuilderConfig(
+          version=tfds.Version("1.0.0", "VCTK release 0.92.0.")),
+      tfds.BuilderConfig(
           name="mic2",
           description="""
               Audio recorded using a small diaphragm condenser microphone with
@@ -76,7 +76,7 @@ class Vctk(tfds.core.GeneratorBasedBuilder):
               Two speakers, p280 and p315 had technical issues of the audio
               recordings using MKH 800.
           """,
-          version=tfds.core.Version("1.0.0", "VCTK release 0.92.0.")),
+          version=tfds.Version("1.0.0", "VCTK release 0.92.0.")),
   ]
 
   def _info(self):
@@ -95,7 +95,7 @@ class Vctk(tfds.core.GeneratorBasedBuilder):
         "p345", "p347", "p351", "p360", "p361", "p362", "p363", "p364", "p374",
         "p376", "s5"
     ]
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -119,14 +119,14 @@ class Vctk(tfds.core.GeneratorBasedBuilder):
         supervised_keys=("text", "speech"),
         homepage=_URL,
         citation=_CITATION,
-        metadata=tfds.core.MetadataDict(),
+        metadata=tfds.MetadataDict(),
     )
 
   def _split_generators(self, dl_manager):
     extracted_dir = dl_manager.download_and_extract(_DL_URL)
     self._populate_metadata(extracted_dir)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"extracted_dir": extracted_dir},
         ),

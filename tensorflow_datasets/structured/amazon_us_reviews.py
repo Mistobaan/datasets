@@ -88,10 +88,10 @@ _DL_URLS = {
 }
 
 
-class AmazonUSReviewsConfig(tfds.core.BuilderConfig):
+class AmazonUSReviewsConfig(tfds.BuilderConfig):
   """BuilderConfig for AmazonUSReviews."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, data=None, **kwargs):
     """Constructs a AmazonUSReviewsConfig.
 
@@ -106,7 +106,7 @@ class AmazonUSReviewsConfig(tfds.core.BuilderConfig):
     self.data = data
 
 
-class AmazonUSReviews(tfds.core.GeneratorBasedBuilder):
+class AmazonUSReviews(tfds.GeneratorBasedBuilder):
   """AmazonUSReviews dataset."""
 
   BUILDER_CONFIGS = [
@@ -121,7 +121,7 @@ class AmazonUSReviews(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -150,7 +150,7 @@ class AmazonUSReviews(tfds.core.GeneratorBasedBuilder):
 
     # There is no predefined train/val/test split for this dataset.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="train", gen_kwargs={
                 "file_path": path,
             }),

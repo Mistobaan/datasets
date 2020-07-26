@@ -52,10 +52,10 @@ _CITATION = """\
 _LABELS_FNAME = 'video/ucf101_labels.txt'
 
 
-class Ucf101Config(tfds.core.BuilderConfig):
+class Ucf101Config(tfds.BuilderConfig):
   """"Configuration for UCF101 split and possible video rescaling."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, split_number, width=None, height=None, **kwargs):
     """The parameters specifying how the dataset will be processed.
 
@@ -80,11 +80,11 @@ class Ucf101Config(tfds.core.BuilderConfig):
     self.split_number = split_number
 
 
-_VERSION = tfds.core.Version(
+_VERSION = tfds.Version(
     '2.0.0', 'New split API (https://tensorflow.org/datasets/splits)')
 
 
-class Ucf101(tfds.core.GeneratorBasedBuilder):
+class Ucf101(tfds.GeneratorBasedBuilder):
   """Ucf101 action recognition dataset.
 
   Note that in contrast to the labels provided in the original dataset, here the
@@ -138,14 +138,14 @@ class Ucf101(tfds.core.GeneratorBasedBuilder):
 
     video_shape = (
         None, self.builder_config.height, self.builder_config.width, 3)
-    labels_names_file = tfds.core.get_tfds_path(_LABELS_FNAME)
+    labels_names_file = tfds.get_tfds_path(_LABELS_FNAME)
     features = tfds.features.FeaturesDict({
         'video': tfds.features.Video(video_shape,
                                      ffmpeg_extra_args=ffmpeg_extra_args,
                                      encoding_format='jpeg'),
         'label': tfds.features.ClassLabel(names_file=labels_names_file),
     })
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description='A 101-label video classification dataset.',
         features=features,
@@ -163,7 +163,7 @@ class Ucf101(tfds.core.GeneratorBasedBuilder):
     downloaded_urls = dl_manager.download_and_extract(urls_to_download)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'videos_dir': downloaded_urls['videos'],
@@ -171,7 +171,7 @@ class Ucf101(tfds.core.GeneratorBasedBuilder):
                 'data_list': '{}/trainlist{:02d}.txt'.format(
                     splits_folder, self.builder_config.split_number),
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'videos_dir': downloaded_urls['videos'],

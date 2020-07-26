@@ -66,24 +66,24 @@ _CATEGORIES = [
 
 
 def _make_lmdb_dataset(path):
-  return tfds.core.lazy_imports.tensorflow_io.IODataset.from_lmdb(path)
+  return tfds.lazy_imports.tensorflow_io.IODataset.from_lmdb(path)
 
 
-class Lsun(tfds.core.GeneratorBasedBuilder):
+class Lsun(tfds.GeneratorBasedBuilder):
   """Lsun dataset."""
 
   BUILDER_CONFIGS = [
-      tfds.core.BuilderConfig(  # pylint: disable=g-complex-comprehension
+      tfds.BuilderConfig(  # pylint: disable=g-complex-comprehension
           name=category,
           description="Images of category %s" % category,
-          version=tfds.core.Version(
+          version=tfds.Version(
               "3.0.0",
               "New split API (https://tensorflow.org/datasets/splits)"),
       ) for category in _CATEGORIES
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=("Large scale images showing different objects "
                      "from given categories like bedroom, tower etc."),
@@ -100,13 +100,13 @@ class Lsun(tfds.core.GeneratorBasedBuilder):
         "val": LSUN_URL % (self.builder_config.name, "val")
     })
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "extracted_dir": extracted_dirs["train"],
                 "file_path": "%s_%s_lmdb" % (self.builder_config.name, "train")
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "extracted_dir": extracted_dirs["val"],

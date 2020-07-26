@@ -102,10 +102,10 @@ EXTRA_CORRUPTIONS = [
 ]
 
 
-class Cifar10CorruptedConfig(tfds.core.BuilderConfig):
+class Cifar10CorruptedConfig(tfds.BuilderConfig):
   """BuilderConfig for Cifar10Corrupted."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, corruption_type, severity, **kwargs):
     """Constructor.
 
@@ -129,7 +129,7 @@ def _make_builder_configs():
     A list of 95 Cifar10CorruptedConfig objects.
   """
   config_list = []
-  v1 = tfds.core.Version(
+  v1 = tfds.Version(
       '1.0.0', 'New split API (https://tensorflow.org/datasets/splits)')
   for corruption in _CORRUPTIONS:
     for severity in range(1, 6):
@@ -145,7 +145,7 @@ def _make_builder_configs():
   return config_list
 
 
-class Cifar10Corrupted(tfds.core.GeneratorBasedBuilder):
+class Cifar10Corrupted(tfds.GeneratorBasedBuilder):
   """Corrupted Cifar10 dataset."""
   BUILDER_CONFIGS = _make_builder_configs()
 
@@ -153,9 +153,9 @@ class Cifar10Corrupted(tfds.core.GeneratorBasedBuilder):
     """Returns basic information of dataset.
 
     Returns:
-      tfds.core.DatasetInfo.
+      tfds.DatasetInfo.
     """
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -177,7 +177,7 @@ class Cifar10Corrupted(tfds.core.GeneratorBasedBuilder):
     """
     path = dl_manager.download_and_extract(_DOWNLOAD_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'data_dir': os.path.join(path, _DIRNAME)})
     ]

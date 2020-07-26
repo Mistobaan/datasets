@@ -48,12 +48,12 @@ _BASE_URL = "https://cs.stanford.edu/people/jcjohns/clevr/"
 _DOWNLOAD_URL = "https://dl.fbaipublicfiles.com/clevr/CLEVR_v1.0.zip"
 
 
-class CLEVR(tfds.core.GeneratorBasedBuilder):
+class CLEVR(tfds.GeneratorBasedBuilder):
   """CLEVR dataset."""
 
-  VERSION = tfds.core.Version("3.1.0", "Add question/answer text.")
+  VERSION = tfds.Version("3.1.0", "Add question/answer text.")
   SUPPORTED_VERSIONS = [
-      tfds.core.Version("3.0.0"),
+      tfds.Version("3.0.0"),
   ]
 
   def _info(self):
@@ -80,7 +80,7 @@ class CLEVR(tfds.core.GeneratorBasedBuilder):
           "question": tfds.features.Text(),
           "answer": tfds.features.Text(),
       })
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
@@ -103,7 +103,7 @@ class CLEVR(tfds.core.GeneratorBasedBuilder):
           "val": tfds.Split.VALIDATION,
           "test": tfds.Split.TEST,
       }
-      splits.append(tfds.core.SplitGenerator(
+      splits.append(tfds.SplitGenerator(
           name=name_map[split_name],
           gen_kwargs={
               "images_dir_path": os.path.join(images_path_dir, split_name),

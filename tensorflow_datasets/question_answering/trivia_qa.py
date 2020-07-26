@@ -80,10 +80,10 @@ def _wiki_evidence_dir(tmp_dir):
   return tf.io.gfile.glob(os.path.join(tmp_dir, _WIKI_EVIDENCE_DIR))
 
 
-class TriviaQAConfig(tfds.core.BuilderConfig):
+class TriviaQAConfig(tfds.BuilderConfig):
   """BuilderConfig for TriviaQA."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, unfiltered=False, exclude_context=False, **kwargs):
     """BuilderConfig for TriviaQA.
 
@@ -103,13 +103,13 @@ class TriviaQAConfig(tfds.core.BuilderConfig):
     super(TriviaQAConfig, self).__init__(
         name=name,
         description=description,
-        version=tfds.core.Version("1.1.0"),
+        version=tfds.Version("1.1.0"),
         **kwargs)
     self.unfiltered = unfiltered
     self.exclude_context = exclude_context
 
 
-class TriviaQA(tfds.core.GeneratorBasedBuilder):
+class TriviaQA(tfds.GeneratorBasedBuilder):
   """TriviaQA is a reading comprehension dataset.
 
   It containss over 650K question-answer-evidence triples.
@@ -124,7 +124,7 @@ class TriviaQA(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -211,17 +211,17 @@ class TriviaQA(tfds.core.GeneratorBasedBuilder):
       wiki_evidence_dir = os.path.join(file_paths["rc"], _WIKI_EVIDENCE_DIR)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"files": train_files,
                         "web_dir": web_evidence_dir,
                         "wiki_dir": wiki_evidence_dir}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"files": valid_files,
                         "web_dir": web_evidence_dir,
                         "wiki_dir": wiki_evidence_dir}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"files": test_files,
                         "web_dir": web_evidence_dir,
@@ -299,7 +299,7 @@ class TriviaQA(tfds.core.GeneratorBasedBuilder):
         return v.strip() if isinstance(v, six.string_types) else v
       def _transpose_and_strip_dicts(dicts, field_names):
         return {
-            tfds.core.naming.camelcase_to_snakecase(k):
+            tfds.naming.camelcase_to_snakecase(k):
                 [_strip_if_str(d[k]) for d in dicts]
             for k in field_names
         }

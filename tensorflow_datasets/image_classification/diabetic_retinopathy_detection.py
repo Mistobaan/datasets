@@ -48,7 +48,7 @@ _BTGRAHAM_DESCRIPTION_PATTERN = (
     "are encoded with 72 JPEG quality.")
 
 
-class DiabeticRetinopathyDetectionConfig(tfds.core.BuilderConfig):
+class DiabeticRetinopathyDetectionConfig(tfds.BuilderConfig):
   """BuilderConfig for DiabeticRetinopathyDetection."""
 
   def __init__(self, target_pixels=None, **kwargs):
@@ -60,7 +60,7 @@ class DiabeticRetinopathyDetectionConfig(tfds.core.BuilderConfig):
       **kwargs: keyword arguments forward to super.
     """
     super(DiabeticRetinopathyDetectionConfig, self).__init__(
-        version=tfds.core.Version(
+        version=tfds.Version(
             "3.0.0",
             "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
@@ -71,7 +71,7 @@ class DiabeticRetinopathyDetectionConfig(tfds.core.BuilderConfig):
     return self._target_pixels
 
 
-class DiabeticRetinopathyDetection(tfds.core.GeneratorBasedBuilder):
+class DiabeticRetinopathyDetection(tfds.GeneratorBasedBuilder):
   """Diabetic retinopathy detection."""
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
@@ -101,7 +101,7 @@ class DiabeticRetinopathyDetection(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description="A large set of high-resolution retina images taken under "
         "a variety of imaging conditions.",
@@ -125,13 +125,13 @@ class DiabeticRetinopathyDetection(tfds.core.GeneratorBasedBuilder):
       test_labels_path = os.path.join(test_labels_path,
                                       "retinopathy_solution.csv")
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="sample",  # 10 images, to do quicktests using dataset.
             gen_kwargs={
                 "images_dir_path": os.path.join(path, "sample"),
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="train",
             gen_kwargs={
                 "images_dir_path": os.path.join(path, "train"),
@@ -141,7 +141,7 @@ class DiabeticRetinopathyDetection(tfds.core.GeneratorBasedBuilder):
                 "csv_usage": None,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="validation",
             gen_kwargs={
                 "images_dir_path": os.path.join(path, "test"),
@@ -151,7 +151,7 @@ class DiabeticRetinopathyDetection(tfds.core.GeneratorBasedBuilder):
                 "csv_usage": "Public",
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="test",
             gen_kwargs={
                 "images_dir_path": os.path.join(path, "test"),
@@ -219,7 +219,7 @@ def _resize_image_if_necessary(image_fobj, target_pixels=None):
   if target_pixels is None:
     return image_fobj
 
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
   # Decode image using OpenCV2.
   image = cv2.imdecode(
       np.fromstring(image_fobj.read(), dtype=np.uint8), flags=3)
@@ -247,7 +247,7 @@ def _btgraham_processing(
   Returns:
     A file object.
   """
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
   # Decode image using OpenCV2.
   image = cv2.imdecode(
       np.fromstring(image_fobj.read(), dtype=np.uint8), flags=3)
@@ -264,7 +264,7 @@ def _btgraham_processing(
 
 def _scale_radius_size(image, filepath, target_radius_size):
   """Scale the input image so that the radius of the eyeball is the given."""
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
   x = image[image.shape[0] // 2, :, :].sum(axis=1)
   r = (x > x.mean() / 10.0).sum() / 2.0
   if r < 1.0:
@@ -278,7 +278,7 @@ def _scale_radius_size(image, filepath, target_radius_size):
 
 
 def _subtract_local_average(image, target_radius_size):
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
   image_blurred = cv2.GaussianBlur(image, (0, 0), target_radius_size / 30)
   image = cv2.addWeighted(image, 4, image_blurred, -4, 128)
   return image
@@ -287,7 +287,7 @@ def _subtract_local_average(image, target_radius_size):
 def _mask_and_crop_to_radius(
     image, target_radius_size, radius_mask_ratio=0.9, crop_to_radius=False):
   """Mask and crop image to the given radius ratio."""
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
   mask = np.zeros(image.shape)
   center = (image.shape[1]//2, image.shape[0]//2)
   radius = int(target_radius_size * radius_mask_ratio)

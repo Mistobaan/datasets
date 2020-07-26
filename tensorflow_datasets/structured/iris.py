@@ -45,14 +45,14 @@ linearly separable from each other.
 """
 
 
-class Iris(tfds.core.GeneratorBasedBuilder):
+class Iris(tfds.GeneratorBasedBuilder):
   """Iris flower dataset."""
   NUM_CLASSES = 3
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "2.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         # tfds.features.FeatureConnectors
@@ -76,7 +76,7 @@ class Iris(tfds.core.GeneratorBasedBuilder):
 
     # Specify the splits
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"records": records}),
     ]

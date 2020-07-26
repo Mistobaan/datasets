@@ -129,7 +129,7 @@ def _make_wn18_metadata(synset_definitions_path):
   return dict(relations=_RELATIONS, synsets=synsets)
 
 
-class WordnetConfig(tfds.core.BuilderConfig):
+class WordnetConfig(tfds.BuilderConfig):
   """Configuration for `Wordnet`."""
 
   def __init__(self, name, path_prefix, description, citation, version):
@@ -149,7 +149,7 @@ class WordnetConfig(tfds.core.BuilderConfig):
             os.path.join(root_dir, self._path_prefix + 'test.txt'))
 
 
-class Wordnet(tfds.core.GeneratorBasedBuilder):
+class Wordnet(tfds.GeneratorBasedBuilder):
   """Builder for WordNet dataset."""
 
   BUILDER_CONFIGS = [
@@ -158,17 +158,17 @@ class Wordnet(tfds.core.GeneratorBasedBuilder):
           path_prefix=os.path.join('wordnet-mlj12', 'wordnet-mlj12-'),
           description=_WN18_DESCRIPTION,
           citation=_WN18_CITATION,
-          version=tfds.core.Version('0.1.0')),
+          version=tfds.Version('0.1.0')),
       WordnetConfig(
           name='WN18RR',
           path_prefix='',
           description=_WN18RR_DESCRIPTION,
           citation=_WN18RR_CITATION,
-          version=tfds.core.Version('0.1.0')),
+          version=tfds.Version('0.1.0')),
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -178,7 +178,7 @@ class Wordnet(tfds.core.GeneratorBasedBuilder):
         }),
         homepage='https://wordnet.princeton.edu/',
         citation=self.builder_config.citation,
-        metadata=tfds.core.MetadataDict(),
+        metadata=tfds.MetadataDict(),
         redistribution_info=dict(license=_LICENSE),
     )
 
@@ -197,15 +197,15 @@ class Wordnet(tfds.core.GeneratorBasedBuilder):
     # Locate and output splits.
     train_path, val_path, test_path = self.builder_config.get_paths(dl_paths)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(triplets_path=train_path),
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs=dict(triplets_path=val_path),
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(triplets_path=test_path),
         ),

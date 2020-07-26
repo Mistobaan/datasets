@@ -64,10 +64,10 @@ _HELDOUT_FILE_FORMAT = os.path.join(_TOP_LEVEL_DIR,
                                     "news.en.heldout-*")
 
 
-class Lm1bConfig(tfds.core.BuilderConfig):
+class Lm1bConfig(tfds.BuilderConfig):
   """BuilderConfig for Lm1b."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, text_encoder_config=None, **kwargs):
     """BuilderConfig for Lm1b.
 
@@ -78,7 +78,7 @@ class Lm1bConfig(tfds.core.BuilderConfig):
       **kwargs: keyword arguments forwarded to super.
     """
     super(Lm1bConfig, self).__init__(
-        version=tfds.core.Version(
+        version=tfds.Version(
             "1.0.0",
             "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
@@ -94,7 +94,7 @@ def _test_data_filenames(tmp_dir):
   return tf.io.gfile.glob(os.path.join(tmp_dir, _HELDOUT_FILE_FORMAT))
 
 
-class Lm1b(tfds.core.GeneratorBasedBuilder):
+class Lm1b(tfds.GeneratorBasedBuilder):
   """1 Billion Word Language Model Benchmark dataset."""
   BUILDER_CONFIGS = [
       Lm1bConfig(
@@ -127,7 +127,7 @@ class Lm1b(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -155,10 +155,10 @@ class Lm1b(tfds.core.GeneratorBasedBuilder):
         self._vocab_text_gen(train_files))
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"files": train_files}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"files": test_files}),
     ]

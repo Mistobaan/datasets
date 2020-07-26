@@ -57,14 +57,14 @@ We varied one latent at a time (starting from orientation, then shape, etc), and
 """
 
 
-class Shapes3d(tfds.core.GeneratorBasedBuilder):
+class Shapes3d(tfds.GeneratorBasedBuilder):
   """Shapes3d data set."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "2.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -104,7 +104,7 @@ class Shapes3d(tfds.core.GeneratorBasedBuilder):
 
     # There is no predefined train/val/test split for this dataset.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(filepath=filepath)),
     ]
@@ -121,7 +121,7 @@ class Shapes3d(tfds.core.GeneratorBasedBuilder):
     # Simultaneously iterating through the different data sets in the hdf5
     # file will be slow with a single file. Instead, we first load everything
     # into memory before yielding the samples.
-    with tfds.core.lazy_imports.h5py.File(filepath, "r") as h5dataset:
+    with tfds.lazy_imports.h5py.File(filepath, "r") as h5dataset:
       image_array = np.array(h5dataset["images"])
       # The 'label' data set in the hdf5 file actually contains the float values
       # and not the class labels.

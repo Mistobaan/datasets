@@ -57,13 +57,13 @@ _LANGUAGES = ('en', 'es', 'pt-br', 'fr', 'ru', 'he', 'ar', 'ko', 'zh-cn', 'it',
               'ms', 'az', 'ta', 'bn', 'kk', 'be', 'eu', 'bs')
 
 
-class TedMultiTranslate(tfds.core.GeneratorBasedBuilder):
+class TedMultiTranslate(tfds.GeneratorBasedBuilder):
   """TED talk multilingual data set."""
 
   BUILDER_CONFIGS = [
-      tfds.core.BuilderConfig(
+      tfds.BuilderConfig(
           name='plain_text',
-          version=tfds.core.Version(
+          version=tfds.Version(
               '1.0.0',
               'New split API (https://tensorflow.org/datasets/splits)'),
           description='Plain text import of multilingual TED talk translations',
@@ -71,7 +71,7 @@ class TedMultiTranslate(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -89,16 +89,16 @@ class TedMultiTranslate(tfds.core.GeneratorBasedBuilder):
     dl_dir = dl_manager.download_and_extract(_DATA_URL)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'data_file': os.path.join(dl_dir, 'all_talks_train.tsv')
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'data_file': os.path.join(dl_dir,
                                                   'all_talks_dev.tsv')}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'data_file': os.path.join(dl_dir, 'all_talks_test.tsv')

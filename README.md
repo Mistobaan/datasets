@@ -84,10 +84,10 @@ Try it interactively in a
 
 ### `DatasetBuilder`
 
-All datasets are implemented as subclasses of `tfds.core.DatasetBuilder`. TFDS
+All datasets are implemented as subclasses of `tfds.DatasetBuilder`. TFDS
 has two entry points:
 
-*   `tfds.builder`: Returns the `tfds.core.DatasetBuilder` instance, giving
+*   `tfds.builder`: Returns the `tfds.DatasetBuilder` instance, giving
      control over `builder.download_and_prepare()` and
      `builder.as_dataset()`.
 *   `tfds.load`: Convenience wrapper which hides the `download_and_prepare` and
@@ -116,7 +116,7 @@ print(info)
 This will print the dataset info content:
 
 ```python
-tfds.core.DatasetInfo(
+tfds.DatasetInfo(
     name='mnist',
     version=3.0.1,
     description='The MNIST database of handwritten digits.',

@@ -47,14 +47,14 @@ _IMAGENET_LABELS_FILENAME = r'image_classification/imagenet2012_labels.txt'
 _IMAGENET_A_URL = r'https://people.eecs.berkeley.edu/~hendrycks/imagenet-a.tar'
 
 
-class ImagenetA(tfds.core.GeneratorBasedBuilder):
+class ImagenetA(tfds.GeneratorBasedBuilder):
   """Natural adversarial examples with ImageNet labels."""
 
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(_IMAGENET_LABELS_FILENAME)
-    return tfds.core.DatasetInfo(
+    names_file = tfds.get_tfds_path(_IMAGENET_LABELS_FILENAME)
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=_DESCRIPTION,
@@ -76,7 +76,7 @@ class ImagenetA(tfds.core.GeneratorBasedBuilder):
     imagenet_a_root = os.path.join(
         dl_manager.download_and_extract(_IMAGENET_A_URL), 'imagenet-a')
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             # The dataset provides only a test split.
             name=tfds.Split.TEST,
             # These kwargs will be passed to _generate_examples

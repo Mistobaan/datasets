@@ -4,7 +4,7 @@
   </div>
 
   <meta itemprop="name" content="opus" />
-  <meta itemprop="description" content="OPUS is a collection of translated texts from the web.&#10;&#10;Create your own config to choose which data / language pair to load.&#10;&#10;```&#10;config = tfds.translate.opus.OpusConfig(&#10;    version=tfds.core.Version(&#x27;0.1.0&#x27;),&#10;    language_pair=(&quot;de&quot;, &quot;en&quot;),&#10;    subsets=[&quot;GNOME&quot;, &quot;EMEA&quot;]&#10;)&#10;builder = tfds.builder(&quot;opus&quot;, config=config)&#10;```&#10;&#10;medical documents&#10;&#10;To use this dataset:&#10;&#10;```python&#10;import tensorflow_datasets as tfds&#10;&#10;ds = tfds.load(&#x27;opus&#x27;, split=&#x27;train&#x27;)&#10;for ex in ds.take(4):&#10;  print(ex)&#10;```&#10;&#10;See [the guide](https://www.tensorflow.org/datasets/overview) for more&#10;informations on [tensorflow_datasets](https://www.tensorflow.org/datasets).&#10;&#10;" />
+  <meta itemprop="description" content="OPUS is a collection of translated texts from the web.&#10;&#10;Create your own config to choose which data / language pair to load.&#10;&#10;```&#10;config = tfds.translate.opus.OpusConfig(&#10;    version=tfds.Version(&#x27;0.1.0&#x27;),&#10;    language_pair=(&quot;de&quot;, &quot;en&quot;),&#10;    subsets=[&quot;GNOME&quot;, &quot;EMEA&quot;]&#10;)&#10;builder = tfds.builder(&quot;opus&quot;, config=config)&#10;```&#10;&#10;medical documents&#10;&#10;To use this dataset:&#10;&#10;```python&#10;import tensorflow_datasets as tfds&#10;&#10;ds = tfds.load(&#x27;opus&#x27;, split=&#x27;train&#x27;)&#10;for ex in ds.take(4):&#10;  print(ex)&#10;```&#10;&#10;See [the guide](https://www.tensorflow.org/datasets/overview) for more&#10;informations on [tensorflow_datasets](https://www.tensorflow.org/datasets).&#10;&#10;" />
   <meta itemprop="url" content="https://www.tensorflow.org/datasets/catalog/opus" />
   <meta itemprop="sameAs" content="http://opus.nlpl.eu/" />
   <meta itemprop="citation" content="@inproceedings{Tiedemann2012ParallelData,&#10;  author = {Tiedemann, J},&#10;  title = {Parallel Data, Tools and Interfaces in OPUS},&#10;  booktitle = {LREC}&#10;  year = {2012}}" />
@@ -58,7 +58,7 @@ Create your own config to choose which data / language pair to load.
 
 ```
 config = tfds.translate.opus.OpusConfig(
-    version=tfds.core.Version('0.1.0'),
+    version=tfds.Version('0.1.0'),
     language_pair=("de", "en"),
     subsets=["GNOME", "EMEA"]
 )
@@ -93,7 +93,7 @@ Create your own config to choose which data / language pair to load.
 
 ```
 config = tfds.translate.opus.OpusConfig(
-    version=tfds.core.Version('0.1.0'),
+    version=tfds.Version('0.1.0'),
     language_pair=("de", "en"),
     subsets=["GNOME", "EMEA"]
 )
@@ -128,7 +128,7 @@ Create your own config to choose which data / language pair to load.
 
 ```
 config = tfds.translate.opus.OpusConfig(
-    version=tfds.core.Version('0.1.0'),
+    version=tfds.Version('0.1.0'),
     language_pair=("de", "en"),
     subsets=["GNOME", "EMEA"]
 )
@@ -163,7 +163,7 @@ Create your own config to choose which data / language pair to load.
 
 ```
 config = tfds.translate.opus.OpusConfig(
-    version=tfds.core.Version('0.1.0'),
+    version=tfds.Version('0.1.0'),
     language_pair=("de", "en"),
     subsets=["GNOME", "EMEA"]
 )
@@ -198,7 +198,7 @@ Create your own config to choose which data / language pair to load.
 
 ```
 config = tfds.translate.opus.OpusConfig(
-    version=tfds.core.Version('0.1.0'),
+    version=tfds.Version('0.1.0'),
     language_pair=("de", "en"),
     subsets=["GNOME", "EMEA"]
 )

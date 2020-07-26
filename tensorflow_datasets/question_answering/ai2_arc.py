@@ -50,7 +50,7 @@ _HOMEPAGE = "https://allenai.org/data/arc"
 _URL = "https://ai2-datasets.s3-us-west-2.amazonaws.com/arc/ARC-V1-Feb2018.zip"
 
 
-class Ai2ArcConfig(tfds.core.BuilderConfig):
+class Ai2ArcConfig(tfds.BuilderConfig):
   """BuilderConfig for Ai2ARC."""
 
   def __init__(self, **kwargs):
@@ -60,10 +60,10 @@ class Ai2ArcConfig(tfds.core.BuilderConfig):
       **kwargs: keyword arguments forwarded to super.
     """
     super(Ai2ArcConfig, self).__init__(
-        version=tfds.core.Version("1.0.0"), **kwargs)
+        version=tfds.Version("1.0.0"), **kwargs)
 
 
-class Ai2Arc(tfds.core.GeneratorBasedBuilder):
+class Ai2Arc(tfds.GeneratorBasedBuilder):
   """The AI2 ARC dataset."""
 
   BUILDER_CONFIGS = [
@@ -84,7 +84,7 @@ class Ai2Arc(tfds.core.GeneratorBasedBuilder):
   def _info(self):
     # Most questions have four possible answers, but a few have five.
     options = ["A", "B", "C", "D", "E"]
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=_DESCRIPTION,
@@ -112,7 +112,7 @@ class Ai2Arc(tfds.core.GeneratorBasedBuilder):
     data_dir = os.path.join(dl_dir, "ARC-V1-Feb2018-2")
     base_path = os.path.join(data_dir, self.builder_config.name)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "filepath":
@@ -120,7 +120,7 @@ class Ai2Arc(tfds.core.GeneratorBasedBuilder):
                                  self.builder_config.name + "-Train.jsonl")
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "filepath":
@@ -128,7 +128,7 @@ class Ai2Arc(tfds.core.GeneratorBasedBuilder):
                                  self.builder_config.name + "-Dev.jsonl")
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "filepath":

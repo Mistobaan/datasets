@@ -125,10 +125,10 @@ def _get_inter_splits_by_group(items_and_groups, split_probs, split_number):
   return split_to_ids
 
 
-class Voxforge(tfds.core.GeneratorBasedBuilder):
+class Voxforge(tfds.GeneratorBasedBuilder):
   """A Language classification dataset based on the VoxForge website."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = textwrap.dedent("""
   VoxForge requires manual download of the audio archives. The complete list of
@@ -139,7 +139,7 @@ class Voxforge(tfds.core.GeneratorBasedBuilder):
   """.format(_URLS_LIST_FILE))
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -179,17 +179,17 @@ class Voxforge(tfds.core.GeneratorBasedBuilder):
                                         0)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'file_names': splits['train'],
                         'dl_manager': dl_manager},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'file_names': splits['validation'],
                         'dl_manager': dl_manager},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'file_names': splits['test'],
                         'dl_manager': dl_manager},

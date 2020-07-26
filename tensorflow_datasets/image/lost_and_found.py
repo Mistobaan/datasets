@@ -50,7 +50,7 @@ Descriptions of the labels are given here: http://www.6d-vision.com/laf_table.pd
 """
 
 
-class LostAndFoundConfig(tfds.core.BuilderConfig):
+class LostAndFoundConfig(tfds.BuilderConfig):
   """BuilderConfig for 'Lost and Found'.
 
     Args:
@@ -84,10 +84,10 @@ class LostAndFoundConfig(tfds.core.BuilderConfig):
     self.right_image_string = 'rightImg{}bit'.format('16' if use_16bit else '8')
 
 
-class LostAndFound(tfds.core.GeneratorBasedBuilder):
+class LostAndFound(tfds.GeneratorBasedBuilder):
   """Lost and Found Road Hazard Dataset."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   BUILDER_CONFIGS = [
       LostAndFoundConfig(
@@ -150,7 +150,7 @@ class LostAndFound(tfds.core.GeneratorBasedBuilder):
     }
     features['image_id'] = tfds.features.Text()
     features = tfds.features.FeaturesDict(features)
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=_DESCRIPTION,
@@ -185,7 +185,7 @@ class LostAndFound(tfds.core.GeneratorBasedBuilder):
     dl_paths = dl_manager.extract(dl_manager.download(download_urls))
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             # These kwargs will be passed to _generate_examples
             gen_kwargs={
@@ -193,7 +193,7 @@ class LostAndFound(tfds.core.GeneratorBasedBuilder):
                 for feat in self.builder_config.features
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             # These kwargs will be passed to _generate_examples
             gen_kwargs={

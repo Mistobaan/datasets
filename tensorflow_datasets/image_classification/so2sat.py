@@ -53,7 +53,7 @@ _DATA_OPTIONS = ['rgb', 'all']
 _OPTICAL_CALIBRATION_FACTOR = 3.5 * 255.0
 
 
-class So2satConfig(tfds.core.BuilderConfig):
+class So2satConfig(tfds.BuilderConfig):
   """BuilderConfig for so2sat."""
 
   def __init__(self, selection=None, **kwargs):
@@ -66,9 +66,9 @@ class So2satConfig(tfds.core.BuilderConfig):
     if selection not in _DATA_OPTIONS:
       raise ValueError('selection must be one of %s' % _DATA_OPTIONS)
 
-    v2 = tfds.core.Version(
+    v2 = tfds.Version(
         '2.0.0', 'New split API (https://tensorflow.org/datasets/splits)')
-    v2_1 = tfds.core.Version(
+    v2_1 = tfds.Version(
         '2.1.0', 'Using updated optical channels calibration factor.')
     super(So2satConfig, self).__init__(version=v2_1,
                                        supported_versions=[v2],
@@ -76,7 +76,7 @@ class So2satConfig(tfds.core.BuilderConfig):
     self.selection = selection
 
 
-class So2sat(tfds.core.GeneratorBasedBuilder):
+class So2sat(tfds.GeneratorBasedBuilder):
   """So2SAT remote sensing dataset."""
 
   BUILDER_CONFIGS = [
@@ -110,7 +110,7 @@ class So2sat(tfds.core.GeneratorBasedBuilder):
               tfds.features.Tensor(shape=(), dtype=tf.int64),
       })
       supervised_keys = None
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=features,
@@ -125,14 +125,14 @@ class So2sat(tfds.core.GeneratorBasedBuilder):
         'val': 'ftp://m1454690:m1454690@dataserv.ub.tum.de/validation.h5'
     })
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'path': paths['train'],
                 'selection': self.builder_config.selection,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'path': paths['val'],
@@ -143,7 +143,7 @@ class So2sat(tfds.core.GeneratorBasedBuilder):
 
   def _generate_examples(self, path, selection):
     """Yields examples."""
-    with tfds.core.lazy_imports.h5py.File(path, 'r') as fid:
+    with tfds.lazy_imports.h5py.File(path, 'r') as fid:
       sen1 = fid['sen1']
       sen2 = fid['sen2']
       label = fid['label']

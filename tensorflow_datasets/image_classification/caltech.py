@@ -47,15 +47,15 @@ _IMAGES_FNAME = "101_ObjectCategories.tar.gz"
 _TRAIN_POINTS_PER_CLASS = 30
 
 
-class Caltech101(tfds.core.GeneratorBasedBuilder):
+class Caltech101(tfds.GeneratorBasedBuilder):
   """Caltech-101."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "3.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(_LABELS_FNAME)
-    return tfds.core.DatasetInfo(
+    names_file = tfds.get_tfds_path(_LABELS_FNAME)
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -71,13 +71,13 @@ class Caltech101(tfds.core.GeneratorBasedBuilder):
   def _split_generators(self, dl_manager):
     path = dl_manager.download_and_extract(os.path.join(_URL, _IMAGES_FNAME))
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "images_dir_path": path,
                 "is_train_split": True,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "images_dir_path": path,

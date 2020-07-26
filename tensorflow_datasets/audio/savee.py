@@ -129,10 +129,10 @@ def _get_inter_splits_by_group(items_and_groups, split_probs, split_number):
   return split_to_ids
 
 
-class Savee(tfds.core.GeneratorBasedBuilder):
+class Savee(tfds.GeneratorBasedBuilder):
   """The audio part of SAVEE dataset for emotion recognition."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
   manual_dir should contain the file AudioData.zip. This file should be under
@@ -143,7 +143,7 @@ class Savee(tfds.core.GeneratorBasedBuilder):
   """
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -177,15 +177,15 @@ class Savee(tfds.core.GeneratorBasedBuilder):
     splits = _get_inter_splits_by_group(items_and_groups, split_probs, 0)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'file_names': splits['train']},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'file_names': splits['validation']},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'file_names': splits['test']},
         ),

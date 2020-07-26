@@ -75,10 +75,10 @@ _LABELS = collections.OrderedDict({
 })
 
 
-class Chexpert(tfds.core.GeneratorBasedBuilder):
+class Chexpert(tfds.GeneratorBasedBuilder):
   """CheXpert 2019."""
 
-  VERSION = tfds.core.Version("3.1.0")
+  VERSION = tfds.Version("3.1.0")
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
   You must register and agree to user agreement on the dataset page:
@@ -89,7 +89,7 @@ class Chexpert(tfds.core.GeneratorBasedBuilder):
   """
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -117,14 +117,14 @@ class Chexpert(tfds.core.GeneratorBasedBuilder):
       raise AssertionError(msg)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "imgs_path": path,  # Relative img path is provided in csv
                 "csv_path": os.path.join(path, _TRAIN_LABELS_FNAME)
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "imgs_path": path,

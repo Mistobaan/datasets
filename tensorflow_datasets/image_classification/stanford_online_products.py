@@ -42,13 +42,13 @@ _CITATION = """\
 """
 
 
-class StanfordOnlineProducts(tfds.core.GeneratorBasedBuilder):
+class StanfordOnlineProducts(tfds.GeneratorBasedBuilder):
   """Stanford Online Products Dataset."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         description=("Stanford Online Products Dataset"),
         builder=self,
         citation=_CITATION,
@@ -68,7 +68,7 @@ class StanfordOnlineProducts(tfds.core.GeneratorBasedBuilder):
     dl_path = dl_manager.download_and_extract(_DOWNLOAD_LINK)
     folder_path = os.path.join(dl_path, "Stanford_Online_Products")
     return [  # pylint:disable=g-complex-comprehension
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=k,
             gen_kwargs={"file_path": os.path.join(folder_path, "%s.txt" % v)})
         for k, v in _SPLITS.items()

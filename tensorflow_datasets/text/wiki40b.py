@@ -56,7 +56,7 @@ Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 
 _URL = "https://research.google/pubs/pub49029/"
 
-_DATA_DIRECTORY = tfds.core.gcs_path("downloads/wiki40b/tfrecord_prod")
+_DATA_DIRECTORY = tfds.gcs_path("downloads/wiki40b/tfrecord_prod")
 
 WIKIPEDIA_LANGUAGES = [
     "en", "ar", "zh-cn", "zh-tw", "nl", "fr", "de", "it", "ja", "ko", "pl",
@@ -65,10 +65,10 @@ WIKIPEDIA_LANGUAGES = [
     "sl", "sr", "sv", "tl", "uk", "vi"]
 
 
-class Wiki40bConfig(tfds.core.BuilderConfig):
+class Wiki40bConfig(tfds.BuilderConfig):
   """BuilderConfig for Wiki40B."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, language=None, **kwargs):
     """BuilderConfig for Wiki40B.
 
@@ -83,10 +83,10 @@ class Wiki40bConfig(tfds.core.BuilderConfig):
     self.language = language
 
 
-_VERSION = tfds.core.Version("1.3.0")
+_VERSION = tfds.Version("1.3.0")
 
 
-class Wiki40b(tfds.core.BeamBasedBuilder):
+class Wiki40b(tfds.BeamBasedBuilder):
   """Wiki40B: A Clean Wikipedia Dataset for Mutlilingual Language Modeling."""
 
   BUILDER_CONFIGS = [
@@ -97,7 +97,7 @@ class Wiki40b(tfds.core.BeamBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -122,19 +122,19 @@ class Wiki40b(tfds.core.BeamBasedBuilder):
     lang = self._builder_config.language
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "filepaths": os.path.join(
                     _DATA_DIRECTORY, "train", "{}_examples-*".format(lang))},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "filepaths": os.path.join(
                     _DATA_DIRECTORY, "dev", "{}_examples-*".format(lang))}
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "filepaths": os.path.join(
@@ -144,7 +144,7 @@ class Wiki40b(tfds.core.BeamBasedBuilder):
 
   def _build_pcollection(self, pipeline, filepaths):
     """Build PCollection of examples."""
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
     logging.info("generating examples from = %s", filepaths)
 
     def _extract_content(example):

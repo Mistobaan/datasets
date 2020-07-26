@@ -57,7 +57,7 @@ class Wmt18Translate(wmt.WmtTranslate):
           url=_URL,
           citation=_CITATION,
           language_pair=(l1, l2),
-          version=tfds.core.Version("1.0.0"),
+          version=tfds.Version("1.0.0"),
       ) for l1, l2 in _LANGUAGE_PAIRS
   ]
 

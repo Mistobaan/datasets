@@ -48,17 +48,17 @@ _CITATION = """\
 """
 
 
-class Coil100(tfds.core.GeneratorBasedBuilder):
+class Coil100(tfds.GeneratorBasedBuilder):
   """COIL-100 Image Dataset Class."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   UNSTABLE = "Unable to download on secured networks(eg. University Network)"
 
   def _info(self):
     """Define Dataset Info."""
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -77,7 +77,7 @@ class Coil100(tfds.core.GeneratorBasedBuilder):
     path = dl_manager.download_and_extract(_URL)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "data_dir_path": os.path.join(path, "coil-100")

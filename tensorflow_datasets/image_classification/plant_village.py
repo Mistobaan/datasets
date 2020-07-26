@@ -101,13 +101,13 @@ _LABELS = [
 ]
 
 
-class PlantVillage(tfds.core.GeneratorBasedBuilder):
+class PlantVillage(tfds.GeneratorBasedBuilder):
   """The PlantVillage dataset of healthy and unhealthy leaves."""
 
-  VERSION = tfds.core.Version("1.0.1")
+  VERSION = tfds.Version("1.0.1")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -124,7 +124,7 @@ class PlantVillage(tfds.core.GeneratorBasedBuilder):
     """Returns SplitGenerators."""
     path = dl_manager.download_and_extract(_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN, gen_kwargs={"datapath": path})
     ]
 

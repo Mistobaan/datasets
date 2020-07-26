@@ -57,7 +57,7 @@ Task-oriented dialog systems need to know when a query falls outside their range
 """
 
 
-class ClincOOS(tfds.core.GeneratorBasedBuilder):
+class ClincOOS(tfds.GeneratorBasedBuilder):
   """CLINC Dataset for Intent Classification and Out-of-Scope (OOS) Detection.
 
   This dataset is for evaluating the performance of intent classification
@@ -73,11 +73,11 @@ class ClincOOS(tfds.core.GeneratorBasedBuilder):
   in the original dataset.
   """
 
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
 
   def _info(self):
-    # TODO(clinc_oos): Specifies the tfds.core.DatasetInfo object
-    return tfds.core.DatasetInfo(
+    # TODO(clinc_oos): Specifies the tfds.DatasetInfo object
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -96,27 +96,27 @@ class ClincOOS(tfds.core.GeneratorBasedBuilder):
     """Returns SplitGenerators."""
     data_path = dl_manager.download_and_extract(_DOWNLOAD_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name='train',
             gen_kwargs={'filename': os.path.join(data_path, 'train.csv')},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name='test',
             gen_kwargs={'filename': os.path.join(data_path, 'test.csv')},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name='validation',
             gen_kwargs={'filename': os.path.join(data_path, 'val.csv')},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name='train_oos',
             gen_kwargs={'filename': os.path.join(data_path, 'train_ood.csv')},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name='test_oos',
             gen_kwargs={'filename': os.path.join(data_path, 'test_ood.csv')},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name='validation_oos',
             gen_kwargs={'filename': os.path.join(data_path, 'val_ood.csv')},
         ),

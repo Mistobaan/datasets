@@ -129,10 +129,10 @@ All structures governing puzzles in the test set contained at least one triple \
 with $o$=line and $a$=type."""
 
 
-class AbstractReasoningConfig(tfds.core.BuilderConfig):
+class AbstractReasoningConfig(tfds.BuilderConfig):
   """BuilderConfig for AbstractReasoning."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, split_type="neutral", **kwargs):
     """BuilderConfig for AbstractReasoning.
 
@@ -142,7 +142,7 @@ class AbstractReasoningConfig(tfds.core.BuilderConfig):
         "attrs.pairs", "attrs.shape.color", "attrs.line.type",].
       **kwargs: keyword arguments forwarded to super.
     """
-    v100 = tfds.core.Version(
+    v100 = tfds.Version(
         "1.0.0", "New split API (https://tensorflow.org/datasets/splits)")
     super(AbstractReasoningConfig, self).__init__(
         version=v100,
@@ -150,7 +150,7 @@ class AbstractReasoningConfig(tfds.core.BuilderConfig):
     self.split_type = split_type
 
 
-class AbstractReasoning(tfds.core.BeamBasedBuilder):
+class AbstractReasoning(tfds.BeamBasedBuilder):
   """Abstract reasoning dataset."""
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
   Data can be downloaded from
@@ -201,7 +201,7 @@ class AbstractReasoning(tfds.core.BeamBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -223,19 +223,19 @@ class AbstractReasoning(tfds.core.BeamBasedBuilder):
   def _split_generators(self, dl_manager):
     path = dl_manager.manual_dir
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "folder": path,
                 "split": "train",
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "folder": path,
                 "split": "val",
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "folder": path,
@@ -245,7 +245,7 @@ class AbstractReasoning(tfds.core.BeamBasedBuilder):
 
   def _build_pcollection(self, pipeline, folder, split):
     """Generate examples as dicts."""
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
 
     split_type = self.builder_config.split_type
     filename = os.path.join(folder, "{}.tar.gz".format(split_type))

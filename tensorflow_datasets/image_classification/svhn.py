@@ -40,13 +40,13 @@ year = {2011}
 """
 
 
-class SvhnCropped(tfds.core.GeneratorBasedBuilder):
+class SvhnCropped(tfds.GeneratorBasedBuilder):
   """Street View House Numbers (SVHN) Dataset, cropped version."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "3.0.0", "New split API (https://tensorflow.org/datasets/splits)")
   SUPPORTED_VERSIONS = [
-      tfds.core.Version("3.1.0"),
+      tfds.Version("3.1.0"),
   ]
 
   def _info(self):
@@ -56,7 +56,7 @@ class SvhnCropped(tfds.core.GeneratorBasedBuilder):
     }
     if self.version > "3.0.0":
       features_dict["id"] = tfds.features.Text()
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=(
             "The Street View House Numbers (SVHN) Dataset is an image digit "
@@ -77,19 +77,19 @@ class SvhnCropped(tfds.core.GeneratorBasedBuilder):
     })
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(
                 split_prefix="train_",
                 filepath=output_files["train"],
             )),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(
                 split_prefix="test_",
                 filepath=output_files["test"],
             )),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="extra",
             gen_kwargs=dict(
                 split_prefix="extra_",
@@ -108,7 +108,7 @@ class SvhnCropped(tfds.core.GeneratorBasedBuilder):
       Generator yielding the next samples
     """
     with tf.io.gfile.GFile(filepath, "rb") as f:
-      data = tfds.core.lazy_imports.scipy.io.loadmat(f)
+      data = tfds.lazy_imports.scipy.io.loadmat(f)
 
     # Maybe should shuffle ?
 

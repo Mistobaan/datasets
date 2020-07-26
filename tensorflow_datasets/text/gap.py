@@ -56,17 +56,17 @@ _VALIDATIONURL = 'https://raw.githubusercontent.com/google-research-datasets/gap
 _TESTURL = 'https://raw.githubusercontent.com/google-research-datasets/gap-coreference/master/gap-test.tsv'
 
 
-class Gap(tfds.core.GeneratorBasedBuilder):
+class Gap(tfds.GeneratorBasedBuilder):
   """GAP is a gender-balanced dataset.
 
   It contains 8,908 coreference-labeled pairs
   of (ambiguous pronoun, antecedent name), sampled from Wikipedia.
   """
 
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -95,15 +95,15 @@ class Gap(tfds.core.GeneratorBasedBuilder):
         'test': _TESTURL
     })
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'filepath': directory['train']},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'filepath': directory['validation']},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'filepath': directory['test']},
         )

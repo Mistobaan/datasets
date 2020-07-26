@@ -50,13 +50,13 @@ _DOCUMENT = "email_body"
 _SUMMARY = "subject_line"
 
 
-class Aeslc(tfds.core.GeneratorBasedBuilder):
+class Aeslc(tfds.GeneratorBasedBuilder):
   """Annotated Enron Subject Line Corpus Dataset."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -75,19 +75,19 @@ class Aeslc(tfds.core.GeneratorBasedBuilder):
         extract_method=tfds.download.ExtractMethod.ZIP))
     input_path = os.path.join(dl_path, "AESLC-master", "enron_subject_line")
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "pattern": os.path.join(input_path, "train", "*.subject")
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "pattern": os.path.join(input_path, "dev", "*.subject")
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "pattern": os.path.join(input_path, "test", "*.subject")

@@ -73,7 +73,7 @@ class CocoCaptions(coco.Coco):
         'text': tf.string,
         'id': tf.int64,
     })
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
@@ -112,22 +112,22 @@ class CocoCaptions(coco.Coco):
       annotation_maps[split][image_filename] = annotation
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             'train',
             gen_kwargs=dict(
                 image_filename_to_annotations=annotation_maps['train'],
                 coco_gen_kwargs=coco_train_split.gen_kwargs)),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             'val',
             gen_kwargs=dict(
                 image_filename_to_annotations=annotation_maps['val'],
                 coco_gen_kwargs=coco_val_split.gen_kwargs)),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             'test',
             gen_kwargs=dict(
                 image_filename_to_annotations=annotation_maps['test'],
                 coco_gen_kwargs=coco_val_split.gen_kwargs)),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             'restval',
             gen_kwargs=dict(
                 image_filename_to_annotations=annotation_maps['restval'],

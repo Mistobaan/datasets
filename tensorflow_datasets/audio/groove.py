@@ -57,7 +57,7 @@ _DOWNLOAD_URL = "https://storage.googleapis.com/magentadata/datasets/groove/groo
 _DOWNLOAD_URL_MIDI_ONLY = "https://storage.googleapis.com/magentadata/datasets/groove/groove-v1.0.0-midionly.zip"
 
 
-class GrooveConfig(tfds.core.BuilderConfig):
+class GrooveConfig(tfds.BuilderConfig):
   """BuilderConfig for Groove Dataset."""
 
   def __init__(self, split_bars=None, include_audio=True, audio_rate=16000,
@@ -78,7 +78,7 @@ class GrooveConfig(tfds.core.BuilderConfig):
     else:
       name_parts.append("midionly")
 
-    v2 = tfds.core.Version(
+    v2 = tfds.Version(
         "2.0.1", "New split API (https://tensorflow.org/datasets/splits)")
     super(GrooveConfig, self).__init__(
         name="-".join(name_parts), version=v2, **kwargs)
@@ -87,7 +87,7 @@ class GrooveConfig(tfds.core.BuilderConfig):
     self.audio_rate = audio_rate
 
 
-class Groove(tfds.core.GeneratorBasedBuilder):
+class Groove(tfds.GeneratorBasedBuilder):
   """The Groove MIDI Dataset (GMD) of drum performances."""
 
   BUILDER_CONFIGS = [
@@ -134,7 +134,7 @@ class Groove(tfds.core.GeneratorBasedBuilder):
     if self.builder_config.include_audio:
       features_dict["audio"] = tfds.features.Audio(
           dtype=tf.float32, sample_rate=self.builder_config.audio_rate)
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features_dict),
@@ -158,7 +158,7 @@ class Groove(tfds.core.GeneratorBasedBuilder):
         rows[row["split"]].append(row)
 
     return [
-        tfds.core.SplitGenerator(  # pylint: disable=g-complex-comprehension
+        tfds.SplitGenerator(  # pylint: disable=g-complex-comprehension
             name=split,
             gen_kwargs={"rows": split_rows, "data_dir": data_dir})
         for split, split_rows in rows.items()]
@@ -203,7 +203,7 @@ class Groove(tfds.core.GeneratorBasedBuilder):
         bar_duration = 60 / bpm * beats_per_bar
         audio_rate = self._builder_config.audio_rate
 
-        pm = tfds.core.lazy_imports.pretty_midi.PrettyMIDI(io.BytesIO(midi))
+        pm = tfds.lazy_imports.pretty_midi.PrettyMIDI(io.BytesIO(midi))
         total_duration = pm.get_end_time()
 
         # Pad final bar if at least half filled.
@@ -235,7 +235,7 @@ class Groove(tfds.core.GeneratorBasedBuilder):
 
 def _load_wav(path, sample_rate):
   with tf.io.gfile.GFile(path, "rb") as audio_f:
-    audio_segment = tfds.core.lazy_imports.pydub.AudioSegment.from_file(
+    audio_segment = tfds.lazy_imports.pydub.AudioSegment.from_file(
         audio_f, format="wav").set_channels(1).set_frame_rate(sample_rate)
   audio = np.array(audio_segment.get_array_of_samples()).astype(np.float32)
   # Convert from int to float representation.

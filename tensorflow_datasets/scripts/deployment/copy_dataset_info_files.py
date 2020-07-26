@@ -30,10 +30,10 @@ import tensorflow_datasets as tfds
 flags.DEFINE_boolean('dry_run', True, 'If True, just print, do nothing.')
 flags.DEFINE_boolean('overwrite', False, 'If True, overwrites the data.')
 flags.DEFINE_string(
-    'from_directory', tfds.core.constants.DATA_DIR,
+    'from_directory', tfds.constants.DATA_DIR,
     'Where to get the info files from (datasets/ dir on placer).')
 flags.DEFINE_string(
-    'to_directory', tfds.core.gcs_path('dataset_info'),
+    'to_directory', tfds.gcs_path('dataset_info'),
     'Path where dataset info files will be copied.')
 
 FLAGS = flags.FLAGS
@@ -43,7 +43,7 @@ def _copy_metadata(from_dir, to_dir):
   """Copy the info files from within `from_dir` to `to_dir`."""
   if not FLAGS.dry_run:
     tf.io.gfile.makedirs(to_dir)
-  for fname in tfds.core.utils.list_info_files(from_dir):
+  for fname in tfds.utils.list_info_files(from_dir):
     from_path = os.path.join(from_dir, fname)
     to_path = os.path.join(to_dir, fname)
     logging.info('cp %s %s', from_path, to_path)
@@ -55,7 +55,7 @@ def copy(from_dir: str, to_dir: str) -> None:
   """Copy the info files from within `from_dir` to `to_dir`."""
   predicate_fn = lambda _: True  # All datasets
 
-  for full_name in tfds.core.registered.list_full_names(predicate_fn):
+  for full_name in tfds.registered.list_full_names(predicate_fn):
     from_full_name_dir = os.path.join(from_dir, full_name)
     to_full_name_dir = os.path.join(to_dir, full_name)
 

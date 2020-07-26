@@ -73,17 +73,17 @@ class Imagenet2012Subset(Imagenet2012):
   """Class balanced subset of Imagenet 2012 dataset."""
 
   BUILDER_CONFIGS = [
-      tfds.core.BuilderConfig(  # pylint: disable=g-complex-comprehension
+      tfds.BuilderConfig(  # pylint: disable=g-complex-comprehension
           name=subset_size,
           description='{} of total ImageNet training set.'.format(subset_size),
-          version=tfds.core.Version(
+          version=tfds.Version(
               '5.0.0', ''),
       ) for subset_size in SUBSET2FILES
   ]
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(_LABELS_FNAME)
-    return tfds.core.DatasetInfo(
+    names_file = tfds.get_tfds_path(_LABELS_FNAME)
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -116,14 +116,14 @@ class Imagenet2012Subset(Imagenet2012):
       subset = set(fp.read().splitlines())  # remove trailing `\r` in Windows
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'archive': dl_manager.iter_archive(train_path),
                 'subset': subset,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'archive': dl_manager.iter_archive(val_path),

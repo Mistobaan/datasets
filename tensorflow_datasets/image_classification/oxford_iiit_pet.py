@@ -59,13 +59,13 @@ _LABEL_CLASSES = [
 _SPECIES_CLASSES = ["Cat", "Dog"]
 
 
-class OxfordIIITPet(tfds.core.GeneratorBasedBuilder):
+class OxfordIIITPet(tfds.GeneratorBasedBuilder):
   """Oxford-IIIT pet dataset."""
 
-  VERSION = tfds.core.Version("3.2.0")
+  VERSION = tfds.Version("3.2.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -98,7 +98,7 @@ class OxfordIIITPet(tfds.core.GeneratorBasedBuilder):
     annotations_path_dir = os.path.join(dl_paths["annotations"], "annotations")
 
     # Setup train and test splits
-    train_split = tfds.core.SplitGenerator(
+    train_split = tfds.SplitGenerator(
         name="train",
         gen_kwargs={
             "images_dir_path": images_path_dir,
@@ -107,7 +107,7 @@ class OxfordIIITPet(tfds.core.GeneratorBasedBuilder):
                                              "trainval.txt"),
             },
         )
-    test_split = tfds.core.SplitGenerator(
+    test_split = tfds.SplitGenerator(
         name="test",
         gen_kwargs={
             "images_dir_path": images_path_dir,

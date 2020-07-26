@@ -65,10 +65,10 @@ _OBJECT_LABELS = [
 ]
 
 
-class WaymoOpenDatasetConfig(tfds.core.BuilderConfig):
+class WaymoOpenDatasetConfig(tfds.BuilderConfig):
   """BuilderConfig for Waymo Open Dataset Config."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, name, version_str, description, is_on_gcs=False, **kwargs):
     """BuilderConfig for Waymo Open Dataset examples.
 
@@ -83,7 +83,7 @@ class WaymoOpenDatasetConfig(tfds.core.BuilderConfig):
       description = description + _GCS_DESCRIPTION.format(name, version_str)
     super(WaymoOpenDatasetConfig, self).__init__(
         name=name,
-        version=tfds.core.Version("0.2.0"),
+        version=tfds.Version("0.2.0"),
         description=description,
         **kwargs
     )
@@ -92,7 +92,7 @@ class WaymoOpenDatasetConfig(tfds.core.BuilderConfig):
     )
 
 
-class WaymoOpenDataset(tfds.core.BeamBasedBuilder):
+class WaymoOpenDataset(tfds.BeamBasedBuilder):
   """Waymo Open Dataset."""
 
   BUILDER_CONFIGS = [
@@ -114,14 +114,14 @@ class WaymoOpenDataset(tfds.core.BeamBasedBuilder):
       ),
   ]
 
-  def _info(self) -> tfds.core.DatasetInfo:
+  def _info(self) -> tfds.DatasetInfo:
     # Annotation descriptions are in the object development kit.
     annotations = {
         "type": tfds.features.ClassLabel(names=_OBJECT_LABELS),
         "bbox": tfds.features.BBoxFeature(),
     }
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -190,13 +190,13 @@ class WaymoOpenDataset(tfds.core.BeamBasedBuilder):
     logging.info("Validation files: %s", validation_files)
 
     split_generators = [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "tf_record_files": train_files,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "tf_record_files": validation_files,
@@ -212,7 +212,7 @@ class WaymoOpenDataset(tfds.core.BeamBasedBuilder):
       logging.info("Testing files: %s", test_files)
 
       split_generators.append(
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.TEST,
               gen_kwargs={
                   "tf_record_files": test_files,
@@ -232,7 +232,7 @@ class WaymoOpenDataset(tfds.core.BeamBasedBuilder):
     Returns:
       Dict of examples.
     """
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
 
     def _process_example(tf_record_file):
       for image_and_annotation in _generate_images_and_annotations(

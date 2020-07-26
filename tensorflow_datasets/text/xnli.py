@@ -59,12 +59,12 @@ _LANGUAGES = ('ar', 'bg', 'de', 'el', 'en', 'es', 'fr', 'hi', 'ru', 'sw', 'th',
               'tr', 'ur', 'vi', 'zh')
 
 
-class Xnli(tfds.core.GeneratorBasedBuilder):
+class Xnli(tfds.GeneratorBasedBuilder):
   """XNLI: The Cross-Lingual NLI Corpus. Version 1.0."""
   BUILDER_CONFIGS = [
-      tfds.core.BuilderConfig(
+      tfds.BuilderConfig(
           name='plain_text',
-          version=tfds.core.Version(
+          version=tfds.Version(
               '1.0.0',
               'New split API (https://tensorflow.org/datasets/splits)'),
           description='Plain text import of XNLI',
@@ -72,7 +72,7 @@ class Xnli(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -97,10 +97,10 @@ class Xnli(tfds.core.GeneratorBasedBuilder):
     dl_dir = dl_manager.download_and_extract(_DATA_URL)
     data_dir = os.path.join(dl_dir, 'XNLI-1.0')
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'filepath': os.path.join(data_dir, 'xnli.test.tsv')}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'filepath': os.path.join(data_dir, 'xnli.dev.tsv')}),
     ]

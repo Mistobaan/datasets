@@ -29,13 +29,13 @@ import tensorflow.compat.v2 as tf
 import tensorflow_datasets.public_api as tfds
 
 
-class TedliumReleaseConfig(tfds.core.BuilderConfig):
+class TedliumReleaseConfig(tfds.BuilderConfig):
   """BuilderConfig for a release of the TED-LIUM dataset."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, url, download_url, split_paths, citation, **kwargs):
     super(TedliumReleaseConfig,
-          self).__init__(version=tfds.core.Version("1.0.1"), **kwargs)
+          self).__init__(version=tfds.Version("1.0.1"), **kwargs)
     self.url = url
     self.download_url = download_url
     # List of split, path pairs containing the relative path within the
@@ -170,13 +170,13 @@ def _make_builder_configs():
   return [release1, release2, release3]
 
 
-class Tedlium(tfds.core.BeamBasedBuilder):
+class Tedlium(tfds.BeamBasedBuilder):
   """TED-LIUM speech recognition dataset."""
 
   BUILDER_CONFIGS = _make_builder_configs()
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=self.builder_config.description,
         features=tfds.features.FeaturesDict({
@@ -194,7 +194,7 @@ class Tedlium(tfds.core.BeamBasedBuilder):
         supervised_keys=("speech", "text"),
         homepage=self.builder_config.url,
         citation=self.builder_config.citation,
-        metadata=tfds.core.MetadataDict(sample_rate=16000,),
+        metadata=tfds.MetadataDict(sample_rate=16000,),
     )
 
   def _split_generators(self, dl_manager):
@@ -203,11 +203,11 @@ class Tedlium(tfds.core.BeamBasedBuilder):
     splits = []
     for split, path in self.builder_config.split_paths:
       kwargs = {"directory": os.path.join(extracted_dir, path)}
-      splits.append(tfds.core.SplitGenerator(name=split, gen_kwargs=kwargs))
+      splits.append(tfds.SplitGenerator(name=split, gen_kwargs=kwargs))
     return splits
 
   def _build_pcollection(self, pipeline, directory):
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
     stm_files = tf.io.gfile.glob(os.path.join(directory, "stm", "*stm"))
     return (pipeline
             | beam.Create(stm_files)
@@ -270,7 +270,7 @@ def _parse_gender(label_str):
 def _extract_audio_segment(sph_path, channel, start_sec, end_sec):
   """Extracts segment of audio samples (as an ndarray) from the given path."""
   with tf.io.gfile.GFile(sph_path, "rb") as f:
-    segment = tfds.core.lazy_imports.pydub.AudioSegment.from_file(
+    segment = tfds.lazy_imports.pydub.AudioSegment.from_file(
         f, format="nistsphere")
   # The dataset only contains mono audio.
   assert segment.channels == 1

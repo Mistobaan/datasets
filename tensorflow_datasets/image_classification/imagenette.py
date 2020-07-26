@@ -59,7 +59,7 @@ _LABELS_FNAME = "image_classification/imagenette_labels.txt"
 _URL_PREFIX = "https://s3.amazonaws.com/fast-ai-imageclas/"
 
 
-class ImagenetteConfig(tfds.core.BuilderConfig):
+class ImagenetteConfig(tfds.BuilderConfig):
   """BuilderConfig for Imagenette."""
 
   def __init__(self, size, base, **kwargs):
@@ -67,7 +67,7 @@ class ImagenetteConfig(tfds.core.BuilderConfig):
         # `320px-v2`,...
         name=size + ("-v2" if base == "imagenette2" else ""),
         description="{} variant.".format(size),
-        version=tfds.core.Version("0.1.0"),
+        version=tfds.Version("0.1.0"),
         **kwargs)
     # e.g. `imagenette2-320.tgz`
     self.dirname = base + {
@@ -85,16 +85,16 @@ def _make_builder_configs():
   return configs
 
 
-class Imagenette(tfds.core.GeneratorBasedBuilder):
+class Imagenette(tfds.GeneratorBasedBuilder):
   """A smaller subset of 10 easily classified classes from Imagenet."""
 
-  VERSION = tfds.core.Version("0.1.1")
+  VERSION = tfds.Version("0.1.1")
 
   BUILDER_CONFIGS = _make_builder_configs()
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(_LABELS_FNAME)
-    return tfds.core.DatasetInfo(
+    names_file = tfds.get_tfds_path(_LABELS_FNAME)
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -115,13 +115,13 @@ class Imagenette(tfds.core.GeneratorBasedBuilder):
     val_path = os.path.join(path, dirname, "val")
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "datapath": train_path,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "datapath": val_path,

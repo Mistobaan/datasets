@@ -37,13 +37,13 @@ url = "http://download.tensorflow.org/example_images/flower_photos.tgz" }
 _URL = "http://download.tensorflow.org/example_images/flower_photos.tgz"
 
 
-class TFFlowers(tfds.core.GeneratorBasedBuilder):
+class TFFlowers(tfds.GeneratorBasedBuilder):
   """Flowers dataset."""
 
-  VERSION = tfds.core.Version("3.0.1")
+  VERSION = tfds.Version("3.0.1")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description="A large set of images of flowers",
         features=tfds.features.FeaturesDict({
@@ -61,7 +61,7 @@ class TFFlowers(tfds.core.GeneratorBasedBuilder):
 
     # There is no predefined train/val/test split for this dataset.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "images_dir_path": dl_manager.iter_archive(path)

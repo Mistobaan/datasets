@@ -67,13 +67,13 @@ BACKGROUND_NOISE = '_background_noise_'
 SAMPLE_RATE = 16000
 
 
-class SpeechCommands(tfds.core.GeneratorBasedBuilder):
+class SpeechCommands(tfds.GeneratorBasedBuilder):
   """The Speech Commands dataset for keyword detection."""
 
-  VERSION = tfds.core.Version('0.0.2')
+  VERSION = tfds.Version('0.0.2')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         # tfds.features.FeatureConnectors
@@ -98,17 +98,17 @@ class SpeechCommands(tfds.core.GeneratorBasedBuilder):
         dl_manager.iter_archive(dl_path))
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'archive': dl_manager.iter_archive(dl_path),
                         'file_list': train_paths},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'archive': dl_manager.iter_archive(dl_path),
                         'file_list': validation_paths},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'archive': dl_manager.iter_archive(dl_test_path),
                         'file_list': None},

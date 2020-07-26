@@ -145,8 +145,8 @@ If you are familiar with the
 [dataset creation guide](https://github.com/tensorflow/datasets/tree/master/docs/add_dataset.md),
 adding a Beam dataset only requires a few modifications:
 
-*   Your `DatasetBuilder` will inherit from `tfds.core.BeamBasedBuilder` instead
-    of `tfds.core.GeneratorBasedBuilder`.
+*   Your `DatasetBuilder` will inherit from `tfds.BeamBasedBuilder` instead
+    of `tfds.GeneratorBasedBuilder`.
 *   Beam datasets should implement the abstract method `_build_pcollection(self,
     **kwargs)` instead of the method `_generate_examples(self, **kwargs)`.
     `_build_pcollection` should return a `beam.PCollection` with the examples
@@ -156,7 +156,7 @@ adding a Beam dataset only requires a few modifications:
 
 Some additional considerations:
 
-*   Use `tfds.core.lazy_imports` to import Apache Beam. By using a lazy
+*   Use `tfds.lazy_imports` to import Apache Beam. By using a lazy
     dependency, users can still read the dataset after it has been generated
     without having to install Beam.
 *   Be careful with Python closures. When running the pipeline, the `beam.Map`
@@ -176,12 +176,12 @@ a look at the
 [`Wikipedia` dataset](https://github.com/tensorflow/datasets/tree/master/tensorflow_datasets/text/wikipedia.py).
 
 ```python
-class DummyBeamDataset(tfds.core.BeamBasedBuilder):
+class DummyBeamDataset(tfds.BeamBasedBuilder):
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         features=tfds.features.FeaturesDict({
             'image': tfds.features.Image(shape=(16, 16, 1)),
@@ -192,7 +192,7 @@ class DummyBeamDataset(tfds.core.BeamBasedBuilder):
   def _split_generators(self, dl_manager):
     ...
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(file_dir='path/to/train_data/'),
         ),
@@ -204,7 +204,7 @@ class DummyBeamDataset(tfds.core.BeamBasedBuilder):
 
   def _build_pcollection(self, pipeline, file_dir):
     """Generate examples as dicts."""
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
 
     def _process_example(filename):
       # Use filename as key

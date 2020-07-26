@@ -117,7 +117,7 @@ def _get_example_objects(annon_filepath):
     # pytype: enable=attribute-error
 
 
-class VocConfig(tfds.core.BuilderConfig):
+class VocConfig(tfds.BuilderConfig):
   """BuilderConfig for Voc."""
 
   def __init__(
@@ -131,11 +131,11 @@ class VocConfig(tfds.core.BuilderConfig):
         # 4.0.0: Added BuildConfig and 2012 version support, deprecate Voc2007.
         # 3.0.0: S3 with new hashing function (different shuffle).
         # 2.0.0: S3 (new shuffling, sharding and slicing mechanism).
-        version=tfds.core.Version("4.0.0"),
+        version=tfds.Version("4.0.0"),
         **kwargs)
 
 
-class Voc(tfds.core.GeneratorBasedBuilder):
+class Voc(tfds.GeneratorBasedBuilder):
   """Pascal VOC 2007 or 2012."""
 
   BUILDER_CONFIGS = [
@@ -162,7 +162,7 @@ class Voc(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=self.builder_config.description,
         features=tfds.features.FeaturesDict({
@@ -190,13 +190,13 @@ class Voc(tfds.core.GeneratorBasedBuilder):
         for k, v in self.builder_config.filenames.items()
     })
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(data_path=paths["test"], set_name="test")),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(data_path=paths["trainval"], set_name="train")),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs=dict(data_path=paths["trainval"], set_name="val")),
     ]

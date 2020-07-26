@@ -30,13 +30,13 @@ import tensorflow_datasets.public_api as tfds
 _URL = "https://storage.googleapis.com/akolesnikov-dmlab-tfds/dmlab.tar.gz"
 
 
-class Dmlab(tfds.core.GeneratorBasedBuilder):
+class Dmlab(tfds.GeneratorBasedBuilder):
   """Dmlab dataset."""
 
-  VERSION = tfds.core.Version("2.0.0")
+  VERSION = tfds.Version("2.0.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=(r"""
         The Dmlab dataset contains frames observed by the agent acting in the
@@ -75,19 +75,19 @@ class Dmlab(tfds.core.GeneratorBasedBuilder):
     path = dl_manager.download_and_extract(_URL)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "images_dir_path": path,
                 "split_name": "train",
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "images_dir_path": path,
                 "split_name": "validation",
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "images_dir_path": path,

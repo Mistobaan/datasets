@@ -46,12 +46,12 @@ inference (NLI), also known as recognizing textual entailment (RTE).
 _DATA_URL = 'https://nlp.stanford.edu/projects/snli/snli_1.0.zip'
 
 
-class Snli(tfds.core.GeneratorBasedBuilder):
+class Snli(tfds.GeneratorBasedBuilder):
   """The Stanford Natural Language Inference (SNLI) Corpus."""
   BUILDER_CONFIGS = [
-      tfds.core.BuilderConfig(
+      tfds.BuilderConfig(
           name='plain_text',
-          version=tfds.core.Version(
+          version=tfds.Version(
               '1.0.0',
               'New split API (https://tensorflow.org/datasets/splits)'),
           description='Plain text import of SNLI',
@@ -59,7 +59,7 @@ class Snli(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -82,16 +82,16 @@ class Snli(tfds.core.GeneratorBasedBuilder):
     dl_dir = dl_manager.download_and_extract(_DATA_URL)
     data_dir = os.path.join(dl_dir, 'snli_1.0')
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'filepath': os.path.join(data_dir, 'snli_1.0_test.txt')
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={'filepath': os.path.join(data_dir,
                                                  'snli_1.0_dev.txt')}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'filepath': os.path.join(data_dir, 'snli_1.0_train.txt')

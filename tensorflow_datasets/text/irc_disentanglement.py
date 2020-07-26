@@ -162,13 +162,13 @@ def _prepare_examples(texts_file_path, annot_file_path, day_str):
         }
 
 
-class IrcDisentanglement(tfds.core.GeneratorBasedBuilder):
+class IrcDisentanglement(tfds.GeneratorBasedBuilder):
   """IRC Disentanglement dataset."""
 
-  VERSION = tfds.core.Version("2.0.0")
+  VERSION = tfds.Version("2.0.0")
 
-  def _info(self) -> tfds.core.DatasetInfo:
-    return tfds.core.DatasetInfo(
+  def _info(self) -> tfds.DatasetInfo:
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -185,7 +185,7 @@ class IrcDisentanglement(tfds.core.GeneratorBasedBuilder):
     )
 
   def _split_generators(self, dl_manager: tfds.download.DownloadManager
-                       ) -> List[tfds.core.SplitGenerator]:
+                       ) -> List[tfds.SplitGenerator]:
     """Returns SplitGenerators."""
     base_dir = dl_manager.download_and_extract(
         tfds.download.Resource(
@@ -196,17 +196,17 @@ class IrcDisentanglement(tfds.core.GeneratorBasedBuilder):
     data_dir = os.path.join(base_dir, _DOWNLOAD_ARCHIVE_SUBDIR)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"day_to_paths":
                             _get_day_to_paths(os.path.join(data_dir, "train"))},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"day_to_paths":
                             _get_day_to_paths(os.path.join(data_dir, "dev"))},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"day_to_paths":
                             _get_day_to_paths(os.path.join(data_dir, "test"))},

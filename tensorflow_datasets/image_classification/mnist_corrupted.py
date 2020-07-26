@@ -73,10 +73,10 @@ _TRAIN_LABELS_FILENAME = 'train_labels.npy'
 _TEST_LABELS_FILENAME = 'test_labels.npy'
 
 
-class MNISTCorruptedConfig(tfds.core.BuilderConfig):
+class MNISTCorruptedConfig(tfds.BuilderConfig):
   """BuilderConfig for MNISTcorrupted."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, corruption_type, **kwargs):
     """Constructor.
 
@@ -102,7 +102,7 @@ def _make_builder_configs():
     config_list.append(
         MNISTCorruptedConfig(
             name=corruption,
-            version=tfds.core.Version(
+            version=tfds.Version(
                 '1.0.0',
                 'New split API (https://tensorflow.org/datasets/splits)'),
             description='Corruption method: ' + corruption,
@@ -111,7 +111,7 @@ def _make_builder_configs():
   return config_list
 
 
-class MNISTCorrupted(tfds.core.GeneratorBasedBuilder):
+class MNISTCorrupted(tfds.GeneratorBasedBuilder):
   """Corrupted MNIST dataset."""
   BUILDER_CONFIGS = _make_builder_configs()
 
@@ -119,9 +119,9 @@ class MNISTCorrupted(tfds.core.GeneratorBasedBuilder):
     """Returns basic information of dataset.
 
     Returns:
-      tfds.core.DatasetInfo.
+      tfds.DatasetInfo.
     """
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -145,13 +145,13 @@ class MNISTCorrupted(tfds.core.GeneratorBasedBuilder):
     """
     path = dl_manager.download_and_extract(_DOWNLOAD_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'data_dir': os.path.join(path, _DIRNAME),
                 'is_train': True
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'data_dir': os.path.join(path, _DIRNAME),

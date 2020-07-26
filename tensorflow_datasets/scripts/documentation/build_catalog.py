@@ -51,7 +51,7 @@ def _parse_flags(_) -> argparse.Namespace:
 
 def main(args: argparse.Namespace):
   catalog_dir = args.catalog_dir or os.path.join(
-      tfds.core.utils.tfds_dir(),
+      tfds.utils.tfds_dir(),
       'docs',
       'catalog',
   )

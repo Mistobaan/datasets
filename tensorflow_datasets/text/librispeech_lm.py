@@ -42,13 +42,13 @@ _URL = 'http://www.openslr.org/11'
 _DL_URL = 'http://www.openslr.org/resources/11/librispeech-lm-norm.txt.gz'
 
 
-class LibrispeechLm(tfds.core.GeneratorBasedBuilder):
+class LibrispeechLm(tfds.GeneratorBasedBuilder):
   """Librispeech language modeling dataset."""
 
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -63,7 +63,7 @@ class LibrispeechLm(tfds.core.GeneratorBasedBuilder):
     """Returns SplitGenerators."""
     archive_path = dl_manager.download(_DL_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'files_iter': dl_manager.iter_archive(archive_path)},
         ),

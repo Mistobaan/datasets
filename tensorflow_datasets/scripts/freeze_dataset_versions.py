@@ -35,13 +35,13 @@ import tensorflow_datasets as tfds
 
 FLAGS = flags.FLAGS
 
-flags.DEFINE_string('tfds_dir', tfds.core.utils.tfds_dir(),
+flags.DEFINE_string('tfds_dir', tfds.utils.tfds_dir(),
                     'Path to tensorflow_datasets directory')
 
 
 def main(_):
   version_path = os.path.join(FLAGS.tfds_dir, 'stable_versions.txt')
-  registered_names = tfds.core.registered.list_full_names()
+  registered_names = tfds.registered.list_full_names()
   with tf.io.gfile.GFile(version_path, 'w') as f:
     f.write('\n'.join(registered_names))
   print(f'{len(registered_names)} datasets versions written.')

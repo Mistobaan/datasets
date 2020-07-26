@@ -64,7 +64,7 @@ _DESCRIPTION = '''\
 '''
 
 
-class CityscapesConfig(tfds.core.BuilderConfig):
+class CityscapesConfig(tfds.BuilderConfig):
   """BuilderConfig for Cityscapes.
 
     Args:
@@ -127,7 +127,7 @@ class CityscapesConfig(tfds.core.BuilderConfig):
         self.ignored_ids.add('troisdorf_000000_000073')
 
 
-class Cityscapes(tfds.core.GeneratorBasedBuilder):
+class Cityscapes(tfds.GeneratorBasedBuilder):
   """Base class for Cityscapes datasets."""
 
 
@@ -193,7 +193,7 @@ class Cityscapes(tfds.core.GeneratorBasedBuilder):
       features['disparity_map'] = tfds.features.Image(
           shape=(1024, 2048, 1), encoding_format='png')
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
@@ -215,7 +215,7 @@ class Cityscapes(tfds.core.GeneratorBasedBuilder):
       paths[split] = os.path.join(dl_manager.extract(paths[split]), zip_root)
 
     splits = [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 feat_dir: os.path.join(path, 'train')
@@ -223,7 +223,7 @@ class Cityscapes(tfds.core.GeneratorBasedBuilder):
                 if not feat_dir.endswith('/extra')
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 feat_dir: os.path.join(path, 'val')
@@ -235,7 +235,7 @@ class Cityscapes(tfds.core.GeneratorBasedBuilder):
 
     # Test split does not exist in coarse dataset
     if not self.builder_config.train_extra_split:
-      splits.append(tfds.core.SplitGenerator(
+      splits.append(tfds.SplitGenerator(
           name=tfds.Split.TEST,
           gen_kwargs={
               feat_dir: os.path.join(path, 'test')
@@ -244,7 +244,7 @@ class Cityscapes(tfds.core.GeneratorBasedBuilder):
           },
       ))
     else:
-      splits.append(tfds.core.SplitGenerator(
+      splits.append(tfds.SplitGenerator(
           name='train_extra',
           gen_kwargs={
               feat_dir.replace('/extra', ''): os.path.join(path, 'train_extra')

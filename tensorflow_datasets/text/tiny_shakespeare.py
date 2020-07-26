@@ -56,13 +56,13 @@ d = d.batch(batch_size)
 """
 
 
-class TinyShakespeare(tfds.core.GeneratorBasedBuilder):
+class TinyShakespeare(tfds.GeneratorBasedBuilder):
   """Tiny Shakespeare dataset builder."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({'text': tfds.features.Text()}),
@@ -92,7 +92,7 @@ class TinyShakespeare(tfds.core.GeneratorBasedBuilder):
     test_text = text
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             # These kwargs will be passed to _generate_examples
             gen_kwargs={
@@ -100,14 +100,14 @@ class TinyShakespeare(tfds.core.GeneratorBasedBuilder):
                 'split_text': train_text
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'split_key': 'validation',
                 'split_text': validation_text
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'split_key': 'test',

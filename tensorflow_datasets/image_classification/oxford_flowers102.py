@@ -76,13 +76,13 @@ The test set consists of the remaining 6149 images (minimum 20 per class).
 """
 
 
-class OxfordFlowers102(tfds.core.GeneratorBasedBuilder):
+class OxfordFlowers102(tfds.GeneratorBasedBuilder):
   """Oxford 102 category flower dataset."""
 
-  VERSION = tfds.core.Version("2.1.1")
+  VERSION = tfds.Version("2.1.1")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -115,13 +115,13 @@ class OxfordFlowers102(tfds.core.GeneratorBasedBuilder):
     )
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(split_name="trnid", **gen_kwargs)),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(split_name="tstid", **gen_kwargs)),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs=dict(split_name="valid", **gen_kwargs)),
     ]
@@ -130,9 +130,9 @@ class OxfordFlowers102(tfds.core.GeneratorBasedBuilder):
                          split_name):
     """Yields examples."""
     with tf.io.gfile.GFile(labels_path, "rb") as f:
-      labels = tfds.core.lazy_imports.scipy.io.loadmat(f)["labels"][0]
+      labels = tfds.lazy_imports.scipy.io.loadmat(f)["labels"][0]
     with tf.io.gfile.GFile(setid_path, "rb") as f:
-      examples = tfds.core.lazy_imports.scipy.io.loadmat(f)[split_name][0]
+      examples = tfds.lazy_imports.scipy.io.loadmat(f)[split_name][0]
 
     for image_id in examples:
       file_name = "image_%05d.jpg" % image_id

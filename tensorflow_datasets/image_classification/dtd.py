@@ -46,15 +46,15 @@ _URL = "https://www.robots.ox.ac.uk/~vgg/data/dtd/index.html"
 _DATA_URL = "https://www.robots.ox.ac.uk/~vgg/data/dtd/download/dtd-r1.0.1.tar.gz"
 
 
-class Dtd(tfds.core.GeneratorBasedBuilder):
+class Dtd(tfds.GeneratorBasedBuilder):
   """Describable Textures Dataset (DTD)."""
 
-  VERSION = tfds.core.Version("3.0.1")
+  VERSION = tfds.Version("3.0.1")
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(
+    names_file = tfds.get_tfds_path(
         os.path.join("image_classification", "dtd_key_attributes.txt"))
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -73,13 +73,13 @@ class Dtd(tfds.core.GeneratorBasedBuilder):
     # Note: DTD defines 10-fold CV partitions. Our TRAIN/TEST/VALIDATION are
     # those of the first fold.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(data_path=data_path, split_name="train1")),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(data_path=data_path, split_name="test1")),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs=dict(data_path=data_path, split_name="val1")),
     ]

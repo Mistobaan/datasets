@@ -65,16 +65,16 @@ _DOCUMENT = "document"
 _SUMMARY = "summary"
 
 
-class Gigaword(tfds.core.GeneratorBasedBuilder):
+class Gigaword(tfds.GeneratorBasedBuilder):
   """Gigaword summarization dataset."""
 
   # 1.0.0 contains a bug that uses validation data as training data.
   # 1.1.0 Update to the correct train, validation and test data.
   # 1.2.0 Replace <unk> with <UNK> in train/val to be consistent with test.
-  VERSION = tfds.core.Version("1.2.0")
+  VERSION = tfds.Version("1.2.0")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -91,7 +91,7 @@ class Gigaword(tfds.core.GeneratorBasedBuilder):
     dl_path = dl_manager.download_and_extract(_URL)
     pattern = os.path.join(dl_path, "org_data", "%s.%s.txt")
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "src_path": pattern % ("train", "src"),
@@ -99,7 +99,7 @@ class Gigaword(tfds.core.GeneratorBasedBuilder):
                 "replace_unk": True,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "src_path": pattern % ("dev", "src"),
@@ -107,7 +107,7 @@ class Gigaword(tfds.core.GeneratorBasedBuilder):
                 "replace_unk": True,
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "src_path": pattern % ("test", "src"),

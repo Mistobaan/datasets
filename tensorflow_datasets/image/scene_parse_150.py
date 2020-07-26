@@ -48,14 +48,14 @@ _TRAIN_URL = {
 }
 
 
-class SceneParse150(tfds.core.GeneratorBasedBuilder):
+class SceneParse150(tfds.GeneratorBasedBuilder):
   """MIT Scene Parsing Benchmark dataset."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
   def _info(self):
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -74,7 +74,7 @@ class SceneParse150(tfds.core.GeneratorBasedBuilder):
     })
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "images_dir_path":
@@ -84,7 +84,7 @@ class SceneParse150(tfds.core.GeneratorBasedBuilder):
                                  "annotations_instance/training")
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "images_dir_path":

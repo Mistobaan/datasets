@@ -66,17 +66,17 @@ def _class_subdir(class_index, class_name):
 
 def _load_tif(path):
   with tf.io.gfile.GFile(path, "rb") as fp:
-    image = tfds.core.lazy_imports.PIL_Image.open(fp)
+    image = tfds.lazy_imports.PIL_Image.open(fp)
   return np.array(image)
 
 
-class ColorectalHistology(tfds.core.GeneratorBasedBuilder):
+class ColorectalHistology(tfds.GeneratorBasedBuilder):
   """Biological 8-class classification problem."""
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "2.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=(
             "Classification of textures in colorectal cancer histology. "
@@ -95,7 +95,7 @@ class ColorectalHistology(tfds.core.GeneratorBasedBuilder):
   def _split_generators(self, dl_manager):
     folder = dl_manager.download_and_extract(_TILES_DL_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(root_dir=folder),
         ),
@@ -117,13 +117,13 @@ class ColorectalHistology(tfds.core.GeneratorBasedBuilder):
         yield "%s/%s" % (class_name, fn), record
 
 
-class ColorectalHistologyLarge(tfds.core.GeneratorBasedBuilder):
+class ColorectalHistologyLarge(tfds.GeneratorBasedBuilder):
   """10 Large 5000 x 5000 colorectal histology images without labels."""
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "2.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=(
             "10 large 5000 x 5000 textured colorectal cancer histology images"),
@@ -138,7 +138,7 @@ class ColorectalHistologyLarge(tfds.core.GeneratorBasedBuilder):
   def _split_generators(self, dl_manager):
     folder = dl_manager.download_and_extract(_LARGE_DL_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(folder=folder)
         )

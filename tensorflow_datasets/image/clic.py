@@ -54,15 +54,15 @@ CLIC_MOBILE_TEST = 'https://data.vision.ee.ethz.ch/cvl/clic/test/CLIC2020Mobile_
 CLIC_PROFESSIONAL_TEST = 'https://data.vision.ee.ethz.ch/cvl/clic/test/CLIC2020Professional_test.zip'
 
 
-class CLIC(tfds.core.GeneratorBasedBuilder):
+class CLIC(tfds.GeneratorBasedBuilder):
   """CLIC dataset."""
 
   # We set the version based on the conference year. The 3rd CLIC was held in
   # 2020 and we are using this lossy image dataset.
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=_DESCRIPTION,
@@ -89,17 +89,17 @@ class CLIC(tfds.core.GeneratorBasedBuilder):
     val_dirs = {k: v for k, v in downloaded_dirs.items() if 'val' in k}
     test_dirs = {k: v for k, v in downloaded_dirs.items() if 'test' in k}
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'download_path': train_dirs,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'download_path': val_dirs,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'download_path': test_dirs,

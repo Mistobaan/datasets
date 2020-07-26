@@ -45,14 +45,14 @@ _NAME_RE = re.compile(
 )
 
 
-class RockPaperScissors(tfds.core.GeneratorBasedBuilder):
+class RockPaperScissors(tfds.GeneratorBasedBuilder):
   """Rock, Paper, Scissors dataset."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "3.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description="Images of hands playing rock, paper, scissor game.",
         features=tfds.features.FeaturesDict({
@@ -69,12 +69,12 @@ class RockPaperScissors(tfds.core.GeneratorBasedBuilder):
     train_path, test_path = dl_manager.download([_TRAIN_URL, _TEST_URL])
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(train_path),
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(test_path),

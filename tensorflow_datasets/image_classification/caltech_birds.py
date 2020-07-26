@@ -49,10 +49,10 @@ Year = {2010}
 _NAME_RE = re.compile(r"((\w*)/)*(\d*).(\w*)/(\w*.jpg)$")
 
 
-class CaltechBirds2010(tfds.core.GeneratorBasedBuilder):
+class CaltechBirds2010(tfds.GeneratorBasedBuilder):
   """Caltech Birds 2010 dataset."""
 
-  VERSION = tfds.core.Version("0.1.0")
+  VERSION = tfds.Version("0.1.0")
 
   @property
   def _caltech_birds_info(self):
@@ -65,7 +65,7 @@ class CaltechBirds2010(tfds.core.GeneratorBasedBuilder):
 
   def _info(self):
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -110,20 +110,20 @@ class CaltechBirds2010(tfds.core.GeneratorBasedBuilder):
         if fname.endswith(".mat"):
           path = os.path.join(root, fname)
           with tf.io.gfile.GFile(path, "rb") as f:
-            mat = tfds.core.lazy_imports.scipy.io.loadmat(
+            mat = tfds.lazy_imports.scipy.io.loadmat(
                 f, squeeze_me=True, variable_names=["bbox", "seg"])
           attributes[fname.split(".")[0]].append(mat["bbox"])
           attributes[fname.split(".")[0]].append(mat["seg"])
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(download_path[2]),
                 "file_names": train_list,
                 "annotations": attributes,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(download_path[2]),
@@ -207,7 +207,7 @@ class CaltechBirds2010(tfds.core.GeneratorBasedBuilder):
 class CaltechBirds2011(CaltechBirds2010):
   """Caltech Birds 2011 dataset."""
 
-  VERSION = tfds.core.Version("0.1.0")
+  VERSION = tfds.Version("0.1.0")
 
   @property
   def _caltech_birds_info(self):
@@ -220,7 +220,7 @@ class CaltechBirds2011(CaltechBirds2010):
 
   def _info(self):
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -275,19 +275,19 @@ class CaltechBirds2011(CaltechBirds2010):
       for fname in files:
         if fname.endswith(".png"):
           with tf.io.gfile.GFile(os.path.join(root, fname), "rb") as png_f:
-            mask = tfds.core.lazy_imports.cv2.imdecode(
+            mask = tfds.lazy_imports.cv2.imdecode(
                 np.fromstring(png_f.read(), dtype=np.uint8), flags=0)
           attributes[fname.split(".")[0]].append(mask)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(download_path[0]),
                 "file_names": train_list,
                 "annotations": attributes,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "archive": dl_manager.iter_archive(download_path[0]),

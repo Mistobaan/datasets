@@ -67,10 +67,10 @@ _RANDOM_SEEDS = [
 ]
 
 
-class CFQConfig(tfds.core.BuilderConfig):
+class CFQConfig(tfds.BuilderConfig):
   """BuilderConfig for CFQ splits."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self,
                name=None,
                directory=None,
@@ -111,7 +111,7 @@ class CFQConfig(tfds.core.BuilderConfig):
       split_name = name
     super(CFQConfig, self).__init__(
         name=name,
-        version=tfds.core.Version('1.2.0'),
+        version=tfds.Version('1.2.0'),
         description=_DESCRIPTION,
         **kwargs)
     self.split_file = os.path.join(directory, split_name + '.json')
@@ -134,7 +134,7 @@ def _generate_compound_divergence_builder_configs():
   return configs
 
 
-class CFQ(tfds.core.GeneratorBasedBuilder):
+class CFQ(tfds.GeneratorBasedBuilder):
   """CFQ task / splits."""
 
   BUILDER_CONFIGS = [
@@ -149,7 +149,7 @@ class CFQ(tfds.core.GeneratorBasedBuilder):
   ] + _generate_compound_divergence_builder_configs()
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -166,21 +166,21 @@ class CFQ(tfds.core.GeneratorBasedBuilder):
     data_dir = dl_manager.download_and_extract(_DATA_URL)
     data_dir = os.path.join(data_dir, 'cfq')
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'base_directory': data_dir,
                 'splits_file': self.builder_config.split_file,
                 'split_id': 'trainIdxs'
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'base_directory': data_dir,
                 'splits_file': self.builder_config.split_file,
                 'split_id': 'devIdxs'
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'base_directory': data_dir,

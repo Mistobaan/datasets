@@ -282,10 +282,10 @@ _AXG_CITATION = """\
 """
 
 
-class SuperGlueConfig(tfds.core.BuilderConfig):
+class SuperGlueConfig(tfds.BuilderConfig):
   """BuilderConfig for SuperGLUE."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self,
                features,
                data_url,
@@ -313,7 +313,7 @@ class SuperGlueConfig(tfds.core.BuilderConfig):
     # 1.0.0: S3 (new shuffling, sharding and slicing mechanism).
     # 0.0.2: Initial version.
     super(SuperGlueConfig, self).__init__(
-        version=tfds.core.Version("1.0.2"),
+        version=tfds.Version("1.0.2"),
         **kwargs)
     self.features = features
     self.label_classes = label_classes
@@ -322,7 +322,7 @@ class SuperGlueConfig(tfds.core.BuilderConfig):
     self.url = url
 
 
-class SuperGlue(tfds.core.GeneratorBasedBuilder):
+class SuperGlue(tfds.GeneratorBasedBuilder):
   """The SuperGLUE benchmark."""
   BUILDER_CONFIGS = [
       SuperGlueConfig(
@@ -468,7 +468,7 @@ class SuperGlue(tfds.core.GeneratorBasedBuilder):
       features["label"] = tfds.features.ClassLabel(
           names=self.builder_config.label_classes)
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_GLUE_DESCRIPTION + self.builder_config.description,
         features=tfds.features.FeaturesDict(features),
@@ -482,7 +482,7 @@ class SuperGlue(tfds.core.GeneratorBasedBuilder):
     dl_dir = os.path.join(dl_dir, task_name)
     if self.builder_config.name in ["axb", "axg"]:
       return [
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.TEST,
               gen_kwargs={
                   "data_file":
@@ -492,19 +492,19 @@ class SuperGlue(tfds.core.GeneratorBasedBuilder):
               }),
       ]
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "data_file": os.path.join(dl_dir, "train.jsonl"),
                 "split": tfds.Split.TRAIN,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "data_file": os.path.join(dl_dir, "val.jsonl"),
                 "split": tfds.Split.VALIDATION,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "data_file": os.path.join(dl_dir, "test.jsonl"),

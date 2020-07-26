@@ -55,12 +55,12 @@ _LABELS_FNAME = 'image_classification/imagenet_resized_labels.txt'
 _URL_PREFIX = 'http://www.image-net.org/image/downsample/'
 
 
-class ImagenetResizedConfig(tfds.core.BuilderConfig):
+class ImagenetResizedConfig(tfds.BuilderConfig):
   """BuilderConfig for Imagenet Resized."""
 
   def __init__(self, size, **kwargs):
     super(ImagenetResizedConfig, self).__init__(
-        version=tfds.core.Version('0.1.0'), **kwargs)
+        version=tfds.Version('0.1.0'), **kwargs)
     self.size = size
 
 
@@ -75,16 +75,16 @@ def _make_builder_configs():
   return configs
 
 
-class ImagenetResized(tfds.core.GeneratorBasedBuilder):
+class ImagenetResized(tfds.GeneratorBasedBuilder):
   """Imagenet Resized dataset."""
 
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
   BUILDER_CONFIGS = _make_builder_configs()
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(_LABELS_FNAME)
+    names_file = tfds.get_tfds_path(_LABELS_FNAME)
     size = self.builder_config.size
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=self.builder_config.description,
         features=tfds.features.FeaturesDict({
@@ -117,7 +117,7 @@ class ImagenetResized(tfds.core.GeneratorBasedBuilder):
       raise ValueError('Size not implemented!')
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'archive':
@@ -127,7 +127,7 @@ class ImagenetResized(tfds.core.GeneratorBasedBuilder):
                     ]),
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'archive': dl_manager.iter_archive(val_path),

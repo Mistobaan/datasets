@@ -83,19 +83,19 @@ modifications.
 
 ### `DatasetBuilder`
 
-Each dataset is defined as a subclass of `tfds.core.DatasetBuilder` implementing
+Each dataset is defined as a subclass of `tfds.DatasetBuilder` implementing
 the following methods:
 
-*   `_info`: builds the `tfds.core.DatasetInfo` object describing the dataset
+*   `_info`: builds the `tfds.DatasetInfo` object describing the dataset
 *   `_download_and_prepare`: to download and serialize the source data to disk
 *   `_as_dataset`: to produce a `tf.data.Dataset` from the serialized data
 
-Most datasets are defined as subclass `tfds.core.GeneratorBasedBuilder`, which
-is a subclass of `tfds.core.DatasetBuilder` that simplifies defining a dataset.
+Most datasets are defined as subclass `tfds.GeneratorBasedBuilder`, which
+is a subclass of `tfds.DatasetBuilder` that simplifies defining a dataset.
 It works well for datasets that can be generated on a single machine. Its
 subclasses implement:
 
-*   `_info`: builds the `tfds.core.DatasetInfo` object describing the dataset
+*   `_info`: builds the `tfds.DatasetInfo` object describing the dataset
 *   `_split_generators`: downloads the source data and defines the dataset
     splits
 *   `_generate_examples`: yields `(key, example)` tuples in the dataset from the
@@ -110,13 +110,13 @@ This guide will use `GeneratorBasedBuilder`.
 ```python
 import tensorflow_datasets.public_api as tfds
 
-class MyDataset(tfds.core.GeneratorBasedBuilder):
+class MyDataset(tfds.GeneratorBasedBuilder):
   """Short description of my dataset."""
 
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
 
   def _info(self):
-    # Specifies the tfds.core.DatasetInfo object
+    # Specifies the tfds.DatasetInfo object
     pass # TODO
 
   def _split_generators(self, dl_manager):
@@ -139,13 +139,13 @@ For an explanation of what the version is, please read
 
 ## Specifying `DatasetInfo`
 
-`tfds.core.DatasetInfo` describes the dataset.
+`tfds.DatasetInfo` describes the dataset.
 
 ```python
-class MyDataset(tfds.core.GeneratorBasedBuilder):
+class MyDataset(tfds.GeneratorBasedBuilder):
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=("This is the dataset for xxx. It contains yyy. The "
@@ -221,14 +221,14 @@ with the
 
     # Specify the splits
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "images_dir_path": os.path.join(extracted_path, "train"),
                 "labels": os.path.join(extracted_path, "train_labels.csv"),
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "images_dir_path": os.path.join(extracted_path, "test"),
@@ -299,7 +299,7 @@ for all filesystem access. Avoid using Python built-ins for file operations
 Some datasets require additional Python dependencies during data generation.
 For example, the SVHN dataset uses `scipy` to load some data. In order to
 keep the `tensorflow-datasets` package small and allow users to install
-additional dependencies only as needed, use `tfds.core.lazy_imports`.
+additional dependencies only as needed, use `tfds.lazy_imports`.
 
 To use `lazy_imports`:
 
@@ -311,8 +311,8 @@ To use `lazy_imports`:
     [`LazyImporter`](https://github.com/tensorflow/datasets/tree/master/tensorflow_datasets/core/lazy_imports_lib.py)
     and to the
     [`LazyImportsTest`](https://github.com/tensorflow/datasets/tree/master/tensorflow_datasets/core/lazy_imports_lib_test.py).
-*   Use `tfds.core.lazy_imports` to access the dependency (for example,
-    `tfds.core.lazy_imports.scipy`) in your `DatasetBuilder`.
+*   Use `tfds.lazy_imports` to access the dependency (for example,
+    `tfds.lazy_imports.scipy`) in your `DatasetBuilder`.
 
 
 ### Corrupted data
@@ -352,10 +352,10 @@ Heavy configuration affects how the data is written to disk. For example, for
 text datasets, different `TextEncoder`s and vocabularies affect the token ids
 that are written to disk.
 
-Heavy configuration is done through `tfds.core.BuilderConfig`s:
+Heavy configuration is done through `tfds.BuilderConfig`s:
 
 1. Define your own configuration object as a subclass of
-   `tfds.core.BuilderConfig`. For example, `MyDatasetConfig`.
+   `tfds.BuilderConfig`. For example, `MyDatasetConfig`.
 2. Define the `BUILDER_CONFIGS` class member in `MyDataset` that lists
    `MyDatasetConfig`s that the dataset exposes.
 3. Use `self.builder_config` in `MyDataset` to configure data generation. This
@@ -462,7 +462,7 @@ Before you send your pull request, follow these last few steps:
 
 ### 1. Add an import for registration
 
-All subclasses of `tfds.core.DatasetBuilder` are automatically registered
+All subclasses of `tfds.DatasetBuilder` are automatically registered
 when their module is imported such that they can be accessed through
 `tfds.builder` and `tfds.load`.
 

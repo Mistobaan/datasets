@@ -50,10 +50,10 @@ _CITATION = """\
 """
 
 
-class BairRobotPushingSmall(tfds.core.GeneratorBasedBuilder):
+class BairRobotPushingSmall(tfds.GeneratorBasedBuilder):
   """Robot pushing dataset from BAIR (Small 64x64 version)."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "2.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
@@ -66,7 +66,7 @@ class BairRobotPushingSmall(tfds.core.GeneratorBasedBuilder):
         "endeffector_pos": tfds.features.Tensor(shape=(3,), dtype=tf.float32),
     }, length=FRAMES_PER_VIDEO)
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description="This data set contains roughly 44,000 examples of robot "
         "pushing motions, including one training set (train) and "
@@ -80,12 +80,12 @@ class BairRobotPushingSmall(tfds.core.GeneratorBasedBuilder):
   def _split_generators(self, dl_manager):
     files = dl_manager.download_and_extract(DATA_URL)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "filedir": os.path.join(files, "softmotion30_44k", "train"),
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "filedir": os.path.join(files, "softmotion30_44k", "test"),

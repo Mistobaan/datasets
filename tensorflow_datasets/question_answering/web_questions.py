@@ -58,13 +58,13 @@ The questions are popular ones asked on the web (at least in 2013).
 """
 
 
-class WebQuestions(tfds.core.GeneratorBasedBuilder):
+class WebQuestions(tfds.GeneratorBasedBuilder):
   """WebQuestions Benchmark for Question Answering."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -85,7 +85,7 @@ class WebQuestions(tfds.core.GeneratorBasedBuilder):
     file_paths = dl_manager.download(_SPLIT_DOWNLOAD_URL)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=split, gen_kwargs={'file_path': file_path})
         for split, file_path in file_paths.items()
     ]

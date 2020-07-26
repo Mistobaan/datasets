@@ -92,13 +92,13 @@ FEATURES = collections.OrderedDict([
 ])
 
 
-class Radon(tfds.core.GeneratorBasedBuilder):
+class Radon(tfds.GeneratorBasedBuilder):
   """Radon dataset."""
 
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -118,7 +118,7 @@ class Radon(tfds.core.GeneratorBasedBuilder):
         'file_path_cty': os.path.join(BASE_URL, 'cty.dat')
     })
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=paths,
         ),
@@ -126,7 +126,7 @@ class Radon(tfds.core.GeneratorBasedBuilder):
 
   def _generate_examples(self, file_path_srrs2, file_path_cty):
     """Yields examples."""
-    pd = tfds.core.lazy_imports.pandas
+    pd = tfds.lazy_imports.pandas
 
     with tf.io.gfile.GFile(file_path_srrs2) as f:
       df_srrs2 = pd.read_csv(f)

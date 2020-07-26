@@ -88,10 +88,10 @@ _MNLI_BASE_KWARGS = dict(
     url="http://www.nyu.edu/projects/bowman/multinli/")
 
 
-class GlueConfig(tfds.core.BuilderConfig):
+class GlueConfig(tfds.BuilderConfig):
   """BuilderConfig for GLUE."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self,
                text_features,
                label_column,
@@ -122,7 +122,7 @@ class GlueConfig(tfds.core.BuilderConfig):
       **kwargs: keyword arguments forwarded to super.
     """
     super(GlueConfig, self).__init__(
-        version=tfds.core.Version(
+        version=tfds.Version(
             "1.0.0",
             "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
@@ -136,7 +136,7 @@ class GlueConfig(tfds.core.BuilderConfig):
     self.process_label = process_label
 
 
-class Glue(tfds.core.GeneratorBasedBuilder):
+class Glue(tfds.GeneratorBasedBuilder):
   """The General Language Understanding Evaluation (GLUE) benchmark."""
   BUILDER_CONFIGS = [
       GlueConfig(
@@ -421,7 +421,7 @@ class Glue(tfds.core.GeneratorBasedBuilder):
     else:
       features["label"] = tf.float32
     features["idx"] = tf.int32
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_GLUE_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
@@ -433,7 +433,7 @@ class Glue(tfds.core.GeneratorBasedBuilder):
     if self.builder_config.name == "ax":
       data_file = dl_manager.download(self.builder_config.data_url)
       return [
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.TEST,
               gen_kwargs={
                   "data_file": data_file,
@@ -452,7 +452,7 @@ class Glue(tfds.core.GeneratorBasedBuilder):
       dl_dir = dl_manager.download_and_extract(self.builder_config.data_url)
       data_dir = os.path.join(dl_dir, self.builder_config.data_dir)
       mrpc_files = None
-    train_split = tfds.core.SplitGenerator(
+    train_split = tfds.SplitGenerator(
         name=tfds.Split.TRAIN,
         gen_kwargs={
             "data_file": os.path.join(data_dir or "", "train.tsv"),
@@ -483,14 +483,14 @@ class Glue(tfds.core.GeneratorBasedBuilder):
     else:
       return [
           train_split,
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.VALIDATION,
               gen_kwargs={
                   "data_file": os.path.join(data_dir or "", "dev.tsv"),
                   "split": "dev",
                   "mrpc_files": mrpc_files,
               }),
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.TEST,
               gen_kwargs={
                   "data_file": os.path.join(data_dir or "", "test.tsv"),
@@ -581,7 +581,7 @@ class Glue(tfds.core.GeneratorBasedBuilder):
 
 
 def _mnli_split_generator(name, data_dir, split, matched):
-  return tfds.core.SplitGenerator(
+  return tfds.SplitGenerator(
       name=name,
       gen_kwargs={
           "data_file": os.path.join(

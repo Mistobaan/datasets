@@ -90,13 +90,13 @@ def _get_choices_and_answer(cqa):
   return choices, answer
 
 
-class CosE(tfds.core.GeneratorBasedBuilder):
+class CosE(tfds.GeneratorBasedBuilder):
   """CoS-E: Common Sense Explanations corpus."""
 
-  VERSION = tfds.core.Version("0.0.1")
+  VERSION = tfds.Version("0.0.1")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -131,12 +131,12 @@ class CosE(tfds.core.GeneratorBasedBuilder):
 
     # We use the CoS-E/CQA dev set as our validation set.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"files": files["dev"],
                         "cqa_indexed": cqa_indexed},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"files": files["train"],
                         "cqa_indexed": cqa_indexed},

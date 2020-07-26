@@ -77,10 +77,10 @@ def _target_languages():
   return collections.OrderedDict(sorted(langs.items()))
 
 
-class ParaCrawlConfig(tfds.core.BuilderConfig):
+class ParaCrawlConfig(tfds.BuilderConfig):
   """BuilderConfig for ParaCrawl."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, text_encoder_config=None, target_language=None, **kwargs):
     """BuilderConfig for ParaCrawl.
 
@@ -114,7 +114,7 @@ class ParaCrawlConfig(tfds.core.BuilderConfig):
         target_lang=target_language)
 
 
-class ParaCrawl(tfds.core.GeneratorBasedBuilder):
+class ParaCrawl(tfds.GeneratorBasedBuilder):
   """ParaCrawl machine translation dataset."""
 
   # Version history:
@@ -125,14 +125,14 @@ class ParaCrawl(tfds.core.GeneratorBasedBuilder):
       # database. It only indicates the version of the TFDS integration.
       ParaCrawlConfig(  # pylint: disable=g-complex-comprehension
           target_language=target_language,
-          version=tfds.core.Version("1.0.0"),
+          version=tfds.Version("1.0.0"),
       )
       for target_language in _target_languages()
   ]
 
   def _info(self):
     target_language = self.builder_config.target_language
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.Translation(
@@ -153,7 +153,7 @@ class ParaCrawl(tfds.core.GeneratorBasedBuilder):
 
     # Return the single split of the data.
     return [
-        tfds.core.SplitGenerator(name=tfds.Split.TRAIN, gen_kwargs=data_file)
+        tfds.SplitGenerator(name=tfds.Split.TRAIN, gen_kwargs=data_file)
     ]
 
   def _generate_examples(self, data_file):

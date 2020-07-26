@@ -53,13 +53,13 @@ Microsoft Kinect.
 _URL = 'http://datasets.lids.mit.edu/fastdepth/data/nyudepthv2.tar.gz'
 
 
-class NyuDepthV2(tfds.core.GeneratorBasedBuilder):
+class NyuDepthV2(tfds.GeneratorBasedBuilder):
   """NYU Depth V2 Dataset."""
 
-  VERSION = tfds.core.Version('0.0.1')
+  VERSION = tfds.Version('0.0.1')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -77,13 +77,13 @@ class NyuDepthV2(tfds.core.GeneratorBasedBuilder):
     base_path = dl_manager.download_and_extract(_URL)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'root_dir': os.path.join(base_path, 'nyudepthv2', 'train')
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'root_dir': os.path.join(base_path, 'nyudepthv2', 'val')
@@ -93,7 +93,7 @@ class NyuDepthV2(tfds.core.GeneratorBasedBuilder):
 
   def _generate_examples(self, root_dir):
     """Yields examples."""
-    h5py = tfds.core.lazy_imports.h5py
+    h5py = tfds.lazy_imports.h5py
     for directory in tf.io.gfile.listdir(root_dir):
       for file_name in tf.io.gfile.listdir(os.path.join(root_dir, directory)):
         with h5py.File(os.path.join(root_dir, directory, file_name), 'r') as f:

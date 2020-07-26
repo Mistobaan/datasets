@@ -42,13 +42,13 @@ anonymized crowd-worker ID.
 """
 
 
-class Openbookqa(tfds.core.GeneratorBasedBuilder):
+class Openbookqa(tfds.GeneratorBasedBuilder):
   """QA dataset with common knowledge facts."""
 
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=_DESCRIPTION,
@@ -82,7 +82,7 @@ class Openbookqa(tfds.core.GeneratorBasedBuilder):
     dl_dir = dl_manager.download_and_extract(download_url)
     data_dir = os.path.join(dl_dir, 'OpenBookQA-V1-Sep2018/Data/Additional')
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             # These kwargs will be passed to _generate_examples
             gen_kwargs={
@@ -90,7 +90,7 @@ class Openbookqa(tfds.core.GeneratorBasedBuilder):
                 'filepath': os.path.join(data_dir, 'train_complete.jsonl')
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             # These kwargs will be passed to _generate_examples
             gen_kwargs={
@@ -98,7 +98,7 @@ class Openbookqa(tfds.core.GeneratorBasedBuilder):
                 'filepath': os.path.join(data_dir, 'dev_complete.jsonl')
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             # These kwargs will be passed to _generate_examples
             gen_kwargs={

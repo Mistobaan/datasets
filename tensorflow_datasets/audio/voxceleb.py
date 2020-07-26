@@ -46,10 +46,10 @@ IDEN_SPLITS_URL = 'http://www.robots.ox.ac.uk/~vgg/data/voxceleb/meta/iden_split
 NUM_CLASSES = 1252
 
 
-class Voxceleb(tfds.core.GeneratorBasedBuilder):
+class Voxceleb(tfds.GeneratorBasedBuilder):
   """The VoxCeleb dataset for speaker identification."""
 
-  VERSION = tfds.core.Version('1.1.1')
+  VERSION = tfds.Version('1.1.1')
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """
   manual_dir should contain the file vox_dev_wav.zip. The instructions for
@@ -57,7 +57,7 @@ class Voxceleb(tfds.core.GeneratorBasedBuilder):
   """.format(_HOMEPAGE)
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -85,21 +85,21 @@ class Voxceleb(tfds.core.GeneratorBasedBuilder):
     iden_splits = self._calculate_splits(iden_splits_path['iden_split'])
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'extract_path': extract_path,
                 'file_names': iden_splits['train']
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'extract_path': extract_path,
                 'file_names': iden_splits['validation']
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'extract_path': extract_path,

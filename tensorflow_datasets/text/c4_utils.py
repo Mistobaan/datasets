@@ -55,7 +55,7 @@ _SENTENCE_TOKENIZER = None
 
 def get_counter_inc_fn(namespace):
   def counter_inc_fn(counter, amt=1):
-    tfds.core.lazy_imports.apache_beam.metrics.Metrics.counter(
+    tfds.lazy_imports.apache_beam.metrics.Metrics.counter(
         namespace, counter).inc(amt)
   return counter_inc_fn
 
@@ -71,7 +71,7 @@ def get_hashed_url_filter_fn(predicate_fn):
 
 def _load_sentence_tokenizer():
   """Returns a sentence tokenization function."""
-  nltk = tfds.core.lazy_imports.nltk
+  nltk = tfds.lazy_imports.nltk
   # Lock to avoid a race-condition in the creation of the download directory.
   with threading.Lock():
     nltk.download("punkt")
@@ -94,7 +94,7 @@ def is_language(page, language, min_probability=0.99):
 
   counter_inc_fn = get_counter_inc_fn("detected-lang")
 
-  langdetect = tfds.core.lazy_imports.langdetect
+  langdetect = tfds.lazy_imports.langdetect
   # Make langdetect predictions deterministic.
   langdetect.DetectorFactory.seed = 0
   try:
@@ -288,7 +288,7 @@ def _remove_lines_from_text(el, counter_inc_fn, min_num_sentences):
 def remove_duplicate_text(pages, min_num_sentences=_MIN_NUM_SENTENCES):
   """Utility to remove duplicate lines across text documents."""
   # Output: url, lines
-  beam = tfds.core.lazy_imports.apache_beam
+  beam = tfds.lazy_imports.apache_beam
 
   # Select a single URL for each line in the input pages.
   # Hash before comparison to avoid biasing by domain.
@@ -417,7 +417,7 @@ def is_realnews_domain(el, realnews_domains):
   """Returns False iff page's (sub)domain is not allowed."""
   counter_inc_fn = get_counter_inc_fn("is-realnews-domain")
   url, _ = el
-  ext = tfds.core.lazy_imports.tldextract.extract(url)
+  ext = tfds.lazy_imports.tldextract.extract(url)
   main_domain = ext.domain + "." + ext.suffix
   if main_domain not in realnews_domains:
     counter_inc_fn("filtered-url-invaliddomain")

@@ -57,12 +57,12 @@ _SPLIT_DOWNLOAD_URL = {
 }
 
 
-class CosmosQA(tfds.core.GeneratorBasedBuilder):
+class CosmosQA(tfds.GeneratorBasedBuilder):
   """The Cosmos QA dataset."""
-  VERSION = tfds.core.Version('1.0.0')
+  VERSION = tfds.Version('1.0.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -87,7 +87,7 @@ class CosmosQA(tfds.core.GeneratorBasedBuilder):
     file_paths = dl_manager.download(_SPLIT_DOWNLOAD_URL)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=split, gen_kwargs={'file_path': file_path})
         for split, file_path in file_paths.items()
     ]

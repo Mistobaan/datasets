@@ -63,7 +63,7 @@ _ADDITIONAL_FEATURES = [
 ]
 
 
-class Covid19sum(tfds.core.GeneratorBasedBuilder):
+class Covid19sum(tfds.GeneratorBasedBuilder):
   """Covid19sum Dataset."""
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """
@@ -72,16 +72,16 @@ class Covid19sum(tfds.core.GeneratorBasedBuilder):
     Place the downloaded zip file in the manual folder.
     """
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
 
-  def _info(self) -> tfds.core.DatasetInfo:
+  def _info(self) -> tfds.DatasetInfo:
     features = {k: tf.string for k in _ADDITIONAL_FEATURES + [_ABSTRACT]}
     features[_BODY_TEXT] = tfds.features.Sequence(
         tfds.features.FeaturesDict({
             _SECTION: tf.string,
             _TEXT: tf.string
         }))
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
@@ -92,11 +92,11 @@ class Covid19sum(tfds.core.GeneratorBasedBuilder):
 
   def _split_generators(
       self, dl_manager: tfds.download.DownloadManager
-  ) -> List[tfds.core.SplitGenerator]:
+  ) -> List[tfds.SplitGenerator]:
     """Returns SplitGenerators."""
     extracted_path = dl_manager.extract(
         os.path.join(dl_manager.manual_dir, "CORD-19-research-challenge.zip"))
-    pd = tfds.core.lazy_imports.pandas
+    pd = tfds.lazy_imports.pandas
     df = pd.read_csv(os.path.join(extracted_path, "metadata.csv")).fillna("")
     data_paths = []
     for _, row in df.iterrows():
@@ -107,7 +107,7 @@ class Covid19sum(tfds.core.GeneratorBasedBuilder):
                                  row[_SHA] + ".json")
         data_paths.append(d)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"data_paths": data_paths},
         )

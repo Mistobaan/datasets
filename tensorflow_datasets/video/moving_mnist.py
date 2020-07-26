@@ -53,14 +53,14 @@ for generating training/validation data from the MNIST dataset.
 """
 
 
-class MovingMnist(tfds.core.GeneratorBasedBuilder):
+class MovingMnist(tfds.GeneratorBasedBuilder):
   """MovingMnist."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "1.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -78,7 +78,7 @@ class MovingMnist(tfds.core.GeneratorBasedBuilder):
     # See `tfds.video.moving_mnist.image_as_moving_sequence` for mapping
     # function to create training/validation dataset from MNIST.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(data_path=data_path)),
     ]

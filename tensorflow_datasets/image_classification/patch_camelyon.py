@@ -43,14 +43,14 @@ _CITATION = """\
 _URL = 'https://patchcamelyon.grand-challenge.org/'
 
 
-class PatchCamelyon(tfds.core.GeneratorBasedBuilder):
+class PatchCamelyon(tfds.GeneratorBasedBuilder):
   """PatchCamelyon."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       '2.0.0', 'New split API (https://tensorflow.org/datasets/splits)')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -77,13 +77,13 @@ class PatchCamelyon(tfds.core.GeneratorBasedBuilder):
     }
     paths = dl_manager.download_and_extract(resources)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(split='test', paths=paths)),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(split='train', paths=paths)),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs=dict(split='valid', paths=paths)),
     ]
@@ -98,7 +98,7 @@ class PatchCamelyon(tfds.core.GeneratorBasedBuilder):
     Yields:
       A dictionary with the image and the corresponding label.
     """
-    h5py = tfds.core.lazy_imports.h5py
+    h5py = tfds.lazy_imports.h5py
 
     filepath_x = paths[split + '_x']
     filepath_y = paths[split + '_y']

@@ -117,13 +117,13 @@ FEATURES = collections.OrderedDict([
 ])
 
 
-class ForestFires(tfds.core.GeneratorBasedBuilder):
+class ForestFires(tfds.GeneratorBasedBuilder):
   """Regression task aimed to predict the burned area of forest fires."""
 
-  VERSION = tfds.core.Version('0.0.1')
+  VERSION = tfds.Version('0.0.1')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -141,7 +141,7 @@ class ForestFires(tfds.core.GeneratorBasedBuilder):
 
     # There is no predefined train/val/test split for this dataset.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'file_path': data},
         ),

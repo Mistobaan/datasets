@@ -57,10 +57,10 @@ WARNING: This dataset currently requires you to prepare images on your own.
 """
 
 
-class CelebaHQConfig(tfds.core.BuilderConfig):
+class CelebaHQConfig(tfds.BuilderConfig):
   """BuilderConfig for CelebaHQ."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, resolution, **kwargs):
     """BuilderConfig for SQUAD.
 
@@ -69,7 +69,7 @@ class CelebaHQConfig(tfds.core.BuilderConfig):
         1024.
       **kwargs: keyword arguments forwarded to super.
     """
-    v2 = tfds.core.Version(
+    v2 = tfds.Version(
         "2.0.0", "New split API (https://tensorflow.org/datasets/splits)")
     super(CelebaHQConfig, self).__init__(
         name="%d" % resolution,
@@ -81,7 +81,7 @@ class CelebaHQConfig(tfds.core.BuilderConfig):
     self.file_name = "data%dx%d.tar" % (resolution, resolution)
 
 
-class CelebAHq(tfds.core.GeneratorBasedBuilder):
+class CelebAHq(tfds.GeneratorBasedBuilder):
   """Celeba_HQ Dataset."""
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
@@ -91,7 +91,7 @@ class CelebAHq(tfds.core.GeneratorBasedBuilder):
   https://github.com/tkarras/progressive_growing_of_gans#preparing-datasets-for-training
   """
 
-  VERSION = tfds.core.Version("0.1.0")
+  VERSION = tfds.Version("0.1.0")
 
   BUILDER_CONFIGS = [
       CelebaHQConfig(resolution=1024),
@@ -108,7 +108,7 @@ class CelebAHq(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -136,7 +136,7 @@ class CelebAHq(tfds.core.GeneratorBasedBuilder):
       msg += " as .tar files. See testing/test_data/fake_examples/celeb_a_hq "
       raise AssertionError(msg)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"archive": dl_manager.iter_archive(image_tar_file)},
         )

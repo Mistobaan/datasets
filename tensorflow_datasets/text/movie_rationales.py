@@ -47,13 +47,13 @@ reviews.
 _DOWNLOAD_URL = 'http://www.eraserbenchmark.com/zipped/movies.tar.gz'
 
 
-class MovieRationales(tfds.core.GeneratorBasedBuilder):
+class MovieRationales(tfds.GeneratorBasedBuilder):
   """Movie reviews with human annotated rationales."""
 
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -72,21 +72,21 @@ class MovieRationales(tfds.core.GeneratorBasedBuilder):
     data_dir = os.path.join(dl_dir, 'movies')
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'data_dir': data_dir,
                 'filepath': os.path.join(data_dir, 'train.jsonl')
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'data_dir': data_dir,
                 'filepath': os.path.join(data_dir, 'val.jsonl')
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'data_dir': data_dir,

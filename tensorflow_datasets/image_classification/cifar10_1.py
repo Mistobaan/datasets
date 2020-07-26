@@ -60,10 +60,10 @@ _DL_URL_LABELS = "https://github.com/modestyachts/CIFAR-10.1/blob/master/dataset
 _DATA_OPTIONS = ["v4", "v6"]
 
 
-class Cifar10_1Config(tfds.core.BuilderConfig):  # pylint: disable=invalid-name
+class Cifar10_1Config(tfds.BuilderConfig):  # pylint: disable=invalid-name
   """BuilderConfig for Cifar-10.1."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, data=None, **kwargs):
     """Constructs a Cifar10_1Config.
 
@@ -78,7 +78,7 @@ class Cifar10_1Config(tfds.core.BuilderConfig):  # pylint: disable=invalid-name
     self.data = data
 
 
-class Cifar10_1(tfds.core.GeneratorBasedBuilder):  # pylint: disable=invalid-name
+class Cifar10_1(tfds.GeneratorBasedBuilder):  # pylint: disable=invalid-name
   """Cifar-10.1 dataset."""
 
   BUILDER_CONFIGS = [
@@ -90,7 +90,7 @@ class Cifar10_1(tfds.core.GeneratorBasedBuilder):  # pylint: disable=invalid-nam
               "keywords for each class, which led to a slight class imbalance. The largest difference is that ships "
               "make up only 8% of the test set instead of 10%. v4 contains 2,021 images."
           ),
-          version=tfds.core.Version("1.1.0"),
+          version=tfds.Version("1.1.0"),
           data="v4",
       ),
       Cifar10_1Config(
@@ -98,13 +98,13 @@ class Cifar10_1(tfds.core.GeneratorBasedBuilder):  # pylint: disable=invalid-nam
               "It is derived from a slightly improved keyword allocation that is exactly class balanced. This version "
               "of the dataset corresponds to the results in Appendix D of our paper. v6 contains 2,000 images."
           ),
-          version=tfds.core.Version("1.1.0"),
+          version=tfds.Version("1.1.0"),
           data="v6",
       )
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -128,7 +128,7 @@ class Cifar10_1(tfds.core.GeneratorBasedBuilder):  # pylint: disable=invalid-nam
     ])
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "image_path": image_path,

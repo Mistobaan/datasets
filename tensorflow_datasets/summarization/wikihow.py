@@ -72,10 +72,10 @@ _URLS = {
 }
 
 
-class WikihowConfig(tfds.core.BuilderConfig):
+class WikihowConfig(tfds.BuilderConfig):
   """BuilderConfig for Wikihow."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, filename=None, **kwargs):
     """BuilderConfig for Wikihow.
 
@@ -86,11 +86,11 @@ class WikihowConfig(tfds.core.BuilderConfig):
     # Version 1.1.0 remove empty document and summary strings.
     # Version 1.2.0 add train validation test split, add cleaning & filtering.
     super(WikihowConfig, self).__init__(
-        version=tfds.core.Version("1.2.0"), **kwargs)
+        version=tfds.Version("1.2.0"), **kwargs)
     self.filename = filename
 
 
-class Wikihow(tfds.core.GeneratorBasedBuilder):
+class Wikihow(tfds.GeneratorBasedBuilder):
   """WikiHow: A Large Scale Text Summarization Dataset."""
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
@@ -114,7 +114,7 @@ class Wikihow(tfds.core.GeneratorBasedBuilder):
     feature_names = [_DOCUMENT, _SUMMARY, "title"]
     if self.builder_config.name == "sep":
       feature_names.extend(["overview", "sectionLabel"])
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(
@@ -134,7 +134,7 @@ class Wikihow(tfds.core.GeneratorBasedBuilder):
           titles[k].add(line.strip())
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "path":
@@ -144,7 +144,7 @@ class Wikihow(tfds.core.GeneratorBasedBuilder):
                     titles["train"],
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 "path":
@@ -154,7 +154,7 @@ class Wikihow(tfds.core.GeneratorBasedBuilder):
                     titles["validation"],
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "path":

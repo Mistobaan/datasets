@@ -50,10 +50,10 @@ _CITATION = """\
 _DOWNLOAD_URL = "http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
 
 
-class IMDBReviewsConfig(tfds.core.BuilderConfig):
+class IMDBReviewsConfig(tfds.BuilderConfig):
   """BuilderConfig for IMDBReviews."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, text_encoder_config=None, **kwargs):
     """BuilderConfig for IMDBReviews.
 
@@ -64,7 +64,7 @@ class IMDBReviewsConfig(tfds.core.BuilderConfig):
       **kwargs: keyword arguments forwarded to super.
     """
     super(IMDBReviewsConfig, self).__init__(
-        version=tfds.core.Version(
+        version=tfds.Version(
             "1.0.0",
             "New split API (https://tensorflow.org/datasets/splits)"),
         **kwargs)
@@ -72,7 +72,7 @@ class IMDBReviewsConfig(tfds.core.BuilderConfig):
         text_encoder_config or tfds.features.text.TextEncoderConfig())
 
 
-class IMDBReviews(tfds.core.GeneratorBasedBuilder):
+class IMDBReviews(tfds.GeneratorBasedBuilder):
   """IMDB movie reviews dataset."""
   BUILDER_CONFIGS = [
       IMDBReviewsConfig(
@@ -105,7 +105,7 @@ class IMDBReviews(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -132,15 +132,15 @@ class IMDBReviews(tfds.core.GeneratorBasedBuilder):
         self._vocab_text_gen(archive()))
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"archive": archive(),
                         "directory": os.path.join("aclImdb", "train")}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"archive": archive(),
                         "directory": os.path.join("aclImdb", "test")}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split("unsupervised"),
             gen_kwargs={"archive": archive(),
                         "directory": os.path.join("aclImdb", "train"),

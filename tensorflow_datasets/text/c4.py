@@ -50,12 +50,12 @@ _CITATION = """
   eprint = {1910.10683},
 }
 """
-_VERSION = tfds.core.Version("2.3.1", "Hashing change.")
+_VERSION = tfds.Version("2.3.1", "Hashing change.")
 
 _SUPPORTED_VERSIONS = [
-    tfds.core.Version("2.3.0", "Deduplicate lines within a page."),
-    tfds.core.Version("2.2.1", "Update dataset_info.json"),
-    tfds.core.Version("2.2.0"),
+    tfds.Version("2.3.0", "Deduplicate lines within a page."),
+    tfds.Version("2.2.1", "Update dataset_info.json"),
+    tfds.Version("2.2.0"),
 ]
 
 _DOWNLOAD_HOST = "https://commoncrawl.s3.amazonaws.com"
@@ -73,10 +73,10 @@ _DEFAULT_WEBTEXTLIKE_CC_VERSIONS = (  # August 2018 - July 2019
     "2019-04", "2019-09", "2019-13", "2019-18", "2019-22", "2019-26", "2019-30")
 
 
-class C4Config(tfds.core.BuilderConfig):
+class C4Config(tfds.BuilderConfig):
   """BuilderConfig for C4 dataset."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self,
                language,
                cc_versions=None,
@@ -121,7 +121,7 @@ class C4Config(tfds.core.BuilderConfig):
     self.webtextlike = webtextlike
 
 
-class C4(tfds.core.BeamBasedBuilder):
+class C4(tfds.BeamBasedBuilder):
   """C4 dataset based on Common Crawl."""
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
@@ -162,7 +162,7 @@ class C4(tfds.core.BeamBasedBuilder):
           "content-length": tfds.features.Text(),
           "timestamp": tfds.features.Text(),
       })
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
@@ -229,7 +229,7 @@ class C4(tfds.core.BeamBasedBuilder):
     page_content_pcollection = self._get_page_content(
         pipeline, file_paths, dl_manager)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(
                 split="train",
@@ -237,7 +237,7 @@ class C4(tfds.core.BeamBasedBuilder):
                 hashed_url_predicate=lambda x: x % 1000 != 0  # 99.9%
             ),
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs=dict(
                 split="validation",
@@ -249,7 +249,7 @@ class C4(tfds.core.BeamBasedBuilder):
 
   def _get_page_content(self, pipeline, file_paths, dl_manager):
     """Build PCollection of un-split page content."""
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
 
     wet_file_paths = (
         pipeline |
@@ -327,7 +327,7 @@ class C4(tfds.core.BeamBasedBuilder):
 
   def _build_pcollection(
       self, unused_pipeline, split, page_content, hashed_url_predicate):
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
 
     def _emit_examples(el):
       c4_utils.get_counter_inc_fn(split)("examples")

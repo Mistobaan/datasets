@@ -70,10 +70,10 @@ _LANGUAGE_ACCENTS = collections.OrderedDict([
 ])
 
 
-class CommonVoiceConfig(tfds.core.BuilderConfig):
+class CommonVoiceConfig(tfds.BuilderConfig):
   """Configuration Class for Mozilla CommonVoice Dataset."""
 
-  @tfds.core.api_utils.disallow_positional_args
+  @tfds.api_utils.disallow_positional_args
   def __init__(self, language, accents=None, **kwargs):
     """Constructs CommonVoiceConfig.
 
@@ -91,11 +91,11 @@ class CommonVoiceConfig(tfds.core.BuilderConfig):
 
     kwargs.setdefault("name", language)
     kwargs.setdefault("description", "Language Code: %s" % language)
-    kwargs.setdefault("version", tfds.core.Version("1.0.0"))
+    kwargs.setdefault("version", tfds.Version("1.0.0"))
     super(CommonVoiceConfig, self).__init__(**kwargs)
 
 
-class CommonVoice(tfds.core.GeneratorBasedBuilder):
+class CommonVoice(tfds.GeneratorBasedBuilder):
   """Mozilla Common Voice Dataset."""
   BUILDER_CONFIGS = [
       CommonVoiceConfig(language=l, accents=a)
@@ -103,7 +103,7 @@ class CommonVoice(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         description=("Mozilla Common Voice Dataset"),
         builder=self,
         features=tfds.features.FeaturesDict({
@@ -132,7 +132,7 @@ class CommonVoice(tfds.core.GeneratorBasedBuilder):
         _DOWNLOAD_URL.format(self.builder_config.language))
     clip_folder = os.path.join(dl_path, "clips")
     return [
-        tfds.core.SplitGenerator(  # pylint: disable=g-complex-comprehension
+        tfds.SplitGenerator(  # pylint: disable=g-complex-comprehension
             name=k,
             gen_kwargs={
                 "audio_path": clip_folder,

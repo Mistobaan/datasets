@@ -86,10 +86,10 @@ _IMAGE_SIZE = 224
 _CROP_PADDING = 32
 
 
-class Imagenet2012CorruptedConfig(tfds.core.BuilderConfig):
+class Imagenet2012CorruptedConfig(tfds.BuilderConfig):
   """BuilderConfig for Imagenet2012Corrupted."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, corruption_type=None, severity=1, **kwargs):
     """BuilderConfig for Imagenet2012Corrupted.
 
@@ -104,7 +104,7 @@ class Imagenet2012CorruptedConfig(tfds.core.BuilderConfig):
     self.severity = severity
 
 
-_VERSION = tfds.core.Version('3.1.0')
+_VERSION = tfds.Version('3.1.0')
 
 # Version history:
 # 3.1.0: Implement missing corruptions. Fix crop/resize ordering, file encoding
@@ -169,10 +169,10 @@ class Imagenet2012Corrupted(Imagenet2012):
     """Basic information of the dataset.
 
     Returns:
-      tfds.core.DatasetInfo.
+      tfds.DatasetInfo.
     """
-    names_file = tfds.core.get_tfds_path(_LABELS_FNAME)
-    return tfds.core.DatasetInfo(
+    names_file = tfds.get_tfds_path(_LABELS_FNAME)
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -215,7 +215,7 @@ class Imagenet2012Corrupted(Imagenet2012):
     # Set new random seeds.
     np.random.seed(135)
     logging.warning('Overwriting cv2 RNG seed.')
-    tfds.core.lazy_imports.cv2.setRNGSeed(357)
+    tfds.lazy_imports.cv2.setRNGSeed(357)
 
     gen_fn = super(Imagenet2012Corrupted, self)._generate_examples
     for key, example in gen_fn(archive, validation_labels):

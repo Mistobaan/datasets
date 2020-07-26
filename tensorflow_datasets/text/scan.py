@@ -79,7 +79,7 @@ _MCD_SPLITS_URL = (
     'https://storage.googleapis.com/cfq_dataset/scan-splits.tar.gz')
 
 
-class ScanConfig(tfds.core.BuilderConfig):
+class ScanConfig(tfds.BuilderConfig):
   """BuilderConfig for SCAN.
 
   Splits can be read in two formats:
@@ -90,7 +90,7 @@ class ScanConfig(tfds.core.BuilderConfig):
      (unsplit) dataset.
   """
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, name, directory=None, splitfile=None, **kwargs):
     """BuilderConfig for SCAN.
 
@@ -104,7 +104,7 @@ class ScanConfig(tfds.core.BuilderConfig):
     # Version history:
     super(ScanConfig, self).__init__(
         name=name,
-        version=tfds.core.Version('1.1.1'),
+        version=tfds.Version('1.1.1'),
         description=_DESCRIPTION,
         **kwargs)
     self.splitfile = splitfile
@@ -122,7 +122,7 @@ _COMMANDS = 'commands'
 _ACTIONS = 'actions'
 
 
-class Scan(tfds.core.GeneratorBasedBuilder):
+class Scan(tfds.GeneratorBasedBuilder):
   """SCAN task / splits as proposed by Brenden M. Lake and Marco Baroni."""
 
   BUILDER_CONFIGS = [
@@ -144,7 +144,7 @@ class Scan(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -189,9 +189,9 @@ class Scan(tfds.core.GeneratorBasedBuilder):
           'datapath': os.path.join(data_dir, 'tasks_test_' + split + '.txt')
       }
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN, gen_kwargs=train_kwargs),
-        tfds.core.SplitGenerator(name=tfds.Split.TEST, gen_kwargs=test_kwargs)
+        tfds.SplitGenerator(name=tfds.Split.TEST, gen_kwargs=test_kwargs)
     ]
 
   def _read_examples(self, datapath):

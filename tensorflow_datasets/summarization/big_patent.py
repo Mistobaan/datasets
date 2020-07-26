@@ -73,10 +73,10 @@ _CPC_DESCRIPTION = {
 }
 
 
-class BigPatentConfig(tfds.core.BuilderConfig):
+class BigPatentConfig(tfds.BuilderConfig):
   """BuilderConfig for BigPatent."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, cpc_codes=None, **kwargs):
     """BuilderConfig for Wikihow.
 
@@ -87,13 +87,13 @@ class BigPatentConfig(tfds.core.BuilderConfig):
     super(BigPatentConfig, self).__init__(
         # 1.0.0 lower cased tokenized words.
         # 2.0.0 cased raw strings.
-        version=tfds.core.Version("2.0.0", "Updated to cased raw strings."),
-        supported_versions=[tfds.core.Version("1.0.0")],
+        version=tfds.Version("2.0.0", "Updated to cased raw strings."),
+        supported_versions=[tfds.Version("1.0.0")],
         **kwargs)
     self.cpc_codes = cpc_codes
 
 
-class BigPatent(tfds.core.BeamBasedBuilder):
+class BigPatent(tfds.BeamBasedBuilder):
   """BigPatent datasets."""
 
   BUILDER_CONFIGS = [
@@ -111,7 +111,7 @@ class BigPatent(tfds.core.BeamBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -134,15 +134,15 @@ class BigPatent(tfds.core.BeamBasedBuilder):
     extract_paths = {k: os.path.join(extract_paths[k], k) for k in split_types}
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"path": extract_paths["train"]},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={"path": extract_paths["val"]},
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={"path": extract_paths["test"]},
         ),
@@ -150,7 +150,7 @@ class BigPatent(tfds.core.BeamBasedBuilder):
 
   def _build_pcollection(self, pipeline, path=None):
     """Build PCollection of examples."""
-    beam = tfds.core.lazy_imports.apache_beam
+    beam = tfds.lazy_imports.apache_beam
 
     def _process_example(row):
       json_obj = json.loads(row)
@@ -189,7 +189,7 @@ _ENGLISH_WORDS = None
 def _get_english_words():
   global _ENGLISH_WORDS
   if not _ENGLISH_WORDS:
-    _ENGLISH_WORDS = frozenset(tfds.core.lazy_imports.nltk.corpus.words.words())
+    _ENGLISH_WORDS = frozenset(tfds.lazy_imports.nltk.corpus.words.words())
   return _ENGLISH_WORDS
 
 

@@ -59,7 +59,7 @@ class CnnDailymailTest(testing.DatasetBuilderTestCase):
       f.write(_STORY_FILE)
       f.flush()
       article, abstract = cnn_dailymail._get_art_abs(f.name,
-                                                     tfds.core.Version('1.0.0'))
+                                                     tfds.Version('1.0.0'))
       self.assertEqual('Some article. This is some article text.', article)
       # This is a bit weird, but the original code at
       # https://github.com/abisee/cnn-dailymail/ adds space before period
@@ -68,7 +68,7 @@ class CnnDailymailTest(testing.DatasetBuilderTestCase):
                        abstract)
 
       article, abstract = cnn_dailymail._get_art_abs(f.name,
-                                                     tfds.core.Version('2.0.0'))
+                                                     tfds.Version('2.0.0'))
       self.assertEqual('highlight text .\nHighlight two .\nhighlight Three .',
                        abstract)
 

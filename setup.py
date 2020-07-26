@@ -41,7 +41,6 @@ REQUIRED_PKGS = [
     'tensorflow>=1.15.3,<2.0',
     'tensorflow-metadata',
     # 'attrs>=18.1.0',
-    # 'dill',  # TODO(tfds): move to TESTS_REQUIRE.
     # 'future',
     # 'numpy', # this should be tensorflow's deps
     'promise', # these should be removed with async/await #TODO
@@ -56,6 +55,7 @@ REQUIRED_PKGS = [
 TESTS_REQUIRE = [
     # 'jupyter',
     # 'mako',
+    'dill',  # TODO(tfds): move to TESTS_REQUIRE.
     'pytest',
     'pytest-xdist',
     'tensorflow-data-validation',

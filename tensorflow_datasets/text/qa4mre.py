@@ -140,10 +140,10 @@ def _get_question(topic_id, topic_name, test_id, document_id, document_str,
   return id_, feats
 
 
-class Qa4mreConfig(tfds.core.BuilderConfig):
+class Qa4mreConfig(tfds.BuilderConfig):
   """BuilderConfig for Qa4mre."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, year, track='main', language='EN', **kwargs):
     """BuilderConfig for Qa4Mre.
 
@@ -182,11 +182,11 @@ class Qa4mreConfig(tfds.core.BuilderConfig):
     super(Qa4mreConfig, self).__init__(
         name=name,
         description=description,
-        version=tfds.core.Version('0.1.0'),
+        version=tfds.Version('0.1.0'),
         **kwargs)
 
 
-class Qa4mre(tfds.core.GeneratorBasedBuilder):
+class Qa4mre(tfds.GeneratorBasedBuilder):
   """QA4MRE dataset from CLEF shared tasks 2011, 2012, 2013."""
 
   BUILDER_CONFIGS = [
@@ -233,7 +233,7 @@ class Qa4mre(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=_DESCRIPTION,
@@ -291,7 +291,7 @@ class Qa4mre(tfds.core.GeneratorBasedBuilder):
     downloaded_files = dl_manager.download_and_extract(download_urls)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'filepath':

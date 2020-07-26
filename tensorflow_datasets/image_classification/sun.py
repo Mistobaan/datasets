@@ -94,7 +94,7 @@ def _decode_image(fobj, session, filename):
   """
 
   buf = fobj.read()
-  image = tfds.core.lazy_imports.cv2.imdecode(
+  image = tfds.lazy_imports.cv2.imdecode(
       np.fromstring(buf, dtype=np.uint8), flags=3)  # Note: Converts to RGB.
   if image is None:
     logging.warning(
@@ -113,7 +113,7 @@ def _decode_image(fobj, session, filename):
 
 
 def _encode_jpeg(image, quality=None):
-  cv2 = tfds.core.lazy_imports.cv2
+  cv2 = tfds.lazy_imports.cv2
   extra_args = [[int(cv2.IMWRITE_JPEG_QUALITY), quality]] if quality else []
   _, buff = cv2.imencode(".jpg", image, *extra_args)
   return io.BytesIO(buff.tostring())
@@ -131,12 +131,12 @@ def _process_image_file(
   actual_pixels = height * width
   if target_pixels and actual_pixels > target_pixels:
     factor = np.sqrt(target_pixels / actual_pixels)
-    image = tfds.core.lazy_imports.cv2.resize(
+    image = tfds.lazy_imports.cv2.resize(
         image, dsize=None, fx=factor, fy=factor)
   return _encode_jpeg(image, quality=quality)
 
 
-class Sun397Config(tfds.core.BuilderConfig):
+class Sun397Config(tfds.BuilderConfig):
   """BuilderConfig for Sun 397 dataset."""
 
   def __init__(
@@ -161,7 +161,7 @@ class Sun397Config(tfds.core.BuilderConfig):
 
 def _generate_builder_configs():
   """Return the BuilderConfig objects for the SUN397 dataset."""
-  version = tfds.core.Version("4.0.0")
+  version = tfds.Version("4.0.0")
   builder_configs = [
       # Images randomly split into train/valid/test splits (70%/10%/20%), and
       # images resized to have at most 120,000 pixels.
@@ -189,7 +189,7 @@ def _generate_builder_configs():
   return builder_configs
 
 
-class Sun397(tfds.core.GeneratorBasedBuilder):
+class Sun397(tfds.GeneratorBasedBuilder):
   """Sun397 Scene Recognition Benchmark."""
 
   BUILDER_CONFIGS = _generate_builder_configs()
@@ -204,14 +204,14 @@ class Sun397(tfds.core.GeneratorBasedBuilder):
           "va": "sun397_tfds_va.txt",
       }
       for split, filename in tfds_split_files.items():
-        tfds_split_files[split] = tfds.core.get_tfds_path(
+        tfds_split_files[split] = tfds.get_tfds_path(
             os.path.join("image_classification", filename))
     self._tfds_split_files = tfds_split_files
 
   def _info(self):
-    names_file = tfds.core.get_tfds_path(
+    names_file = tfds.get_tfds_path(
         os.path.join("image_classification", "sun397_labels.txt"))
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_SUN397_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -242,17 +242,17 @@ class Sun397(tfds.core.GeneratorBasedBuilder):
     if self.builder_config.name == "tfds":
       subset_images = self._get_tfds_subsets_images()
       return [
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.TRAIN,
               gen_kwargs=dict(
                   archive=dl_manager.iter_archive(images),
                   subset_images=subset_images["tr"])),
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.TEST,
               gen_kwargs=dict(
                   archive=dl_manager.iter_archive(images),
                   subset_images=subset_images["te"])),
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.VALIDATION,
               gen_kwargs=dict(
                   archive=dl_manager.iter_archive(images),
@@ -261,12 +261,12 @@ class Sun397(tfds.core.GeneratorBasedBuilder):
     else:
       subset_images = self._get_partition_subsets_images(paths["partitions"])
       return [
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.TRAIN,
               gen_kwargs=dict(
                   archive=dl_manager.iter_archive(images),
                   subset_images=subset_images["tr"])),
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.TEST,
               gen_kwargs=dict(
                   archive=dl_manager.iter_archive(images),

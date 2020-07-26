@@ -63,10 +63,10 @@ _LABELS = [
 _URL = 'http://www.escience.cn/people/JunweiHan/NWPU-RESISC45.html'
 
 
-class Resisc45(tfds.core.GeneratorBasedBuilder):
+class Resisc45(tfds.GeneratorBasedBuilder):
   """NWPU Remote Sensing Image Scene Classification (RESISC) Dataset."""
 
-  VERSION = tfds.core.Version('3.0.0')
+  VERSION = tfds.Version('3.0.0')
 
   MANUAL_DOWNLOAD_INSTRUCTIONS = """\
   Dataset can be downloaded from OneDrive:
@@ -75,7 +75,7 @@ class Resisc45(tfds.core.GeneratorBasedBuilder):
   """
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -96,7 +96,7 @@ class Resisc45(tfds.core.GeneratorBasedBuilder):
                            'extract it, and place it in {}.'.format(
                                _URL, dl_manager.manual_dir))
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'path': path},
         ),

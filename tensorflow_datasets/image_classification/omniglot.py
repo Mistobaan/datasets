@@ -56,14 +56,14 @@ _NUM_CLASSES = 1623
 _NUM_ALPHABETS = 50
 
 
-class Omniglot(tfds.core.GeneratorBasedBuilder):
+class Omniglot(tfds.GeneratorBasedBuilder):
   """Omniglot dataset."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "3.0.0", "New split API (https://tensorflow.org/datasets/splits)")
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -90,22 +90,22 @@ class Omniglot(tfds.core.GeneratorBasedBuilder):
     self.info.features["label"].names = label_names
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 "directory": extracted_dirs["train"],
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 "directory": extracted_dirs["eval"],
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="small1",
             gen_kwargs={
                 "directory": extracted_dirs["small1"],
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="small2",
             gen_kwargs={
                 "directory": extracted_dirs["small2"],

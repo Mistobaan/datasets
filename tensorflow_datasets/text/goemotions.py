@@ -66,10 +66,10 @@ _EMOTION_LABELS = [
 ]
 
 
-class Goemotions(tfds.core.GeneratorBasedBuilder):
+class Goemotions(tfds.GeneratorBasedBuilder):
   """Dataset of Reddit comments with one or more emotion labels."""
 
-  VERSION = tfds.core.Version('0.1.0')
+  VERSION = tfds.Version('0.1.0')
 
   def _info(self):
     """Returns information on the GoEmotions dataset."""
@@ -78,7 +78,7 @@ class Goemotions(tfds.core.GeneratorBasedBuilder):
     for label in _EMOTION_LABELS:
       features[label] = tf.bool
 
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features),
@@ -100,19 +100,19 @@ class Goemotions(tfds.core.GeneratorBasedBuilder):
 
     # Specify the splits.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={
                 'filename': dl_paths['train'],
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.VALIDATION,
             gen_kwargs={
                 'filename': dl_paths['dev'],
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={
                 'filename': dl_paths['test'],

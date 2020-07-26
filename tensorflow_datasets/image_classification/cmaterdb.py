@@ -90,10 +90,10 @@ CMATERdb is the pattern recognition database repository created at the 'Center f
 """
 
 
-class CmaterdbConfig(tfds.core.BuilderConfig):
+class CmaterdbConfig(tfds.BuilderConfig):
   """BuilderConfig for CMATERdb Config."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, **kwargs):
     """BuilderConfig for CMATERdb examples.
 
@@ -103,7 +103,7 @@ class CmaterdbConfig(tfds.core.BuilderConfig):
     super(CmaterdbConfig, self).__init__(**kwargs)
 
 
-class Cmaterdb(tfds.core.GeneratorBasedBuilder):
+class Cmaterdb(tfds.GeneratorBasedBuilder):
   """CMATERdb dataset."""
 
   BUILDER_CONFIGS = [
@@ -125,7 +125,7 @@ class Cmaterdb(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -149,11 +149,11 @@ class Cmaterdb(tfds.core.GeneratorBasedBuilder):
     # not a VALIDATION split, so we only
     # write the TRAIN and TEST splits to disk.
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(data_path=train_path),
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(data_path=test_path),
         ),

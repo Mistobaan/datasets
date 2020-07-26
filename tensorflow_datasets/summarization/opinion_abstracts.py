@@ -58,10 +58,10 @@ http://rottentomatoes.com/. It has fields of "_movie_name", "_movie_id",
 _URL = "http://www.ccs.neu.edu/home/luwang/datasets/opinion_abstracts.zip"
 
 
-class OpinionAbstractsConfig(tfds.core.BuilderConfig):
+class OpinionAbstractsConfig(tfds.BuilderConfig):
   """BuilderConfig for OpinionAbstracts."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self,
                filename: Text = None,
                name_key: Text = None,
@@ -71,7 +71,7 @@ class OpinionAbstractsConfig(tfds.core.BuilderConfig):
                **kwargs):
     """BuilderConfig for OpinionAbstracts."""
     super(OpinionAbstractsConfig, self).__init__(
-        version=tfds.core.Version("1.0.0"), **kwargs)
+        version=tfds.Version("1.0.0"), **kwargs)
     self.filename = filename
     self.name_key = name_key
     self.id_key = id_key
@@ -79,10 +79,10 @@ class OpinionAbstractsConfig(tfds.core.BuilderConfig):
     self.summary_key = summary_key
 
 
-class OpinionAbstracts(tfds.core.GeneratorBasedBuilder):
+class OpinionAbstracts(tfds.GeneratorBasedBuilder):
   """OpinionAbstracts Dataset Builder."""
 
-  VERSION = tfds.core.Version("1.0.0")
+  VERSION = tfds.Version("1.0.0")
   BUILDER_CONFIGS = [
       OpinionAbstractsConfig(
           name="rotten_tomatoes",
@@ -104,9 +104,9 @@ class OpinionAbstracts(tfds.core.GeneratorBasedBuilder):
       )
   ]
 
-  def _info(self) -> tfds.core.DatasetInfo:
+  def _info(self) -> tfds.DatasetInfo:
     config = self.builder_config
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -130,13 +130,13 @@ class OpinionAbstracts(tfds.core.GeneratorBasedBuilder):
 
   def _split_generators(
       self, dl_manager: tfds.download.DownloadManager
-  ) -> List[tfds.core.SplitGenerator]:
+  ) -> List[tfds.SplitGenerator]:
     """Returns SplitGenerators."""
     dl_path = dl_manager.download_and_extract(_URL)
     path = os.path.join(dl_path, "opinion_abstracts",
                         self.builder_config.filename)
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={"path": path},
         ),

@@ -59,10 +59,10 @@ _DATA_OPTIONS = [
 _DL_URLS = {name: _DL_URL + name + ".zip" for name in _DATA_OPTIONS}
 
 
-class CycleGANConfig(tfds.core.BuilderConfig):
+class CycleGANConfig(tfds.BuilderConfig):
   """BuilderConfig for CycleGAN."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, data=None, **kwargs):
     """Constructs a CycleGANConfig.
 
@@ -77,7 +77,7 @@ class CycleGANConfig(tfds.core.BuilderConfig):
     self.data = data
 
 
-class CycleGAN(tfds.core.GeneratorBasedBuilder):
+class CycleGAN(tfds.GeneratorBasedBuilder):
   """CycleGAN dataset."""
 
   BUILDER_CONFIGS = [
@@ -85,7 +85,7 @@ class CycleGAN(tfds.core.GeneratorBasedBuilder):
           name=config_name,
           description=("A dataset consisting of images from two classes A and "
                        "B (For example: horses/zebras, apple/orange,...)"),
-          version=tfds.core.Version(
+          version=tfds.Version(
               "2.0.0",
               "New split API (https://tensorflow.org/datasets/splits)"),
           data=config_name,
@@ -93,7 +93,7 @@ class CycleGAN(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=self.builder_config.description,
         features=tfds.features.FeaturesDict({
@@ -119,25 +119,25 @@ class CycleGAN(tfds.core.GeneratorBasedBuilder):
     test_b_path = os.path.join(path_to_dataset, "testB")
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="trainA",
             gen_kwargs={
                 "path": train_a_path,
                 "label": "A",
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="trainB",
             gen_kwargs={
                 "path": train_b_path,
                 "label": "B",
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="testA",
             gen_kwargs={
                 "path": test_a_path,
                 "label": "A",
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name="testB",
             gen_kwargs={
                 "path": test_b_path,

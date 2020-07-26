@@ -150,12 +150,12 @@ _CITATION = """\
 """
 
 
-class Cars196(tfds.core.GeneratorBasedBuilder):
+class Cars196(tfds.GeneratorBasedBuilder):
   """Car Images dataset."""
 
-  VERSION = tfds.core.Version('2.0.0')
+  VERSION = tfds.Version('2.0.0')
   SUPPORTED_VERSIONS = [
-      tfds.core.Version('2.1.0'),
+      tfds.Version('2.1.0'),
   ]
 
   def _info(self):
@@ -167,7 +167,7 @@ class Cars196(tfds.core.GeneratorBasedBuilder):
     }
     if self.version > '2.0.0':
       features_dict['id'] = tfds.features.Text()
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=(_DESCRIPTION),
         features=tfds.features.FeaturesDict(features_dict),
@@ -186,7 +186,7 @@ class Cars196(tfds.core.GeneratorBasedBuilder):
     })
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name='train',
             gen_kwargs={
                 'split_name':
@@ -199,7 +199,7 @@ class Cars196(tfds.core.GeneratorBasedBuilder):
                                               'cars_train_annos.mat')),
             },
         ),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name='test',
             gen_kwargs={
                 'split_name':
@@ -218,7 +218,7 @@ class Cars196(tfds.core.GeneratorBasedBuilder):
     image_dict = self.returnImageDict(data_dir_path)
     bbox_dict = self.returnBbox(data_annotations_path, image_dict)
     with tf.io.gfile.GFile(data_annotations_path, 'rb') as f:
-      mat = tfds.core.lazy_imports.scipy.io.loadmat(f)
+      mat = tfds.lazy_imports.scipy.io.loadmat(f)
     for example in mat['annotations'][0]:
       image_name = example[-1].item().split('.')[0]
       label = _NAMES[example[4].item() - 1]
@@ -242,7 +242,7 @@ class Cars196(tfds.core.GeneratorBasedBuilder):
   def returnBbox(self, filename, image_dict):
     bbox_dict = {}
     with tf.io.gfile.GFile(filename, 'rb') as f:
-      data = tfds.core.lazy_imports.scipy.io.loadmat(f)
+      data = tfds.lazy_imports.scipy.io.loadmat(f)
     for example in data['annotations'][0]:
       image_name = example[-1].item().split('.')[0]
       ymin = float(example[1].item())
@@ -250,7 +250,7 @@ class Cars196(tfds.core.GeneratorBasedBuilder):
       ymax = float(example[3].item())
       xmax = float(example[2].item())
       with tf.io.gfile.GFile(image_dict[image_name], 'rb') as fp:
-        img = tfds.core.lazy_imports.PIL_Image.open(fp)
+        img = tfds.lazy_imports.PIL_Image.open(fp)
         width, height = img.size
       bbox_dict[image_name] = tfds.features.BBox(ymin / height, xmin / width,
                                                  ymax / height, xmax / width)

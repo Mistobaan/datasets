@@ -48,12 +48,12 @@ more than once in the sentence, its first occurrence is the one to be resolved.
 _DATA_URL_PATTERN = 'http://www.hlt.utdallas.edu/~vince/data/emnlp12/{}.c.txt'
 
 
-class DefinitePronounResolution(tfds.core.GeneratorBasedBuilder):
+class DefinitePronounResolution(tfds.GeneratorBasedBuilder):
   """The Definite Pronoun Resolution Dataset."""
   BUILDER_CONFIGS = [
-      tfds.core.BuilderConfig(
+      tfds.BuilderConfig(
           name='plain_text',
-          version=tfds.core.Version(
+          version=tfds.Version(
               '1.0.0',
               'New split API (https://tensorflow.org/datasets/splits)'),
           description='Plain text import of the Definite Pronoun Resolution Dataset.',  # pylint: disable=line-too-long
@@ -61,7 +61,7 @@ class DefinitePronounResolution(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -85,10 +85,10 @@ class DefinitePronounResolution(tfds.core.GeneratorBasedBuilder):
         'test': _DATA_URL_PATTERN.format('test'),
     })
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs={'filepath': files['test']}),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'filepath': files['train']}),
     ]

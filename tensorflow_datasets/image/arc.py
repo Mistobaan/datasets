@@ -47,10 +47,10 @@ human-like form of general fluid intelligence.
 _BASE_URL = "https://github.com/fchollet/ARC/"
 
 
-class ARCConfig(tfds.core.BuilderConfig):
+class ARCConfig(tfds.BuilderConfig):
   """BuilderConfig for ARC."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, version, commit, **kwargs):
     """BuilderConfig for ARC.
 
@@ -60,14 +60,14 @@ class ARCConfig(tfds.core.BuilderConfig):
       **kwargs: keyword arguments forwarded to super.
     """
     super(ARCConfig, self).__init__(
-        version=tfds.core.Version(version), **kwargs)
+        version=tfds.Version(version), **kwargs)
     self.commit = commit
     self.download_url = "{}zipball/{}".format(_BASE_URL, self.commit)
     self.download_resource = tfds.download.Resource(
         url=self.download_url, extract_method=tfds.download.ExtractMethod.ZIP)
 
 
-class ARC(tfds.core.GeneratorBasedBuilder):
+class ARC(tfds.GeneratorBasedBuilder):
   """The Abstraction and Reasoning Corpus (ARC)."""
 
   BUILDER_CONFIGS = [
@@ -79,7 +79,7 @@ class ARC(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         # This is the description that will appear on the datasets page.
         description=_DESCRIPTION,
@@ -134,11 +134,11 @@ class ARC(tfds.core.GeneratorBasedBuilder):
     test_dir = os.path.join(data_dir, "evaluation")
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN, gen_kwargs={
                 "directory": train_dir,
             }),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST, gen_kwargs={
                 "directory": test_dir,
             }),

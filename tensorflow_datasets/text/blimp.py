@@ -46,10 +46,10 @@ _PROJECT_URL = 'https://github.com/alexwarstadt/blimp/tree/master/'
 _DOWNLOAD_URL = 'https://raw.githubusercontent.com/alexwarstadt/blimp/master'
 
 
-class BlimpConfig(tfds.core.BuilderConfig):
+class BlimpConfig(tfds.BuilderConfig):
   """BuilderConfig for Blimp."""
 
-  @tfds.core.disallow_positional_args
+  @tfds.disallow_positional_args
   def __init__(self, paradigm_uid, **kwargs):
     """BuilderConfig for Blimp.
 
@@ -65,11 +65,11 @@ class BlimpConfig(tfds.core.BuilderConfig):
     super(BlimpConfig, self).__init__(
         name=name,
         description=description,
-        version=tfds.core.Version('0.1.0'),
+        version=tfds.Version('0.1.0'),
         **kwargs)
 
 
-class Blimp(tfds.core.GeneratorBasedBuilder):
+class Blimp(tfds.GeneratorBasedBuilder):
   """Minimal grammatical and ungrammatical pairs of 67 linguistic paradigms."""
 
   all_paradigms = [
@@ -147,7 +147,7 @@ class Blimp(tfds.core.GeneratorBasedBuilder):
   ]
 
   def _info(self):
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -178,7 +178,7 @@ class Blimp(tfds.core.GeneratorBasedBuilder):
     downloaded_files = dl_manager.download_and_extract(download_urls)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs={'filepath': downloaded_files[cfg.name]})
     ]

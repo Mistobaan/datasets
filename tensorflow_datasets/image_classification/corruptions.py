@@ -81,7 +81,7 @@ def disk(radius, alias_blur=0.1, dtype=np.float32):
   aliased_disk = np.array((x_axis**2 + y_axis**2) <= radius**2, dtype=dtype)
   aliased_disk /= np.sum(aliased_disk)
   # supersample disk to antialias
-  return tfds.core.lazy_imports.cv2.GaussianBlur(
+  return tfds.lazy_imports.cv2.GaussianBlur(
       aliased_disk, ksize=ksize, sigmaX=alias_blur)
 
 
@@ -105,7 +105,7 @@ def clipped_zoom(img, zoom_factor):
   cw = int(np.ceil(w / float(zoom_factor)))
   top_w = (w - cw) // 2
 
-  img = tfds.core.lazy_imports.scipy.ndimage.zoom(
+  img = tfds.lazy_imports.scipy.ndimage.zoom(
       img[top_h:top_h + ch, top_w:top_w + cw], (zoom_factor, zoom_factor, 1),
       order=1)
 
@@ -222,7 +222,7 @@ def impulse_noise(x, severity=1):
     numpy array, image with uint8 pixels in [0,255]. Added impulse noise.
   """
   c = [.03, .06, .09, 0.17, 0.27][severity - 1]
-  x = tfds.core.lazy_imports.skimage.util.random_noise(
+  x = tfds.lazy_imports.skimage.util.random_noise(
       np.array(x) / 255., mode='s&p', amount=c)
   x_clip = np.clip(x, 0, 1) * 255
   return around_and_astype(x_clip)
@@ -245,7 +245,7 @@ def defocus_blur(x, severity=1):
   kernel = disk(radius=c[0], alias_blur=c[1])
   channels = []
   for d in range(3):
-    channels.append(tfds.core.lazy_imports.cv2.filter2D(x[:, :, d], -1, kernel))
+    channels.append(tfds.lazy_imports.cv2.filter2D(x[:, :, d], -1, kernel))
   channels = np.array(channels).transpose((1, 2, 0))  # 3x224x224 -> 224x224x3
   x_clip = np.clip(channels, 0, 1) * 255
   return around_and_astype(x_clip)
@@ -267,7 +267,7 @@ def glass_blur(x, severity=1):
   c = [(0.7, 1, 2), (0.9, 2, 1), (1, 2, 3), (1.1, 3, 2),
        (1.5, 4, 2)][severity - 1]
   x = np.uint8(
-      tfds.core.lazy_imports.skimage.filters.gaussian(
+      tfds.lazy_imports.skimage.filters.gaussian(
           np.array(x) / 255., sigma=c[0], multichannel=True) * 255)
 
   # locally shuffle pixels
@@ -279,7 +279,7 @@ def glass_blur(x, severity=1):
         # swap
         x[h, w], x[h_prime, w_prime] = x[h_prime, w_prime], x[h, w]
   x_clip = np.clip(
-      tfds.core.lazy_imports.skimage.filters.gaussian(
+      tfds.lazy_imports.skimage.filters.gaussian(
           x / 255., sigma=c[0], multichannel=True), 0, 1)
   x_clip *= 255
   return around_and_astype(x_clip)
@@ -354,9 +354,9 @@ def brightness(x, severity=1):
   c = [.1, .2, .3, .4, .5][severity - 1]
 
   x = np.array(x) / 255.
-  x = tfds.core.lazy_imports.skimage.color.rgb2hsv(x)
+  x = tfds.lazy_imports.skimage.color.rgb2hsv(x)
   x[:, :, 2] = np.clip(x[:, :, 2] + c, 0, 1)
-  x = tfds.core.lazy_imports.skimage.color.hsv2rgb(x)
+  x = tfds.lazy_imports.skimage.color.hsv2rgb(x)
   x_clip = np.clip(x, 0, 1) * 255
   return around_and_astype(x_clip)
 
@@ -410,19 +410,19 @@ def elastic_transform(x, severity=1):
   ])
   pts2 = pts1 + np.random.uniform(
       -c[2], c[2], size=pts1.shape).astype(np.float32)
-  affine_trans = tfds.core.lazy_imports.cv2.getAffineTransform(pts1, pts2)
-  image = tfds.core.lazy_imports.cv2.warpAffine(
+  affine_trans = tfds.lazy_imports.cv2.getAffineTransform(pts1, pts2)
+  image = tfds.lazy_imports.cv2.warpAffine(
       image,
       affine_trans,
       shape_size[::-1],
-      borderMode=tfds.core.lazy_imports.cv2.BORDER_REFLECT_101)
+      borderMode=tfds.lazy_imports.cv2.BORDER_REFLECT_101)
 
-  dx = (tfds.core.lazy_imports.skimage.filters.gaussian(
+  dx = (tfds.lazy_imports.skimage.filters.gaussian(
       np.random.uniform(-1, 1, size=shape[:2]),
       c[1],
       mode='reflect',
       truncate=3) * c[0]).astype(np.float32)
-  dy = (tfds.core.lazy_imports.skimage.filters.gaussian(
+  dy = (tfds.lazy_imports.skimage.filters.gaussian(
       np.random.uniform(-1, 1, size=shape[:2]),
       c[1],
       mode='reflect',
@@ -435,7 +435,7 @@ def elastic_transform(x, severity=1):
                        (-1, 1)), np.reshape(x + dx,
                                             (-1, 1)), np.reshape(z, (-1, 1))
   x_clip = np.clip(
-      tfds.core.lazy_imports.scipy.ndimage.interpolation.map_coordinates(
+      tfds.lazy_imports.scipy.ndimage.interpolation.map_coordinates(
           image, indices, order=1, mode='reflect').reshape(shape), 0, 1) * 255
   return around_and_astype(x_clip)
 
@@ -456,7 +456,7 @@ def pixelate(x, severity=1):
   """
   c = [0.6, 0.5, 0.4, 0.3, 0.25][severity - 1]
   shape = x.shape
-  x = tfds.core.lazy_imports.PIL_Image.fromarray(x.astype(np.uint8))
+  x = tfds.lazy_imports.PIL_Image.fromarray(x.astype(np.uint8))
   x = x.resize((int(shape[1] * c), int(shape[0] * c)))
   x = x.resize((shape[1], shape[0]))
   return np.asarray(x)
@@ -473,11 +473,11 @@ def jpeg_compression(x, severity=1):
     numpy array, image with uint8 pixels in [0,255]. Applied jpeg compression.
   """
   c = [25, 18, 15, 10, 7][severity - 1]
-  x = tfds.core.lazy_imports.PIL_Image.fromarray(x.astype(np.uint8))
+  x = tfds.lazy_imports.PIL_Image.fromarray(x.astype(np.uint8))
   output = io.BytesIO()
   x.save(output, 'JPEG', quality=c)
   output.seek(0)
-  x = tfds.core.lazy_imports.PIL_Image.open(output)
+  x = tfds.lazy_imports.PIL_Image.open(output)
   return np.asarray(x)
 
 
@@ -495,7 +495,7 @@ def frost(x, severity=1):
   filename = FROST_FILENAMES[np.random.randint(5)]
   with tempfile.NamedTemporaryFile() as im_frost:
     tf.io.gfile.copy(filename, im_frost.name, overwrite=True)
-    frost_img = tfds.core.lazy_imports.cv2.imread(im_frost.name)
+    frost_img = tfds.lazy_imports.cv2.imread(im_frost.name)
   # randomly crop and convert to rgb
   x_start, y_start = np.random.randint(
       0, frost_img.shape[0] - 224), np.random.randint(0,
@@ -518,8 +518,8 @@ def snow(x, severity=1):
   Returns:
     numpy array, image with uint8 pixels in [0,255]. Applied snow.
   """
-  cv2 = tfds.core.lazy_imports.cv2
-  PIL_Image = tfds.core.lazy_imports.PIL_Image  # pylint: disable=invalid-name
+  cv2 = tfds.lazy_imports.cv2
+  PIL_Image = tfds.lazy_imports.PIL_Image  # pylint: disable=invalid-name
   c = [(0.1, 0.3, 3, 0.5, 10, 4, 0.8), (0.2, 0.3, 2, 0.5, 12, 4, 0.7),
        (0.55, 0.3, 4, 0.9, 12, 8, 0.7), (0.55, 0.3, 4.5, 0.85, 12, 8, 0.65),
        (0.55, 0.3, 2.5, 0.85, 12, 12, 0.55)][severity - 1]
@@ -575,7 +575,7 @@ def motion_blur(x, severity=1):
   """
   c = [(10, 3), (15, 5), (15, 8), (15, 12), (20, 15)][severity - 1]
 
-  x = tfds.core.lazy_imports.PIL_Image.fromarray(x.astype(np.uint8))
+  x = tfds.lazy_imports.PIL_Image.fromarray(x.astype(np.uint8))
 
   with tempfile.NamedTemporaryFile() as im_input:
     with tempfile.NamedTemporaryFile() as im_output:
@@ -594,9 +594,9 @@ def motion_blur(x, severity=1):
       with open(im_output.name, 'rb') as f:
         output = f.read()
 
-  x = tfds.core.lazy_imports.cv2.imdecode(
+  x = tfds.lazy_imports.cv2.imdecode(
       np.fromstring(output, np.uint8),
-      tfds.core.lazy_imports.cv2.IMREAD_UNCHANGED)
+      tfds.lazy_imports.cv2.IMREAD_UNCHANGED)
 
   if x.shape != (224, 224):
     x = np.clip(x[..., [2, 1, 0]], 0, 255)  # BGR to RGB
@@ -621,7 +621,7 @@ def gaussian_blur(x, severity=1):
   """
   c = [1, 2, 3, 4, 6][severity - 1]
 
-  x = tfds.core.lazy_imports.skimage.filters.gaussian(
+  x = tfds.lazy_imports.skimage.filters.gaussian(
       np.array(x) / 255., sigma=c, multichannel=True)
   x = np.clip(x, 0, 1) * 255
 
@@ -641,9 +641,9 @@ def saturate(x, severity=1):
   c = [(0.3, 0), (0.1, 0), (2, 0), (5, 0.1), (20, 0.2)][severity - 1]
 
   x = np.array(x) / 255.
-  x = tfds.core.lazy_imports.skimage.color.rgb2hsv(x)
+  x = tfds.lazy_imports.skimage.color.rgb2hsv(x)
   x[:, :, 1] = np.clip(x[:, :, 1] * c[0] + c[1], 0, 1)
-  x = tfds.core.lazy_imports.skimage.color.hsv2rgb(x)
+  x = tfds.lazy_imports.skimage.color.hsv2rgb(x)
   x = np.clip(x, 0, 1) * 255
 
   return around_and_astype(x)
@@ -659,8 +659,8 @@ def spatter(x, severity=1):
   Returns:
     numpy array, image with uint8 pixels in [0,255]. Applied spatter.
   """
-  cv2 = tfds.core.lazy_imports.cv2
-  skimage = tfds.core.lazy_imports.skimage
+  cv2 = tfds.lazy_imports.cv2
+  skimage = tfds.lazy_imports.skimage
   c = [(0.65, 0.3, 4, 0.69, 0.6, 0), (0.65, 0.3, 3, 0.68, 0.6, 0),
        (0.65, 0.3, 2, 0.68, 0.5, 0), (0.65, 0.3, 1, 0.65, 1.5, 1),
        (0.67, 0.4, 1, 0.65, 1.5, 1)][severity - 1]

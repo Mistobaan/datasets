@@ -51,13 +51,13 @@ The training set is composed of 5 instances of each category (instances 4, 6, 7,
 """
 
 
-class Smallnorb(tfds.core.GeneratorBasedBuilder):
+class Smallnorb(tfds.GeneratorBasedBuilder):
   """Smallnorb data set."""
 
-  VERSION = tfds.core.Version(
+  VERSION = tfds.Version(
       "2.0.0", "New split API (https://tensorflow.org/datasets/splits)")
   SUPPORTED_VERSIONS = [
-      tfds.core.Version("2.1.0"),
+      tfds.Version("2.1.0"),
   ]
 
   def _info(self):
@@ -85,7 +85,7 @@ class Smallnorb(tfds.core.GeneratorBasedBuilder):
     }
     if self.version > "2.0.0":
       features_dict["id"] = tfds.features.Text()
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict(features_dict),
@@ -108,14 +108,14 @@ class Smallnorb(tfds.core.GeneratorBasedBuilder):
     files = dl_manager.download_and_extract(filenames)
 
     return [
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TRAIN,
             gen_kwargs=dict(
                 split_prefix="train_",
                 dat_path=files["training_dat"],
                 cat_path=files["training_cat"],
                 info_path=files["training_info"])),
-        tfds.core.SplitGenerator(
+        tfds.SplitGenerator(
             name=tfds.Split.TEST,
             gen_kwargs=dict(
                 split_prefix="test_",

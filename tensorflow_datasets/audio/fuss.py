@@ -76,23 +76,23 @@ _DL_METADATA = {
 }
 
 
-class Fuss(tfds.core.GeneratorBasedBuilder):
+class Fuss(tfds.GeneratorBasedBuilder):
   """FUSS: Free Universal Sound Separation dataset."""
 
   BUILDER_CONFIGS = [
-      tfds.core.BuilderConfig(
+      tfds.BuilderConfig(
           name="reverberant",
           description="Default reverberated audio.",
-          version=tfds.core.Version("1.2.0")),
-      tfds.core.BuilderConfig(
+          version=tfds.Version("1.2.0")),
+      tfds.BuilderConfig(
           name="unprocessed",
           description="Unprocessed audio without additional reverberation.",
-          version=tfds.core.Version("1.2.0")),
+          version=tfds.Version("1.2.0")),
   ]
 
   def _info(self):
     source_labels = ["background0", "foreground0", "foreground1", "foreground2"]
-    return tfds.core.DatasetInfo(
+    return tfds.DatasetInfo(
         builder=self,
         description=_DESCRIPTION,
         features=tfds.features.FeaturesDict({
@@ -137,7 +137,7 @@ class Fuss(tfds.core.GeneratorBasedBuilder):
                                   (tfds.Split.VALIDATION, "validation"),
                                   (tfds.Split.TEST, "eval")]:
       splits.append(
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=split_name,
               gen_kwargs={
                   "base_dir": os.path.join(base_dir, extracted_dirname),
