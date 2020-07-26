@@ -37,7 +37,7 @@ if nightly:
 DOCLINES = __doc__.split('\n')
 
 REQUIRED_PKGS = [
-    'absl-py==0.9.0',
+    'absl-py==0.8.0',
     'tensorflow>=1.15.3,<2.0',
     'tensorflow-metadata',
     # 'attrs>=18.1.0',
@@ -55,9 +55,9 @@ REQUIRED_PKGS = [
 TESTS_REQUIRE = [
     # 'jupyter',
     # 'mako',
-    'dill',  # TODO(tfds): move to TESTS_REQUIRE.
-    'pytest',
-    'pytest-xdist',
+    'dill>=0.3.1.1,<0.3.2',  # TODO(tfds): move to TESTS_REQUIRE.
+    'pytest>=4.4.0',
+    'pytest-xdist==1.33.0',
     'tensorflow-data-validation',
     # TODO(b/142892342): Re-enable
     # 'tensorflow-docs @ git+https://github.com/tensorflow/docs#egg=tensorflow-docs',  # pylint: disable=line-too-long
