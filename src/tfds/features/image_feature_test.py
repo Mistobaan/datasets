@@ -37,7 +37,7 @@ class ImageFeatureTest(testing.FeatureExpectationsTestCase, parameterized.TestCa
         img = randint(256, size=(128, 100, 3), dtype=np_dtype)
         img_other_shape = randint(256, size=(64, 200, 3), dtype=np_dtype)
         img_file_path = os.path.join(
-            os.path.dirname(__file__), "../../testing/test_data/6pixels.png"
+            os.path.dirname(__file__), "../testing/test_data/6pixels.png"
         )
         img_file_expected_content = np.array(
             [  # see tests_data/README.md

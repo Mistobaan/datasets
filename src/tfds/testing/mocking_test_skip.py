@@ -29,7 +29,7 @@ from tfds.testing import test_utils
 # pylint: disable=g-bad-import-order,unused-import
 from tfds.image_classification import imagenet
 from tfds.image_classification import mnist
-from tfds.text import lm1b
+# from tfds.text import lm1b
 
 # pylint: enable=g-bad-import-order,unused-import
 
@@ -72,15 +72,15 @@ class MockingTest(test_case.TestCase):
                 image.shape.assert_is_compatible_with((None, None, 3))
                 self.assertEqual(image.dtype, tf.uint8)
 
-    def test_mocking_lm1b(self):
-        with mocking.mock_data():
-            ds = registered.load("lm1b/bytes", split="train")
-            self.assertEqual(
-                ds.element_spec, {"text": tf.TensorSpec(shape=(None,), dtype=tf.int64),}
-            )
-            for ex in ds.take(10):
-                self.assertEqual(ex["text"].dtype, tf.int64)
-                ex["text"].shape.assert_is_compatible_with((None,))
+    # def test_mocking_lm1b(self):
+    #     with mocking.mock_data():
+    #         ds = registered.load("lm1b/bytes", split="train")
+    #         self.assertEqual(
+    #             ds.element_spec, {"text": tf.TensorSpec(shape=(None,), dtype=tf.int64),}
+    #         )
+    #         for ex in ds.take(10):
+    #             self.assertEqual(ex["text"].dtype, tf.int64)
+    #             ex["text"].shape.assert_is_compatible_with((None,))
 
     def test_custom_as_dataset(self):
         def _as_dataset(self, *args, **kwargs):  # pylint: disable=unused-argument

@@ -29,7 +29,7 @@ tf.enable_v2_behavior()
 class VideoFeatureTest(testing.FeatureExpectationsTestCase):
     @property
     def _test_data_path(self):
-        return os.path.join(os.path.dirname(__file__), "../../testing/test_data")
+        return os.path.join(os.path.dirname(__file__), "../testing/test_data")
 
     def test_video_numpy(self):
         np_video = np.random.randint(256, size=(128, 64, 64, 3), dtype=np.uint8)

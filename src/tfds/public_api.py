@@ -38,6 +38,10 @@ from tfds.utils.tqdm_utils import disable_progress_bar
 from tfds.visualization import show_examples
 from tfds.visualization import show_statistics
 from tfds.version import __version__
+from tfds.dataset_builder import GeneratorBasedBuilder
+from tfds.utils.version import Version
+from tfds.dataset_info import DatasetInfo
+from tfds.splits import SplitGenerator
 
 with skip_registration():
     # We import testing namespace but without registering the tests datasets
@@ -54,6 +58,7 @@ __all__ = [
     "disable_progress_bar",
     "download",
     "features",
+    "GeneratorBasedBuilder",
     "GenerateMode",
     "ImageFolder",
     "is_dataset_on_gcs",
@@ -67,5 +72,8 @@ __all__ = [
     "TranslateFolder",
     "units",
     "visualization",
+    "Version",
+    "DatasetInfo",
+    "SplitGenerator",
     "__version__",
 ]

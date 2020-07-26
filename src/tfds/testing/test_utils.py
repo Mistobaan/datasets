@@ -29,7 +29,7 @@ from typing import Iterator
 
 from absl.testing import absltest
 
-# import dill
+import dill
 import numpy as np
 import tensorflow.compat.v2 as tf
 

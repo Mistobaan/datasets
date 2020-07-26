@@ -151,7 +151,7 @@ class GetClassPathUrlTest(testing.TestCase):
     def test_get_class_url(self):
         cls_url = py_utils.get_class_url(py_utils.NonMutableDict)
         self.assertEqual(
-            cls_url, (constants.SRC_BASE_URL + "tfds/core/utils/py_utils.py")
+            cls_url, (constants.SRC_BASE_URL + "tfds/utils/py_utils.py")
         )
 
 
