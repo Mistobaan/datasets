@@ -16,9 +16,7 @@
 # Lint as: python3
 """UCF-101 dataset from https://www.crcv.ucf.edu/data/UCF101.php."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import os
 

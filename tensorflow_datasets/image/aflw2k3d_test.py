@@ -16,9 +16,7 @@
 # Lint as: python3
 """Tests for AFLW2000-3D dataset module."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 from tensorflow_datasets import testing
 from tensorflow_datasets.image import aflw2k3d
 import tensorflow_datasets.public_api as tfds

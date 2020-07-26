@@ -22,9 +22,7 @@ Deep Learning Face Attributes in the Wild
 Ziwei Liu and Ping Luo and Xiaogang Wang and Xiaoou Tang
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import os
 

@@ -16,9 +16,7 @@
 # Lint as: python3
 """The Waymo Open Dataset. See waymo.com/open."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import io
 import os

@@ -16,9 +16,7 @@
 # Lint as: python3
 """WebQuestions Benchmark for Question Answering."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import json
 import re

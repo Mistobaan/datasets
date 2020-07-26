@@ -15,9 +15,7 @@
 
 """Tests for WikipediaToxicitySubtypes dataset."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import tensorflow_datasets.public_api as tfds
 from tensorflow_datasets.text import wikipedia_toxicity_subtypes

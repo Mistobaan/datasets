@@ -23,9 +23,7 @@
 ./starcraft  --resolution=64 --output_file=valid.tfrecords
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 from absl import app
 from absl import flags

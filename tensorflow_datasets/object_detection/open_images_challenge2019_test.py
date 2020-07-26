@@ -16,9 +16,7 @@
 # Lint as: python3
 """Tests for open_images_challenge2019.py."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import os
 

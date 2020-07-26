@@ -16,9 +16,7 @@
 # Lint as: python3
 """TED talk high/low-resource paired language data set from Qi, et al. 2018."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import os
 

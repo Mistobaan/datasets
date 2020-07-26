@@ -16,9 +16,7 @@
 # Lint as: python3
 """Dataset class for Places365-Standard small(256x256) dataset."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 import csv
 import os
 import six.moves.urllib as urllib

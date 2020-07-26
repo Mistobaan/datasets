@@ -16,9 +16,7 @@
 # Lint as: python3
 """WMT16: Translate dataset."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import tensorflow_datasets.public_api as tfds
 from tensorflow_datasets.translate import wmt

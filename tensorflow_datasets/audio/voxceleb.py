@@ -16,9 +16,7 @@
 # Lint as: python3
 """The audio part of VoxCeleb dataset."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import collections
 import os

@@ -16,9 +16,7 @@
 # Lint as: python3
 """Base DatasetBuilderTestCase to test a DatasetBuilder base class."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import hashlib
 import itertools

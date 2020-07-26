@@ -16,9 +16,7 @@
 # Lint as: python3
 """Tests for tensorflow_datasets.testing.dataset_builder_testing."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import tensorflow.compat.v2 as tf
 from tensorflow_datasets import testing

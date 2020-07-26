@@ -16,9 +16,7 @@
 # Lint as: python3
 """Wiki40B: A clean Wikipedia dataset for 40+ languages."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import os
 

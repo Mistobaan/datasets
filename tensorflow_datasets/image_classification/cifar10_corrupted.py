@@ -21,9 +21,7 @@ extra corruptions to the test images in the Cifar10 dataset. This dataset wraps
 the corrupted Cifar10 test images uploaded by the original authors.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import os
 

@@ -16,9 +16,7 @@
 # Lint as: python3
 """Beans leaf dataset with images of diseased and health leaves."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import os
 

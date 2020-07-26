@@ -16,9 +16,7 @@
 # Lint as: python3
 """Tests for c4 dataset module."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import six
 

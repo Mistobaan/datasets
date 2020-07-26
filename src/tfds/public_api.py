@@ -47,7 +47,6 @@ with skip_registration():
 
 __all__ = [
     "as_numpy",
-    "core",
     "folder_dataset",
     "builder",
     "builder_cls",
