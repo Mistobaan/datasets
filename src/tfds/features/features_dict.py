@@ -24,9 +24,9 @@ from __future__ import print_function
 import six
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import utils
-from tensorflow_datasets.core.features import feature as feature_lib
-from tensorflow_datasets.core.features import top_level_feature
+from tfds.core import utils
+from tfds.core.features import feature as feature_lib
+from tfds.core.features import top_level_feature
 
 
 class _DictGetCounter(object):

@@ -26,7 +26,7 @@ import functools
 
 import six
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets.core import api_utils
+from tfds.core import api_utils
 
 
 @six.add_metaclass(abc.ABCMeta)

@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.dataset_utils."""
+"""Tests for tfds.core.dataset_utils."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -22,8 +22,8 @@ from __future__ import print_function
 
 import numpy as np
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import dataset_utils
+from tfds import testing
+from tfds.core import dataset_utils
 
 tf.enable_v2_behavior()
 

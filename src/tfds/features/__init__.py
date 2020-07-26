@@ -16,22 +16,22 @@
 # Lint as: python3
 """`tfds.features.FeatureConnector` API defining feature types."""
 
-from tensorflow_datasets.core.features import text
+from tfds.core.features import text
 
-from tensorflow_datasets.core.features.audio_feature import Audio
-from tensorflow_datasets.core.features.bounding_boxes import BBox
-from tensorflow_datasets.core.features.bounding_boxes import BBoxFeature
-from tensorflow_datasets.core.features.class_label_feature import ClassLabel
-from tensorflow_datasets.core.features.feature import FeatureConnector
-from tensorflow_datasets.core.features.feature import Tensor
-from tensorflow_datasets.core.features.feature import TensorInfo
-from tensorflow_datasets.core.features.features_dict import FeaturesDict
-from tensorflow_datasets.core.features.image_feature import Image
-from tensorflow_datasets.core.features.sequence_feature import Sequence
-from tensorflow_datasets.core.features.text_feature import Text
-from tensorflow_datasets.core.features.translation_feature import Translation
-from tensorflow_datasets.core.features.translation_feature import TranslationVariableLanguages
-from tensorflow_datasets.core.features.video_feature import Video
+from tfds.core.features.audio_feature import Audio
+from tfds.core.features.bounding_boxes import BBox
+from tfds.core.features.bounding_boxes import BBoxFeature
+from tfds.core.features.class_label_feature import ClassLabel
+from tfds.core.features.feature import FeatureConnector
+from tfds.core.features.feature import Tensor
+from tfds.core.features.feature import TensorInfo
+from tfds.core.features.features_dict import FeaturesDict
+from tfds.core.features.image_feature import Image
+from tfds.core.features.sequence_feature import Sequence
+from tfds.core.features.text_feature import Text
+from tfds.core.features.translation_feature import Translation
+from tfds.core.features.translation_feature import TranslationVariableLanguages
+from tfds.core.features.video_feature import Video
 
 __all__ = [
     "text",

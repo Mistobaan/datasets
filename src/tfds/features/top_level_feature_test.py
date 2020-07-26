@@ -14,16 +14,16 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.features.top_level_feature."""
+"""Tests for tfds.core.features.top_level_feature."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import features as features_lib
-from tensorflow_datasets.core.features import top_level_feature
+from tfds import testing
+from tfds.core import features as features_lib
+from tfds.core.features import top_level_feature
 
 
 class FeaturesManagerTest(testing.TestCase):

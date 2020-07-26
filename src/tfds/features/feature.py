@@ -95,8 +95,8 @@ import numpy as np
 import six
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import api_utils
-from tensorflow_datasets.core import utils
+from tfds.core import api_utils
+from tfds.core import utils
 
 
 class TensorInfo(object):

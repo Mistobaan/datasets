@@ -18,9 +18,9 @@
 
 """
 
-from tensorflow_datasets.core.decode.base import Decoder
-from tensorflow_datasets.core.decode.base import make_decoder
-from tensorflow_datasets.core.decode.base import SkipDecoding
+from tfds.core.decode.base import Decoder
+from tfds.core.decode.base import make_decoder
+from tfds.core.decode.base import SkipDecoding
 
 __all__ = [
     'Decoder',

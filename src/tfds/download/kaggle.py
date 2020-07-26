@@ -29,9 +29,9 @@ import zipfile
 from absl import logging
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import utils
-from tensorflow_datasets.core.download import extractor
-from tensorflow_datasets.core.download import resource
+from tfds.core import utils
+from tfds.core.download import extractor
+from tfds.core.download import resource
 
 
 def _get_kaggle_type(competition_or_dataset: str) -> str:

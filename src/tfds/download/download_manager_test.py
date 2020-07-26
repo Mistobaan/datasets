@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.download.download_manager."""
+"""Tests for tfds.core.download.download_manager."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -27,12 +27,12 @@ import pickle
 
 from absl.testing import absltest
 import promise
-from tensorflow_datasets import testing
-from tensorflow_datasets.core.download import checksums as checksums_lib
-from tensorflow_datasets.core.download import download_manager as dm
-from tensorflow_datasets.core.download import downloader
-from tensorflow_datasets.core.download import extractor
-from tensorflow_datasets.core.download import resource as resource_lib
+from tfds import testing
+from tfds.core.download import checksums as checksums_lib
+from tfds.core.download import download_manager as dm
+from tfds.core.download import downloader
+from tfds.core.download import extractor
+from tfds.core.download import resource as resource_lib
 
 
 ZIP = resource_lib.ExtractMethod.ZIP

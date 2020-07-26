@@ -45,14 +45,14 @@ from absl import logging
 import six
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import api_utils
-from tensorflow_datasets.core import lazy_imports_lib
-from tensorflow_datasets.core import naming
-from tensorflow_datasets.core import splits as splits_lib
-from tensorflow_datasets.core import utils
-from tensorflow_datasets.core.features import top_level_feature
-from tensorflow_datasets.core.proto import dataset_info_pb2
-from tensorflow_datasets.core.utils import gcs_utils
+from tfds.core import api_utils
+from tfds.core import lazy_imports_lib
+from tfds.core import naming
+from tfds.core import splits as splits_lib
+from tfds.core import utils
+from tfds.core.features import top_level_feature
+from tfds.core.proto import dataset_info_pb2
+from tfds.core.utils import gcs_utils
 
 from google.protobuf import json_format
 

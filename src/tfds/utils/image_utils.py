@@ -24,8 +24,8 @@ from __future__ import division
 from __future__ import print_function
 
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets.core.utils import py_utils
-from tensorflow_datasets.core.utils import tf_utils
+from tfds.core.utils import py_utils
+from tfds.core.utils import tf_utils
 
 
 @py_utils.memoize()

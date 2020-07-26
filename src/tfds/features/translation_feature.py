@@ -21,9 +21,9 @@ from __future__ import division
 from __future__ import print_function
 
 import six
-from tensorflow_datasets.core.features import features_dict
-from tensorflow_datasets.core.features import sequence_feature
-from tensorflow_datasets.core.features import text_feature
+from tfds.core.features import features_dict
+from tfds.core.features import sequence_feature
+from tfds.core.features import text_feature
 try:
   # This fallback applies for all versions of Python before 3.3
   import collections.abc as collections_abc  # pylint:disable=g-import-not-at-top  # pytype: disable=module-attr

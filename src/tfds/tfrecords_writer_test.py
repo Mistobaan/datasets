@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.tfrecords_writer."""
+"""Tests for tfds.core.tfrecords_writer."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -24,14 +24,14 @@ import os
 
 from absl.testing import absltest
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import dataset_utils
-from tensorflow_datasets.core import example_parser
-from tensorflow_datasets.core import example_serializer
-from tensorflow_datasets.core import lazy_imports_lib
-from tensorflow_datasets.core import tfrecords_writer
-from tensorflow_datasets.core.tfrecords_writer import _ShardSpec
-from tensorflow_datasets.core.utils import shard_utils
+from tfds import testing
+from tfds.core import dataset_utils
+from tfds.core import example_parser
+from tfds.core import example_serializer
+from tfds.core import lazy_imports_lib
+from tfds.core import tfrecords_writer
+from tfds.core.tfrecords_writer import _ShardSpec
+from tfds.core.utils import shard_utils
 
 
 class GetShardSpecsTest(testing.TestCase):

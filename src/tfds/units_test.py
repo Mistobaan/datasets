@@ -14,13 +14,13 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.units."""
+"""Tests for tfds.core.units."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import units
+from tfds import testing
+from tfds.core import units
 
 
 class UnitsTest(testing.TestCase):

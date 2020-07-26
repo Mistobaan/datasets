@@ -25,11 +25,11 @@ from typing import Optional
 from absl import logging
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import dataset_info
-from tensorflow_datasets.core import dataset_utils
-from tensorflow_datasets.core import features as features_lib
-from tensorflow_datasets.core import lazy_imports_lib
-from tensorflow_datasets.core.visualization import visualizer
+from tfds.core import dataset_info
+from tfds.core import dataset_utils
+from tfds.core import features as features_lib
+from tfds.core import lazy_imports_lib
+from tfds.core.visualization import visualizer
 
 
 def _make_grid(plot_single_ex_fn, ds, rows, cols, plot_scale):

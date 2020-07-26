@@ -21,7 +21,7 @@ from __future__ import division
 from __future__ import print_function
 
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets.core import utils
+from tfds.core import utils
 
 
 class ExampleParser(object):

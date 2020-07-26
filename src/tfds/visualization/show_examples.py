@@ -24,11 +24,11 @@ from __future__ import print_function
 from typing import Any
 
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets.core import dataset_info
-from tensorflow_datasets.core import lazy_imports_lib
-from tensorflow_datasets.core import splits
-from tensorflow_datasets.core import utils
-from tensorflow_datasets.core.visualization import image_visualizer
+from tfds.core import dataset_info
+from tfds.core import lazy_imports_lib
+from tfds.core import splits
+from tfds.core import utils
+from tfds.core.visualization import image_visualizer
 from tensorflow_metadata.proto.v0 import statistics_pb2
 
 

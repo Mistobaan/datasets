@@ -4,7 +4,7 @@
 syntax = "proto3";
 option cc_enable_arenas = true;
 
-package tensorflow_datasets;
+package tfds;
 
 import "tensorflow_metadata/proto/v0/statistics.proto";
 import "tensorflow_metadata/proto/v0/schema.proto";
@@ -15,7 +15,7 @@ message DatasetLocation {
   repeated string urls = 1;
 }
 
-// This is a serialization of tensorflow_datasets.core.SplitInfo -- this is
+// This is a serialization of tfds.core.SplitInfo -- this is
 // supposed to encapsulate the information specific to a particular instance
 // of this dataset, so attributes that are common to this dataset go directly
 // in DatasetInfo (name, location, schema), but attributes specific to an
@@ -50,7 +50,7 @@ message RedistributionInfo {
   string license = 1;
 }
 
-// This is a serialization of tensorflow_datasets.core.DatasetInfo.
+// This is a serialization of tfds.core.DatasetInfo.
 message DatasetInfo {
   string name = 1;
   string description = 2;

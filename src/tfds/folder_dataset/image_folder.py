@@ -26,11 +26,11 @@ import random
 from typing import Dict, List, Tuple
 
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets.core import dataset_builder
-from tensorflow_datasets.core import dataset_info
-from tensorflow_datasets.core import features as features_lib
-from tensorflow_datasets.core import splits as split_lib
-from tensorflow_datasets.core.utils import version
+from tfds.core import dataset_builder
+from tfds.core import dataset_info
+from tfds.core import features as features_lib
+from tfds.core import splits as split_lib
+from tfds.core.utils import version
 
 _SUPPORTED_IMAGE_FORMAT = ('.jpg', '.jpeg', '.png')
 

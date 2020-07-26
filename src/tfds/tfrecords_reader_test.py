@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.tfrecords_reader."""
+"""Tests for tfds.core.tfrecords_reader."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -29,14 +29,14 @@ import six
 
 import tensorflow.compat.v2 as tf
 
-import tensorflow_datasets as tfds
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import example_parser
-from tensorflow_datasets.core import splits
-from tensorflow_datasets.core import tfrecords_reader
-from tensorflow_datasets.core import tfrecords_writer
-from tensorflow_datasets.core.utils import read_config as read_config_lib
-from tensorflow_datasets.core.utils import shard_utils
+import tfds as tfds
+from tfds import testing
+from tfds.core import example_parser
+from tfds.core import splits
+from tfds.core import tfrecords_reader
+from tfds.core import tfrecords_writer
+from tfds.core.utils import read_config as read_config_lib
+from tfds.core.utils import shard_utils
 
 
 # Skip the cardinality test for backward compatibility with TF <= 2.1.

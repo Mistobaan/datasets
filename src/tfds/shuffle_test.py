@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.shuffle."""
+"""Tests for tfds.core.shuffle."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -23,8 +23,8 @@ from __future__ import print_function
 import collections
 
 from absl.testing.absltest import mock
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import shuffle
+from tfds import testing
+from tfds.core import shuffle
 
 _ITEMS = [
     (1, b'The'),

@@ -17,11 +17,11 @@
 """Util import."""
 
 # pylint: disable=wildcard-import
-from tensorflow_datasets.core.utils.gcs_utils import gcs_path
-from tensorflow_datasets.core.utils.image_utils import *
-from tensorflow_datasets.core.utils.py_utils import *
-from tensorflow_datasets.core.utils.tf_utils import *
-from tensorflow_datasets.core.utils.tqdm_utils import *
-from tensorflow_datasets.core.utils.version import Experiment
-from tensorflow_datasets.core.utils.version import Version
+from tfds.core.utils.gcs_utils import gcs_path
+from tfds.core.utils.image_utils import *
+from tfds.core.utils.py_utils import *
+from tfds.core.utils.tf_utils import *
+from tfds.core.utils.tqdm_utils import *
+from tfds.core.utils.version import Experiment
+from tfds.core.utils.version import Version
 # pylint: enable=wildcard-import

@@ -30,12 +30,12 @@ import attr
 
 import numpy as np
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets.core import api_utils
-from tensorflow_datasets.core import example_parser
-from tensorflow_datasets.core import naming
-from tensorflow_datasets.core import utils
-from tensorflow_datasets.core.utils import read_config as read_config_lib
-from tensorflow_datasets.core.utils import shard_utils
+from tfds.core import api_utils
+from tfds.core import example_parser
+from tfds.core import naming
+from tfds.core import utils
+from tfds.core.utils import read_config as read_config_lib
+from tfds.core.utils import shard_utils
 
 SplitInfo = Any
 

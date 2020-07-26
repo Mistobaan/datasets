@@ -27,9 +27,9 @@ import tempfile
 
 from absl.testing import absltest
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets import testing
-from tensorflow_datasets.core.download import downloader
-from tensorflow_datasets.core.download import resource as resource_lib
+from tfds import testing
+from tfds.core.download import downloader
+from tfds.core.download import resource as resource_lib
 
 
 class _FakeResponse(object):

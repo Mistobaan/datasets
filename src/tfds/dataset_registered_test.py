@@ -14,13 +14,13 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.registered."""
+"""Tests for tfds.core.registered."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-import tensorflow_datasets as tfds
+import tfds as tfds
 
 
 class ListBuilderTest(tfds.testing.TestCase):

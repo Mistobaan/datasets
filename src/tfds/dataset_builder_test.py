@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.dataset_builder."""
+"""Tests for tfds.core.dataset_builder."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -27,17 +27,17 @@ from absl.testing import absltest
 import dill
 import numpy as np
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import constants
-from tensorflow_datasets.core import dataset_builder
-from tensorflow_datasets.core import dataset_info
-from tensorflow_datasets.core import dataset_utils
-from tensorflow_datasets.core import download
-from tensorflow_datasets.core import features
-from tensorflow_datasets.core import registered
-from tensorflow_datasets.core import splits as splits_lib
-from tensorflow_datasets.core import utils
-from tensorflow_datasets.core.utils import read_config as read_config_lib
+from tfds import testing
+from tfds.core import constants
+from tfds.core import dataset_builder
+from tfds.core import dataset_info
+from tfds.core import dataset_utils
+from tfds.core import download
+from tfds.core import features
+from tfds.core import registered
+from tfds.core import splits as splits_lib
+from tfds.core import utils
+from tfds.core.utils import read_config as read_config_lib
 
 tf.enable_v2_behavior()
 
@@ -153,7 +153,7 @@ class DatasetBuilderTest(testing.TestCase):
 
   @testing.run_in_graph_and_eager_modes()
   def test_load_from_gcs(self):
-    from tensorflow_datasets.image_classification import mnist  # pylint:disable=import-outside-toplevel,g-import-not-at-top
+    from tfds.image_classification import mnist  # pylint:disable=import-outside-toplevel,g-import-not-at-top
     with testing.tmp_dir(self.get_temp_dir()) as tmp_dir:
       with absltest.mock.patch.object(
           mnist.MNIST, "_download_and_prepare",

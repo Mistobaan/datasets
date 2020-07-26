@@ -23,10 +23,10 @@ from __future__ import print_function
 import typing
 from typing import List, Union
 
-from tensorflow_datasets.core import proto
-from tensorflow_datasets.core import tfrecords_reader
-from tensorflow_datasets.core import utils
-from tensorflow_datasets.core.utils import shard_utils
+from tfds.core import proto
+from tfds.core import tfrecords_reader
+from tfds.core import utils
+from tfds.core.utils import shard_utils
 
 
 @utils.as_proto_cls(proto.SplitInfo)

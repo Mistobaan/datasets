@@ -31,14 +31,14 @@ import promise
 import six
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import api_utils
-from tensorflow_datasets.core import utils
-from tensorflow_datasets.core.download import checksums
-from tensorflow_datasets.core.download import downloader
-from tensorflow_datasets.core.download import extractor
-from tensorflow_datasets.core.download import kaggle
-from tensorflow_datasets.core.download import resource as resource_lib
-from tensorflow_datasets.core.download import util
+from tfds.core import api_utils
+from tfds.core import utils
+from tfds.core.download import checksums
+from tfds.core.download import downloader
+from tfds.core.download import extractor
+from tfds.core.download import kaggle
+from tfds.core.download import resource as resource_lib
+from tfds.core.download import util
 
 
 class NonMatchingChecksumError(Exception):

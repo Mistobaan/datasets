@@ -20,12 +20,12 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import dataset_builder
-from tensorflow_datasets.core import proto
-from tensorflow_datasets.core import splits
-from tensorflow_datasets.core.utils import shard_utils
-import tensorflow_datasets.public_api as tfds
+from tfds import testing
+from tfds.core import dataset_builder
+from tfds.core import proto
+from tfds.core import splits
+from tfds.core.utils import shard_utils
+import tfds.public_api as tfds
 
 RANGE_TRAIN = list(range(0, 2000))
 RANGE_TEST = list(range(3000, 3200))

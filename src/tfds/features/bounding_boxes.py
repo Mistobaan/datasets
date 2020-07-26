@@ -24,7 +24,7 @@ import collections
 
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core.features import feature
+from tfds.core.features import feature
 
 
 BBox = collections.namedtuple('BBox', 'ymin, xmin, ymax, xmax')

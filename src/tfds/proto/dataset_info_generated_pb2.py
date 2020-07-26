@@ -35,10 +35,10 @@ from tensorflow_metadata.proto.v0 import schema_pb2 as tensorflow__metadata_dot_
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='dataset_info.proto',
-  package='tensorflow_datasets',
+  package='tfds',
   syntax='proto3',
   serialized_options=b'\370\001\001',
-  serialized_pb=b'\n\x12\x64\x61taset_info.proto\x12\x13tensorflow_datasets\x1a-tensorflow_metadata/proto/v0/statistics.proto\x1a)tensorflow_metadata/proto/v0/schema.proto\"\x1f\n\x0f\x44\x61tasetLocation\x12\x0c\n\x04urls\x18\x01 \x03(\t\"\x9d\x01\n\tSplitInfo\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\nnum_shards\x18\x02 \x01(\x03\x12\x15\n\rshard_lengths\x18\x04 \x03(\x03\x12\x11\n\tnum_bytes\x18\x05 \x01(\x03\x12\x44\n\nstatistics\x18\x03 \x01(\x0b\x32\x30.tensorflow.metadata.v0.DatasetFeatureStatistics\"/\n\x0eSupervisedKeys\x12\r\n\x05input\x18\x01 \x01(\t\x12\x0e\n\x06output\x18\x02 \x01(\t\"%\n\x12RedistributionInfo\x12\x0f\n\x07license\x18\x01 \x01(\t\"\xb4\x04\n\x0b\x44\x61tasetInfo\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\x12\x0f\n\x07version\x18\t \x01(\t\x12\x10\n\x08\x63itation\x18\x03 \x01(\t\x12\x19\n\rsize_in_bytes\x18\x04 \x01(\x03\x42\x02\x18\x01\x12\x15\n\rdownload_size\x18\x0c \x01(\x03\x12\x36\n\x08location\x18\x05 \x01(\x0b\x32$.tensorflow_datasets.DatasetLocation\x12W\n\x12\x64ownload_checksums\x18\n \x03(\x0b\x32\x37.tensorflow_datasets.DatasetInfo.DownloadChecksumsEntryB\x02\x18\x01\x12.\n\x06schema\x18\x06 \x01(\x0b\x32\x1e.tensorflow.metadata.v0.Schema\x12.\n\x06splits\x18\x07 \x03(\x0b\x32\x1e.tensorflow_datasets.SplitInfo\x12<\n\x0fsupervised_keys\x18\x08 \x01(\x0b\x32#.tensorflow_datasets.SupervisedKeys\x12\x44\n\x13redistribution_info\x18\x0b \x01(\x0b\x32\'.tensorflow_datasets.RedistributionInfo\x1a\x38\n\x16\x44ownloadChecksumsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x03\xf8\x01\x01\x62\x06proto3'
+  serialized_pb=b'\n\x12\x64\x61taset_info.proto\x12\x13tfds\x1a-tensorflow_metadata/proto/v0/statistics.proto\x1a)tensorflow_metadata/proto/v0/schema.proto\"\x1f\n\x0f\x44\x61tasetLocation\x12\x0c\n\x04urls\x18\x01 \x03(\t\"\x9d\x01\n\tSplitInfo\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x12\n\nnum_shards\x18\x02 \x01(\x03\x12\x15\n\rshard_lengths\x18\x04 \x03(\x03\x12\x11\n\tnum_bytes\x18\x05 \x01(\x03\x12\x44\n\nstatistics\x18\x03 \x01(\x0b\x32\x30.tensorflow.metadata.v0.DatasetFeatureStatistics\"/\n\x0eSupervisedKeys\x12\r\n\x05input\x18\x01 \x01(\t\x12\x0e\n\x06output\x18\x02 \x01(\t\"%\n\x12RedistributionInfo\x12\x0f\n\x07license\x18\x01 \x01(\t\"\xb4\x04\n\x0b\x44\x61tasetInfo\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0b\x64\x65scription\x18\x02 \x01(\t\x12\x0f\n\x07version\x18\t \x01(\t\x12\x10\n\x08\x63itation\x18\x03 \x01(\t\x12\x19\n\rsize_in_bytes\x18\x04 \x01(\x03\x42\x02\x18\x01\x12\x15\n\rdownload_size\x18\x0c \x01(\x03\x12\x36\n\x08location\x18\x05 \x01(\x0b\x32$.tfds.DatasetLocation\x12W\n\x12\x64ownload_checksums\x18\n \x03(\x0b\x32\x37.tfds.DatasetInfo.DownloadChecksumsEntryB\x02\x18\x01\x12.\n\x06schema\x18\x06 \x01(\x0b\x32\x1e.tensorflow.metadata.v0.Schema\x12.\n\x06splits\x18\x07 \x03(\x0b\x32\x1e.tfds.SplitInfo\x12<\n\x0fsupervised_keys\x18\x08 \x01(\x0b\x32#.tfds.SupervisedKeys\x12\x44\n\x13redistribution_info\x18\x0b \x01(\x0b\x32\'.tfds.RedistributionInfo\x1a\x38\n\x16\x44ownloadChecksumsEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42\x03\xf8\x01\x01\x62\x06proto3'
   ,
   dependencies=[tensorflow__metadata_dot_proto_dot_v0_dot_statistics__pb2.DESCRIPTOR,tensorflow__metadata_dot_proto_dot_v0_dot_schema__pb2.DESCRIPTOR,])
 
@@ -47,13 +47,13 @@ DESCRIPTOR = _descriptor.FileDescriptor(
 
 _DATASETLOCATION = _descriptor.Descriptor(
   name='DatasetLocation',
-  full_name='tensorflow_datasets.DatasetLocation',
+  full_name='tfds.DatasetLocation',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='urls', full_name='tensorflow_datasets.DatasetLocation.urls', index=0,
+      name='urls', full_name='tfds.DatasetLocation.urls', index=0,
       number=1, type=9, cpp_type=9, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
@@ -78,41 +78,41 @@ _DATASETLOCATION = _descriptor.Descriptor(
 
 _SPLITINFO = _descriptor.Descriptor(
   name='SplitInfo',
-  full_name='tensorflow_datasets.SplitInfo',
+  full_name='tfds.SplitInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='tensorflow_datasets.SplitInfo.name', index=0,
+      name='name', full_name='tfds.SplitInfo.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='num_shards', full_name='tensorflow_datasets.SplitInfo.num_shards', index=1,
+      name='num_shards', full_name='tfds.SplitInfo.num_shards', index=1,
       number=2, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='shard_lengths', full_name='tensorflow_datasets.SplitInfo.shard_lengths', index=2,
+      name='shard_lengths', full_name='tfds.SplitInfo.shard_lengths', index=2,
       number=4, type=3, cpp_type=2, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='num_bytes', full_name='tensorflow_datasets.SplitInfo.num_bytes', index=3,
+      name='num_bytes', full_name='tfds.SplitInfo.num_bytes', index=3,
       number=5, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='statistics', full_name='tensorflow_datasets.SplitInfo.statistics', index=4,
+      name='statistics', full_name='tfds.SplitInfo.statistics', index=4,
       number=3, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -137,20 +137,20 @@ _SPLITINFO = _descriptor.Descriptor(
 
 _SUPERVISEDKEYS = _descriptor.Descriptor(
   name='SupervisedKeys',
-  full_name='tensorflow_datasets.SupervisedKeys',
+  full_name='tfds.SupervisedKeys',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='input', full_name='tensorflow_datasets.SupervisedKeys.input', index=0,
+      name='input', full_name='tfds.SupervisedKeys.input', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='output', full_name='tensorflow_datasets.SupervisedKeys.output', index=1,
+      name='output', full_name='tfds.SupervisedKeys.output', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -175,13 +175,13 @@ _SUPERVISEDKEYS = _descriptor.Descriptor(
 
 _REDISTRIBUTIONINFO = _descriptor.Descriptor(
   name='RedistributionInfo',
-  full_name='tensorflow_datasets.RedistributionInfo',
+  full_name='tfds.RedistributionInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='license', full_name='tensorflow_datasets.RedistributionInfo.license', index=0,
+      name='license', full_name='tfds.RedistributionInfo.license', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -206,20 +206,20 @@ _REDISTRIBUTIONINFO = _descriptor.Descriptor(
 
 _DATASETINFO_DOWNLOADCHECKSUMSENTRY = _descriptor.Descriptor(
   name='DownloadChecksumsEntry',
-  full_name='tensorflow_datasets.DatasetInfo.DownloadChecksumsEntry',
+  full_name='tfds.DatasetInfo.DownloadChecksumsEntry',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='key', full_name='tensorflow_datasets.DatasetInfo.DownloadChecksumsEntry.key', index=0,
+      name='key', full_name='tfds.DatasetInfo.DownloadChecksumsEntry.key', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='value', full_name='tensorflow_datasets.DatasetInfo.DownloadChecksumsEntry.value', index=1,
+      name='value', full_name='tfds.DatasetInfo.DownloadChecksumsEntry.value', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -243,90 +243,90 @@ _DATASETINFO_DOWNLOADCHECKSUMSENTRY = _descriptor.Descriptor(
 
 _DATASETINFO = _descriptor.Descriptor(
   name='DatasetInfo',
-  full_name='tensorflow_datasets.DatasetInfo',
+  full_name='tfds.DatasetInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='name', full_name='tensorflow_datasets.DatasetInfo.name', index=0,
+      name='name', full_name='tfds.DatasetInfo.name', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='description', full_name='tensorflow_datasets.DatasetInfo.description', index=1,
+      name='description', full_name='tfds.DatasetInfo.description', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='version', full_name='tensorflow_datasets.DatasetInfo.version', index=2,
+      name='version', full_name='tfds.DatasetInfo.version', index=2,
       number=9, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='citation', full_name='tensorflow_datasets.DatasetInfo.citation', index=3,
+      name='citation', full_name='tfds.DatasetInfo.citation', index=3,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='size_in_bytes', full_name='tensorflow_datasets.DatasetInfo.size_in_bytes', index=4,
+      name='size_in_bytes', full_name='tfds.DatasetInfo.size_in_bytes', index=4,
       number=4, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=b'\030\001', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='download_size', full_name='tensorflow_datasets.DatasetInfo.download_size', index=5,
+      name='download_size', full_name='tfds.DatasetInfo.download_size', index=5,
       number=12, type=3, cpp_type=2, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='location', full_name='tensorflow_datasets.DatasetInfo.location', index=6,
+      name='location', full_name='tfds.DatasetInfo.location', index=6,
       number=5, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='download_checksums', full_name='tensorflow_datasets.DatasetInfo.download_checksums', index=7,
+      name='download_checksums', full_name='tfds.DatasetInfo.download_checksums', index=7,
       number=10, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=b'\030\001', file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='schema', full_name='tensorflow_datasets.DatasetInfo.schema', index=8,
+      name='schema', full_name='tfds.DatasetInfo.schema', index=8,
       number=6, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='splits', full_name='tensorflow_datasets.DatasetInfo.splits', index=9,
+      name='splits', full_name='tfds.DatasetInfo.splits', index=9,
       number=7, type=11, cpp_type=10, label=3,
       has_default_value=False, default_value=[],
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='supervised_keys', full_name='tensorflow_datasets.DatasetInfo.supervised_keys', index=10,
+      name='supervised_keys', full_name='tfds.DatasetInfo.supervised_keys', index=10,
       number=8, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='redistribution_info', full_name='tensorflow_datasets.DatasetInfo.redistribution_info', index=11,
+      name='redistribution_info', full_name='tfds.DatasetInfo.redistribution_info', index=11,
       number=11, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -366,28 +366,28 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 DatasetLocation = _reflection.GeneratedProtocolMessageType('DatasetLocation', (_message.Message,), {
   'DESCRIPTOR' : _DATASETLOCATION,
   '__module__' : 'dataset_info_pb2'
-  # @@protoc_insertion_point(class_scope:tensorflow_datasets.DatasetLocation)
+  # @@protoc_insertion_point(class_scope:tfds.DatasetLocation)
   })
 _sym_db.RegisterMessage(DatasetLocation)
 
 SplitInfo = _reflection.GeneratedProtocolMessageType('SplitInfo', (_message.Message,), {
   'DESCRIPTOR' : _SPLITINFO,
   '__module__' : 'dataset_info_pb2'
-  # @@protoc_insertion_point(class_scope:tensorflow_datasets.SplitInfo)
+  # @@protoc_insertion_point(class_scope:tfds.SplitInfo)
   })
 _sym_db.RegisterMessage(SplitInfo)
 
 SupervisedKeys = _reflection.GeneratedProtocolMessageType('SupervisedKeys', (_message.Message,), {
   'DESCRIPTOR' : _SUPERVISEDKEYS,
   '__module__' : 'dataset_info_pb2'
-  # @@protoc_insertion_point(class_scope:tensorflow_datasets.SupervisedKeys)
+  # @@protoc_insertion_point(class_scope:tfds.SupervisedKeys)
   })
 _sym_db.RegisterMessage(SupervisedKeys)
 
 RedistributionInfo = _reflection.GeneratedProtocolMessageType('RedistributionInfo', (_message.Message,), {
   'DESCRIPTOR' : _REDISTRIBUTIONINFO,
   '__module__' : 'dataset_info_pb2'
-  # @@protoc_insertion_point(class_scope:tensorflow_datasets.RedistributionInfo)
+  # @@protoc_insertion_point(class_scope:tfds.RedistributionInfo)
   })
 _sym_db.RegisterMessage(RedistributionInfo)
 
@@ -396,12 +396,12 @@ DatasetInfo = _reflection.GeneratedProtocolMessageType('DatasetInfo', (_message.
   'DownloadChecksumsEntry' : _reflection.GeneratedProtocolMessageType('DownloadChecksumsEntry', (_message.Message,), {
     'DESCRIPTOR' : _DATASETINFO_DOWNLOADCHECKSUMSENTRY,
     '__module__' : 'dataset_info_pb2'
-    # @@protoc_insertion_point(class_scope:tensorflow_datasets.DatasetInfo.DownloadChecksumsEntry)
+    # @@protoc_insertion_point(class_scope:tfds.DatasetInfo.DownloadChecksumsEntry)
     })
   ,
   'DESCRIPTOR' : _DATASETINFO,
   '__module__' : 'dataset_info_pb2'
-  # @@protoc_insertion_point(class_scope:tensorflow_datasets.DatasetInfo)
+  # @@protoc_insertion_point(class_scope:tfds.DatasetInfo)
   })
 _sym_db.RegisterMessage(DatasetInfo)
 _sym_db.RegisterMessage(DatasetInfo.DownloadChecksumsEntry)

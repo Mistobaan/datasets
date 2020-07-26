@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for `tensorflow_datasets.core.visualization.show_examples`."""
+"""Tests for `tfds.core.visualization.show_examples`."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -22,12 +22,12 @@ from __future__ import print_function
 
 import mock
 
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import registered
-from tensorflow_datasets.core import visualization
+from tfds import testing
+from tfds.core import registered
+from tfds.core import visualization
 
 # Import for registration
-from tensorflow_datasets.image_classification import imagenet  # pylint: disable=unused-import,g-bad-import-order
+from tfds.image_classification import imagenet  # pylint: disable=unused-import,g-bad-import-order
 
 
 class ShowExamplesTest(testing.TestCase):

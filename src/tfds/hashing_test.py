@@ -14,14 +14,14 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.hashing."""
+"""Tests for tfds.core.hashing."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import hashing
+from tfds import testing
+from tfds.core import hashing
 
 
 class HashingTest(testing.TestCase):

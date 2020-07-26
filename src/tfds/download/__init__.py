@@ -16,15 +16,15 @@
 # Lint as: python3
 """`tfds.download.DownloadManager` API."""
 
-from tensorflow_datasets.core.download.checksums import add_checksums_dir
-from tensorflow_datasets.core.download.download_manager import DownloadConfig
-from tensorflow_datasets.core.download.download_manager import DownloadManager
-from tensorflow_datasets.core.download.downloader import DownloadError
-from tensorflow_datasets.core.download.extractor import iter_archive
-from tensorflow_datasets.core.download.resource import ExtractMethod
-from tensorflow_datasets.core.download.resource import Resource
-from tensorflow_datasets.core.download.util import ComputeStatsMode
-from tensorflow_datasets.core.download.util import GenerateMode
+from tfds.core.download.checksums import add_checksums_dir
+from tfds.core.download.download_manager import DownloadConfig
+from tfds.core.download.download_manager import DownloadManager
+from tfds.core.download.downloader import DownloadError
+from tfds.core.download.extractor import iter_archive
+from tfds.core.download.resource import ExtractMethod
+from tfds.core.download.resource import Resource
+from tfds.core.download.util import ComputeStatsMode
+from tfds.core.download.util import GenerateMode
 
 __all__ = [
     "add_checksums_dir",

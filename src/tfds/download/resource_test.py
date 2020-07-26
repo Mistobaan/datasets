@@ -19,8 +19,8 @@
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
-from tensorflow_datasets import testing
-from tensorflow_datasets.core.download import resource
+from tfds import testing
+from tfds.core.download import resource
 
 NO_EXTRACT = resource.ExtractMethod.NO_EXTRACT
 TAR = resource.ExtractMethod.TAR

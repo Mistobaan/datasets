@@ -34,9 +34,9 @@ import promise
 import six
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import constants
-from tensorflow_datasets.core import utils
-from tensorflow_datasets.core.download import resource as resource_lib
+from tfds.core import constants
+from tfds.core import utils
+from tfds.core.download import resource as resource_lib
 
 if six.PY3:
   import bz2  # pylint:disable=g-import-not-at-top

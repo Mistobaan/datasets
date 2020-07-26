@@ -23,8 +23,8 @@ from __future__ import print_function
 import os
 import six
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets.core import api_utils
-from tensorflow_datasets.core.features import feature
+from tfds.core import api_utils
+from tfds.core.features import feature
 
 
 class ClassLabel(feature.Tensor):

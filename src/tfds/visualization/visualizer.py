@@ -27,7 +27,7 @@ from typing import Any
 import six
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import dataset_info
+from tfds.core import dataset_info
 
 
 def extract_keys(feature_dict, feature_cls):

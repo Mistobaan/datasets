@@ -23,9 +23,9 @@ from __future__ import print_function
 import os
 import tempfile
 
-import tensorflow_datasets as tfds
-from tensorflow_datasets import testing
-from tensorflow_datasets.core.utils import gcs_utils
+import tfds as tfds
+from tfds import testing
+from tfds.core.utils import gcs_utils
 
 
 class GcsUtilsTest(testing.TestCase):

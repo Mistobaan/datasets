@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.registered."""
+"""Tests for tfds.core.registered."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -23,10 +23,10 @@ from __future__ import print_function
 import abc
 import mock
 import six
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import registered
-from tensorflow_datasets.core import splits
-from tensorflow_datasets.core.utils import py_utils
+from tfds import testing
+from tfds.core import registered
+from tfds.core import splits
+from tfds.core.utils import py_utils
 
 
 @six.add_metaclass(registered.RegisteredDataset)

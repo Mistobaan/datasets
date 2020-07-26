@@ -20,12 +20,12 @@
 expressive, performant, and reproducible natural language research.
 """
 
-from tensorflow_datasets.core.features.text.subword_text_encoder import SubwordTextEncoder
-from tensorflow_datasets.core.features.text.text_encoder import ByteTextEncoder
-from tensorflow_datasets.core.features.text.text_encoder import TextEncoder
-from tensorflow_datasets.core.features.text.text_encoder import TextEncoderConfig
-from tensorflow_datasets.core.features.text.text_encoder import Tokenizer
-from tensorflow_datasets.core.features.text.text_encoder import TokenTextEncoder
+from tfds.core.features.text.subword_text_encoder import SubwordTextEncoder
+from tfds.core.features.text.text_encoder import ByteTextEncoder
+from tfds.core.features.text.text_encoder import TextEncoder
+from tfds.core.features.text.text_encoder import TextEncoderConfig
+from tfds.core.features.text.text_encoder import Tokenizer
+from tfds.core.features.text.text_encoder import TokenTextEncoder
 
 __all__ = [
     "ByteTextEncoder",

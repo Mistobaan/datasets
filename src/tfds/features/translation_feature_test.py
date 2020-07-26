@@ -15,16 +15,16 @@
 
 # Lint as: python3
 # coding=utf-8
-"""Tests for tensorflow_datasets.core.features.text_feature."""
+"""Tests for tfds.core.features.text_feature."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import features
-from tensorflow_datasets.core.features.text import text_encoder
+from tfds import testing
+from tfds.core import features
+from tfds.core.features.text import text_encoder
 
 tf.enable_v2_behavior()
 

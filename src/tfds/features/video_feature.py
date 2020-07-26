@@ -25,8 +25,8 @@ import tempfile
 
 import six
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets.core.features import image_feature
-from tensorflow_datasets.core.features import sequence_feature
+from tfds.core.features import image_feature
+from tfds.core.features import sequence_feature
 
 
 class Video(sequence_feature.Sequence):

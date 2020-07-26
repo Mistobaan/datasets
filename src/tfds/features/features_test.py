@@ -15,7 +15,7 @@
 
 # Lint as: python3
 # coding=utf-8
-"""Tests for tensorflow_datasets.core.features.feature.
+"""Tests for tfds.core.features.feature.
 
 """
 
@@ -26,8 +26,8 @@ from __future__ import print_function
 import textwrap
 import numpy as np
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import features as features_lib
+from tfds import testing
+from tfds.core import features as features_lib
 
 tf.enable_v2_behavior()
 

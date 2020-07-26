@@ -21,9 +21,9 @@ from __future__ import division
 from __future__ import print_function
 
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets.core import api_utils
-from tensorflow_datasets.core import tf_compat
-from tensorflow_datasets.core import utils
+from tfds.core import api_utils
+from tfds.core import tf_compat
+from tfds.core import utils
 
 
 def _eager_dataset_iterator(dataset):

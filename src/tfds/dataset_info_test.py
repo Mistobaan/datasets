@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.dataset_info."""
+"""Tests for tfds.core.dataset_info."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -26,12 +26,12 @@ import tempfile
 import numpy as np
 import six
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import dataset_builder
-from tensorflow_datasets.core import dataset_info
-from tensorflow_datasets.core import features
-from tensorflow_datasets.core.utils import py_utils
-from tensorflow_datasets.image_classification import mnist
+from tfds import testing
+from tfds.core import dataset_builder
+from tfds.core import dataset_info
+from tfds.core import features
+from tfds.core.utils import py_utils
+from tfds.image_classification import mnist
 
 from google.protobuf import text_format
 from tensorflow_metadata.proto.v0 import schema_pb2

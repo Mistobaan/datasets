@@ -23,8 +23,8 @@ from __future__ import print_function
 import os
 
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets import testing
-from tensorflow_datasets.core.download import kaggle
+from tfds import testing
+from tfds.core.download import kaggle
 
 
 class KaggleTest(testing.TestCase):

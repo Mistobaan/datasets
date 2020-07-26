@@ -14,14 +14,14 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.utils.shard_utils."""
+"""Tests for tfds.core.utils.shard_utils."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from tensorflow_datasets import testing
-from tensorflow_datasets.core.utils import shard_utils
+from tfds import testing
+from tfds.core.utils import shard_utils
 
 
 class GetReadInstructionsTest(testing.TestCase):

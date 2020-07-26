@@ -14,14 +14,14 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.import_testing."""
+"""Tests for tfds.import_testing."""
 
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
 import tensorflow.compat.v2 as tf
-import tensorflow_datasets.public_api as tfds
+import tfds.public_api as tfds
 
 
 class ImportTestingTest(tf.test.TestCase):

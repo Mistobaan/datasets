@@ -22,7 +22,7 @@ from __future__ import print_function
 
 import importlib
 
-from tensorflow_datasets.core.utils import py_utils as utils
+from tfds.core.utils import py_utils as utils
 
 
 def _try_import(module_name):

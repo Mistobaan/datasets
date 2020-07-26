@@ -24,9 +24,9 @@ import numpy as np
 import six
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import api_utils
-from tensorflow_datasets.core import lazy_imports_lib
-from tensorflow_datasets.core.features import feature
+from tfds.core import api_utils
+from tfds.core import lazy_imports_lib
+from tfds.core.features import feature
 
 
 class Audio(feature.Tensor):

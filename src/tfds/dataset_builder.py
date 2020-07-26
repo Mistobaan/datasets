@@ -32,19 +32,19 @@ from absl import logging
 import six
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import api_utils
-from tensorflow_datasets.core import constants
-from tensorflow_datasets.core import download
-from tensorflow_datasets.core import lazy_imports_lib
-from tensorflow_datasets.core import naming
-from tensorflow_datasets.core import registered
-from tensorflow_datasets.core import splits as splits_lib
-from tensorflow_datasets.core import tfrecords_reader
-from tensorflow_datasets.core import tfrecords_writer
-from tensorflow_datasets.core import units
-from tensorflow_datasets.core import utils
-from tensorflow_datasets.core.utils import gcs_utils
-from tensorflow_datasets.core.utils import read_config as read_config_lib
+from tfds.core import api_utils
+from tfds.core import constants
+from tfds.core import download
+from tfds.core import lazy_imports_lib
+from tfds.core import naming
+from tfds.core import registered
+from tfds.core import splits as splits_lib
+from tfds.core import tfrecords_reader
+from tfds.core import tfrecords_writer
+from tfds.core import units
+from tfds.core import utils
+from tfds.core.utils import gcs_utils
+from tfds.core.utils import read_config as read_config_lib
 
 import termcolor
 
@@ -182,7 +182,7 @@ class DatasetBuilder(object):
     Args:
       data_dir: `str`, directory to read/write data. Defaults to the value of
         the environment variable TFDS_DATA_DIR, if set, otherwise falls back to
-        "~/tensorflow_datasets".
+        "~/tfds".
       config: `tfds.core.BuilderConfig` or `str` name, optional configuration
         for the dataset that affects the data generated on disk. Different
         `builder_config`s will have their own subdirectories and versions.

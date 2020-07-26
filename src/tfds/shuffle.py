@@ -28,7 +28,7 @@ import uuid
 import six
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import hashing
+from tfds.core import hashing
 
 # Approximately how much data to store in memory before writing to disk.
 # If the amount of data to shuffle is < MAX_MEM_BUFFER_SIZE, no intermediary

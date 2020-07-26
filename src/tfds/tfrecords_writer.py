@@ -30,13 +30,13 @@ from absl import logging
 import six
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import example_parser
-from tensorflow_datasets.core import example_serializer
-from tensorflow_datasets.core import hashing
-from tensorflow_datasets.core import lazy_imports_lib
-from tensorflow_datasets.core import shuffle
-from tensorflow_datasets.core import utils
-from tensorflow_datasets.core.utils import shard_utils
+from tfds.core import example_parser
+from tfds.core import example_serializer
+from tfds.core import hashing
+from tfds.core import lazy_imports_lib
+from tfds.core import shuffle
+from tfds.core import utils
+from tfds.core.utils import shard_utils
 
 # TODO(tfds): Should be `TreeDict[FeatureValue]`
 Example = Any

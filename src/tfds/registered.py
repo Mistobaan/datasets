@@ -31,12 +31,12 @@ from absl import flags
 from absl import logging
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import api_utils
-from tensorflow_datasets.core import constants
-from tensorflow_datasets.core import naming
-from tensorflow_datasets.core.utils import gcs_utils
-from tensorflow_datasets.core.utils import py_utils
-from tensorflow_datasets.core.utils import version
+from tfds.core import api_utils
+from tfds.core import constants
+from tfds.core import naming
+from tfds.core.utils import gcs_utils
+from tfds.core.utils import py_utils
+from tfds.core.utils import version
 
 
 FLAGS = flags.FLAGS
@@ -305,7 +305,7 @@ def load(name,
       If `None`, will return all splits in a `Dict[Split, tf.data.Dataset]`
     data_dir: `str`, directory to read/write data. Defaults to the value of
       the environment variable TFDS_DATA_DIR, if set, otherwise falls back to
-      "~/tensorflow_datasets".
+      "~/tfds".
     batch_size: `int`, if set, add a batch dimension to examples. Note that
       variable length features will be 0-padded. If
       `batch_size=-1`, will return the full dataset as `tf.Tensor`s.

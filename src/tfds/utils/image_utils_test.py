@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tensorflow_datasets.core.utils.image_utils."""
+"""Tests for tfds.core.utils.image_utils."""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -24,8 +24,8 @@ import os
 
 import numpy as np
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets import testing
-from tensorflow_datasets.core.utils import image_utils
+from tfds import testing
+from tfds.core.utils import image_utils
 
 # pylint: disable=bad-whitespace
 SIX_PIXELS = [

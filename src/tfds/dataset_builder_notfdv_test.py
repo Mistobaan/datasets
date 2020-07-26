@@ -20,7 +20,7 @@ from __future__ import division
 from __future__ import print_function
 
 import tensorflow as tf
-import tensorflow_datasets as tfds
+import tfds as tfds
 
 tf.compat.v1.enable_eager_execution()
 

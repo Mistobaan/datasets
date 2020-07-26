@@ -39,7 +39,7 @@ import uuid
 import six
 from six.moves import urllib
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets.core import constants
+from tfds.core import constants
 
 
 # pylint: disable=g-import-not-at-top
@@ -347,7 +347,7 @@ def incomplete_dir(dirname):
 
 
 def tfds_dir() -> str:
-  """Path to tensorflow_datasets directory.
+  """Path to tfds directory.
 
   The difference with `tfds.core.get_tfds_path` is that this function can be
   used for write access while `tfds.core.get_tfds_path` should be used for
@@ -433,8 +433,8 @@ def get_class_path(cls, use_tfds_prefix=True):
   if not isinstance(cls, type):
     cls = cls.__class__
   module_path = cls.__module__
-  if use_tfds_prefix and module_path.startswith('tensorflow_datasets'):
-    module_path = 'tfds' + module_path[len('tensorflow_datasets'):]
+  if use_tfds_prefix and module_path.startswith('tfds'):
+    module_path = 'tfds' + module_path[len('tfds'):]
   return '.'.join([module_path, cls.__name__])
 
 

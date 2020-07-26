@@ -21,8 +21,8 @@ from __future__ import division
 from __future__ import print_function
 
 import tensorflow.compat.v2 as tf
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import features
+from tfds import testing
+from tfds.core import features
 
 tf.enable_v2_behavior()
 

@@ -26,7 +26,7 @@ from absl import logging
 
 import tensorflow as tf
 
-from tensorflow_datasets.core.utils import tqdm_utils
+from tfds.core.utils import tqdm_utils
 
 # pylint: disable=logging-format-interpolation
 

@@ -22,9 +22,9 @@ from __future__ import print_function
 
 import hashlib
 import os
-from tensorflow_datasets import testing
-from tensorflow_datasets.core import constants
-from tensorflow_datasets.core.utils import py_utils
+from tfds import testing
+from tfds.core import constants
+from tfds.core.utils import py_utils
 
 
 class PyUtilsTest(testing.TestCase):
@@ -185,7 +185,7 @@ class PyUtilsTest(testing.TestCase):
   def test_tfds_dir(self):
     """Test the proper suffix only, since the prefix can vary."""
     self.assertEqual(
-        os.path.basename(py_utils.tfds_dir()), 'tensorflow_datasets')
+        os.path.basename(py_utils.tfds_dir()), 'tfds')
 
 
 class ReadChecksumDigestTest(testing.TestCase):
@@ -207,13 +207,13 @@ class GetClassPathUrlTest(testing.TestCase):
     cls_path = py_utils.get_class_path(
         py_utils.NonMutableDict(), use_tfds_prefix=False)
     self.assertEqual(cls_path,
-                     'tensorflow_datasets.core.utils.py_utils.NonMutableDict')
+                     'tfds.core.utils.py_utils.NonMutableDict')
 
   def test_get_class_url(self):
     cls_url = py_utils.get_class_url(py_utils.NonMutableDict)
     self.assertEqual(
         cls_url,
-        (constants.SRC_BASE_URL + 'tensorflow_datasets/core/utils/py_utils.py'))
+        (constants.SRC_BASE_URL + 'tfds/core/utils/py_utils.py'))
 
 
 if __name__ == '__main__':

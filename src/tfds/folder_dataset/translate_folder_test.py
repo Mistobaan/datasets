@@ -17,8 +17,8 @@
 import os
 import mock
 
-from tensorflow_datasets.core.folder_dataset import translate_folder
-import tensorflow_datasets.public_api as tfds
+from tfds.core.folder_dataset import translate_folder
+import tfds.public_api as tfds
 
 _EXAMPLE_DIR = os.path.join(
     tfds.testing.test_utils.fake_examples_dir(), 'translate_folder')

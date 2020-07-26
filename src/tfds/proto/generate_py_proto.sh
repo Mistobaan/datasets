@@ -27,7 +27,7 @@ echo "Temporary directory created: "
 echo ${TMP_DIR}
 
 
-TMP_TFDS_PROTO_DIR="${TMP_TFDS_DIR}/tensorflow_datasets/core/proto"
+TMP_TFDS_PROTO_DIR="${TMP_TFDS_DIR}/tfds/core/proto"
 DATASET_INFO_PROTO="${TMP_TFDS_PROTO_DIR}/dataset_info.proto"
 if [ ! -f ${DATASET_INFO_PROTO} ]; then
     echo "${DATASET_INFO_PROTO} not found."

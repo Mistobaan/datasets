@@ -27,7 +27,7 @@ from typing import Any, Dict, Iterable, List
 
 import tensorflow.compat.v2 as tf
 
-from tensorflow_datasets.core import utils
+from tfds.core import utils
 
 
 _ROOT_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), '../..'))

@@ -15,7 +15,7 @@
 
 # Lint as: python3
 # pylint: disable=line-too-long
-"""`tensorflow_datasets` (`tfds`) defines a collection of datasets ready-to-use with TensorFlow.
+"""`tfds` (`tfds`) defines a collection of datasets ready-to-use with TensorFlow.
 
 Each dataset is defined as a `tfds.core.DatasetBuilder`, which encapsulates
 the logic to download the dataset and construct an input pipeline, as well as
@@ -36,9 +36,9 @@ Documentation:
 """
 
 # Public API to create and generate a dataset
-from tensorflow_datasets.public_api import *  # pylint: disable=wildcard-import
+from tfds.public_api import *  # pylint: disable=wildcard-import
 
 # __all__ for import * as well as documentation
-from tensorflow_datasets import public_api  # pylint: disable=g-bad-import-order
+from tfds import public_api  # pylint: disable=g-bad-import-order
 __all__ = public_api.__all__
 
