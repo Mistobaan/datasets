@@ -1,0 +1,8 @@
+README.md
+setup.cfg
+setup.py
+src/tfds.egg-info/PKG-INFO
+src/tfds.egg-info/SOURCES.txt
+src/tfds.egg-info/dependency_links.txt
+src/tfds.egg-info/requires.txt
+src/tfds.egg-info/top_level.txt

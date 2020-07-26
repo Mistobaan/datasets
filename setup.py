@@ -26,7 +26,7 @@ if '--nightly' in sys.argv:
   nightly = True
   sys.argv.remove('--nightly')
 
-project_name = 'tensorflow-datasets'
+project_name = 'tfds'
 
 if nightly:
   project_name = 'tfds-nightly'
@@ -91,11 +91,11 @@ setup(
     url='https://github.com/tensorflow/datasets',
     download_url='https://github.com/tensorflow/datasets/tags',
     license='Apache 2.0',
-    packages=['src/tfds'],
+    #packages=[find_packages('src/tfds')],
     package_data={
-        'tensorflow_datasets': DATASET_FILES + [
-            'scripts/documentation/templates/*',
-        ],
+        # 'tensorflow_datasets': DATASET_FILES + [
+        #     'scripts/documentation/templates/*',
+        # ],
     },
     scripts=[],
     install_requires=REQUIRED_PKGS,
