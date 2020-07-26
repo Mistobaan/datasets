@@ -34,32 +34,6 @@ Documentation:
 * [Colab tutorial](https://colab.research.google.com/github/tensorflow/datasets/blob/master/docs/overview.ipynb)
 * [Add a dataset](https://www.tensorflow.org/datasets/add_dataset)
 """
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
-# pylint: enable=line-too-long
-# pylint: disable=g-import-not-at-top,g-bad-import-order,wrong-import-position
-
-# Ensure TensorFlow is importable and its version is sufficiently recent. This
-# needs to happen before anything else, since the imports below will try to
-# import tensorflow, too.
-from tensorflow_datasets.core import tf_compat
-tf_compat.ensure_tf_install()
-
-# Imports for registration
-# pylint: disable=g-import-not-at-top
-from tensorflow_datasets import audio
-from tensorflow_datasets import image
-from tensorflow_datasets import image_classification
-from tensorflow_datasets import object_detection
-from tensorflow_datasets import question_answering
-from tensorflow_datasets import structured
-from tensorflow_datasets import summarization
-from tensorflow_datasets import text
-from tensorflow_datasets import translate
-from tensorflow_datasets import video
-
 
 # Public API to create and generate a dataset
 from tensorflow_datasets.public_api import *  # pylint: disable=wildcard-import
