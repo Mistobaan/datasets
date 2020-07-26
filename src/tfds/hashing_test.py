@@ -14,12 +14,12 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.hashing."""
+"""Tests for tfds.hashing."""
 
 
 
 from tfds import testing
-from tfds.core import hashing
+from tfds import hashing
 
 
 class HashingTest(testing.TestCase):

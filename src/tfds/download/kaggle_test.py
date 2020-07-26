@@ -22,7 +22,7 @@ import os
 
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core.download import kaggle
+from tfds.download import kaggle
 
 
 class KaggleTest(testing.TestCase):

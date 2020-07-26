@@ -21,8 +21,8 @@
 import os
 import six
 import tensorflow.compat.v2 as tf
-from tfds.core import api_utils
-from tfds.core.features import feature
+from tfds import api_utils
+from tfds.features import feature
 
 
 class ClassLabel(feature.Tensor):

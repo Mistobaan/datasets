@@ -15,13 +15,13 @@
 
 """Custom Datasets APIs."""
 
-from tfds.core import registered
+from tfds import registered
 
 # Custom datasets cannot be instanciated through `tfds.load`
 with registered.skip_registration():
   # pylint: disable=g-import-not-at-top
-  from tfds.core.folder_dataset.image_folder import ImageFolder
-  from tfds.core.folder_dataset.translate_folder import TranslateFolder
+  from tfds.folder_dataset.image_folder import ImageFolder
+  from tfds.folder_dataset.translate_folder import TranslateFolder
   # pylint: enable=g-import-not-at-top
 
 

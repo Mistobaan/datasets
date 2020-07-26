@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.dataset_builder."""
+"""Tests for tfds.dataset_builder."""
 
 
 
@@ -24,13 +24,13 @@ import apache_beam as beam
 import numpy as np
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import dataset_builder
-from tfds.core import dataset_info
-from tfds.core import dataset_utils
-from tfds.core import download
-from tfds.core import features
-from tfds.core import splits as splits_lib
-from tfds.core import utils
+from tfds import dataset_builder
+from tfds import dataset_info
+from tfds import dataset_utils
+from tfds import download
+from tfds import features
+from tfds import splits as splits_lib
+from tfds import utils
 
 
 tf.enable_v2_behavior()

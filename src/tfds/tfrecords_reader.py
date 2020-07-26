@@ -28,12 +28,12 @@ import attr
 
 import numpy as np
 import tensorflow.compat.v2 as tf
-from tfds.core import api_utils
-from tfds.core import example_parser
-from tfds.core import naming
-from tfds.core import utils
-from tfds.core.utils import read_config as read_config_lib
-from tfds.core.utils import shard_utils
+from tfds import api_utils
+from tfds import example_parser
+from tfds import naming
+from tfds import utils
+from tfds.utils import read_config as read_config_lib
+from tfds.utils import shard_utils
 
 SplitInfo = Any
 
@@ -418,30 +418,30 @@ class ReadInstruction(object):
   ```
   # The following lines are equivalent:
   ds = tfds.load('mnist', split='test[:33%]')
-  ds = tfds.load('mnist', split=tfds.core.ReadInstruction.from_spec(
+  ds = tfds.load('mnist', split=tfds.ReadInstruction.from_spec(
       'test[:33%]'))
-  ds = tfds.load('mnist', split=tfds.core.ReadInstruction(
+  ds = tfds.load('mnist', split=tfds.ReadInstruction(
       'test', to=33, unit='%'))
-  ds = tfds.load('mnist', split=tfds.core.ReadInstruction(
+  ds = tfds.load('mnist', split=tfds.ReadInstruction(
       'test', from_=0, to=33, unit='%'))
 
   # The following lines are equivalent:
   ds = tfds.load('mnist', split='test[:33%]+train[1:-1]')
-  ds = tfds.load('mnist', split=tfds.core.ReadInstruction.from_spec(
+  ds = tfds.load('mnist', split=tfds.ReadInstruction.from_spec(
       'test[:33%]+train[1:-1]'))
   ds = tfds.load('mnist', split=(
-      tfds.core.ReadInstruction('test', to=33, unit='%') +
-      tfds.core.ReadInstruction('train', from_=1, to=-1, unit='abs')))
+      tfds.ReadInstruction('test', to=33, unit='%') +
+      tfds.ReadInstruction('train', from_=1, to=-1, unit='abs')))
 
   # 10-fold validation:
   tests = tfds.load(
       'mnist',
-      [tfds.core.ReadInstruction('train', from_=k, to=k+10, unit='%')
+      [tfds.ReadInstruction('train', from_=k, to=k+10, unit='%')
        for k in range(0, 100, 10)])
   trains = tfds.load(
       'mnist',
-      [tfds.core.ReadInstruction('train', to=k, unit='%') +
-       tfds.core.ReadInstruction('train', from_=k+10, unit='%')
+      [tfds.ReadInstruction('train', to=k, unit='%') +
+       tfds.ReadInstruction('train', from_=k+10, unit='%')
        for k in range(0, 100, 10)])
   ```
 

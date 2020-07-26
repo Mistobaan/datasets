@@ -25,9 +25,9 @@ import numpy as np
 import six
 import tensorflow.compat.v2 as tf
 
-from tfds.core import api_utils
-from tfds.core import utils
-from tfds.core.features import feature
+from tfds import api_utils
+from tfds import utils
+from tfds.features import feature
 
 ENCODE_FN = {
     'png': tf.image.encode_png,
@@ -63,7 +63,7 @@ class Image(feature.FeatureConnector):
 
   Example:
 
-    * In the `tfds.core.DatasetInfo` object:
+    * In the `tfds.DatasetInfo` object:
 
     ```python
     features=features.FeaturesDict({

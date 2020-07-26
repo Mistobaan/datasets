@@ -22,9 +22,9 @@ import numpy as np
 import six
 import tensorflow.compat.v2 as tf
 
-from tfds.core import api_utils
-from tfds.core import lazy_imports_lib
-from tfds.core.features import feature
+from tfds import api_utils
+from tfds import lazy_imports_lib
+from tfds.features import feature
 
 
 class Audio(feature.Tensor):

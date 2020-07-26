@@ -22,11 +22,11 @@
 from typing import Any
 
 import tensorflow.compat.v2 as tf
-from tfds.core import dataset_info
-from tfds.core import lazy_imports_lib
-from tfds.core import splits
-from tfds.core import utils
-from tfds.core.visualization import image_visualizer
+from tfds import dataset_info
+from tfds import lazy_imports_lib
+from tfds import splits
+from tfds import utils
+from tfds.visualization import image_visualizer
 from tensorflow_metadata.proto.v0 import statistics_pb2
 
 
@@ -113,7 +113,7 @@ def show_statistics(
   `tensorflow_data_validation` installed to have the statistics.
 
   Args:
-    ds_info: The `tfds.core.DatasetInfo` object containing the statistics.
+    ds_info: The `tfds.DatasetInfo` object containing the statistics.
     split: Split for which generate the statistics.
     disable_logging: `bool`, if True, disable the tfdv logs which can be
       too verbose.

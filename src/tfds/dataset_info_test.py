@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.dataset_info."""
+"""Tests for tfds.dataset_info."""
 
 
 
@@ -25,10 +25,10 @@ import numpy as np
 import six
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import dataset_builder
-from tfds.core import dataset_info
-from tfds.core import features
-from tfds.core.utils import py_utils
+from tfds import dataset_builder
+from tfds import dataset_info
+from tfds import features
+from tfds.utils import py_utils
 from tfds.image_classification import mnist
 
 from google.protobuf import text_format
@@ -365,7 +365,7 @@ feature {
     self.assertEqual(2, len(info.as_proto.schema.feature))
 
 
-INFO_STR = """tfds.core.DatasetInfo(
+INFO_STR = """tfds.DatasetInfo(
     name='mnist',
     version=3.0.1,
     description='The MNIST database of handwritten digits.',

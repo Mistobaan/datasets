@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.registered."""
+"""Tests for tfds.registered."""
 
 
 

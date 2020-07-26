@@ -31,9 +31,9 @@ from typing import Any
 from six.moves import urllib
 import tensorflow.compat.v2 as tf
 
-from tfds.core import api_utils
-from tfds.core.download import checksums as checksums_lib
-from tfds.core.utils import py_utils
+from tfds import api_utils
+from tfds.download import checksums as checksums_lib
+from tfds.utils import py_utils
 
 # Should be `Union[int, float, bool, str, Dict[str, Json], List[Json]]`
 Json = Any

@@ -24,7 +24,7 @@ from absl import logging
 
 import tensorflow as tf
 
-from tfds.core.utils import tqdm_utils
+from tfds.utils import tqdm_utils
 
 # pylint: disable=logging-format-interpolation
 
@@ -42,7 +42,7 @@ def benchmark(
 
   ```
   ds = tfds.load('mnist', split='train').batch(32).prefetch()
-  tfds.core.benchmark(ds, batch_size=32)
+  tfds.benchmark(ds, batch_size=32)
   ```
 
   Reports:

@@ -25,7 +25,7 @@ from typing import Any
 import six
 import tensorflow.compat.v2 as tf
 
-from tfds.core import dataset_info
+from tfds import dataset_info
 
 
 def extract_keys(feature_dict, feature_cls):
@@ -50,7 +50,7 @@ class Visualizer(object):
     """Returns whether the visualizer is compatible with the dataset.
 
     Args:
-      ds_info: `tfds.core.DatasetInfo` object of the dataset to visualize.
+      ds_info: `tfds.DatasetInfo` object of the dataset to visualize.
 
     Returns:
       bool: True if the visualizer can be applied to the dataset.
@@ -69,7 +69,7 @@ class Visualizer(object):
       ds: `tf.data.Dataset`. The tf.data.Dataset object to visualize. Examples
         should not be batched. Examples will be consumed in order until
         (rows * cols) are read or the dataset is consumed.
-      ds_info: `tfds.core.DatasetInfo` object of the dataset to visualize.
+      ds_info: `tfds.DatasetInfo` object of the dataset to visualize.
       **options_kwargs: Additional display options, specific to the dataset type
         to visualize. See the `tfds.visualization` for a list of available
         visualizers.

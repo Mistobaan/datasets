@@ -30,19 +30,19 @@ from absl import logging
 import six
 import tensorflow.compat.v2 as tf
 
-from tfds.core import api_utils
-from tfds.core import constants
-from tfds.core import download
-from tfds.core import lazy_imports_lib
-from tfds.core import naming
-from tfds.core import registered
-from tfds.core import splits as splits_lib
-from tfds.core import tfrecords_reader
-from tfds.core import tfrecords_writer
-from tfds.core import units
-from tfds.core import utils
-from tfds.core.utils import gcs_utils
-from tfds.core.utils import read_config as read_config_lib
+from tfds import api_utils
+from tfds import constants
+from tfds import download
+from tfds import lazy_imports_lib
+from tfds import naming
+from tfds import registered
+from tfds import splits as splits_lib
+from tfds import tfrecords_reader
+from tfds import tfrecords_writer
+from tfds import units
+from tfds import utils
+from tfds.utils import gcs_utils
+from tfds.utils import read_config as read_config_lib
 
 import termcolor
 
@@ -121,7 +121,7 @@ class DatasetBuilder(object):
       `tf.data.Dataset`s.
 
   **Configuration**: Some `DatasetBuilder`s expose multiple variants of the
-  dataset by defining a `tfds.core.BuilderConfig` subclass and accepting a
+  dataset by defining a `tfds.BuilderConfig` subclass and accepting a
   config object (or name) on construction. Configurable datasets expose a
   pre-defined set of configurations in `tfds.DatasetBuilder.builder_configs`.
 
@@ -147,7 +147,7 @@ class DatasetBuilder(object):
   # Name of the dataset, filled by metaclass based on class name.
   name = None
 
-  # Semantic version of the dataset (ex: tfds.core.Version('1.2.0'))
+  # Semantic version of the dataset (ex: tfds.Version('1.2.0'))
   VERSION = None
 
   # List dataset versions which can be loaded using current code.
@@ -181,7 +181,7 @@ class DatasetBuilder(object):
       data_dir: `str`, directory to read/write data. Defaults to the value of
         the environment variable TFDS_DATA_DIR, if set, otherwise falls back to
         "~/tfds".
-      config: `tfds.core.BuilderConfig` or `str` name, optional configuration
+      config: `tfds.BuilderConfig` or `str` name, optional configuration
         for the dataset that affects the data generated on disk. Different
         `builder_config`s will have their own subdirectories and versions.
       version: `str`. Optional version at which to load the dataset. An error is
@@ -199,7 +199,7 @@ class DatasetBuilder(object):
     if not self._builder_config and not self.VERSION:
       raise AssertionError(
           "DatasetBuilder {} does not have a defined version. Please add a "
-          "`VERSION = tfds.core.Version('x.y.z')` to the class.".format(
+          "`VERSION = tfds.Version('x.y.z')` to the class.".format(
               self.name))
     self._version = self._pick_version(version)
     # Compute the base directory (for download) and dataset/version directory.
@@ -265,7 +265,7 @@ class DatasetBuilder(object):
 
   @utils.memoized_property
   def info(self):
-    """`tfds.core.DatasetInfo` for this builder."""
+    """`tfds.DatasetInfo` for this builder."""
     # Ensure .info hasn't been called before versioning is set-up
     # Otherwise, backward compatibility cannot be guaranteed as some code will
     # depend on the code version instead of the restored data version
@@ -799,7 +799,7 @@ class DatasetBuilder(object):
 
   @property
   def builder_config(self):
-    """`tfds.core.BuilderConfig` for this builder."""
+    """`tfds.BuilderConfig` for this builder."""
     return self._builder_config
 
   def _create_builder_config(self, builder_config):
@@ -886,11 +886,11 @@ class FileAdapterBuilder(DatasetBuilder):
     Example:
 
       return[
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.TRAIN,
               gen_kwargs={'file': 'train_data.zip'},
           ),
-          tfds.core.SplitGenerator(
+          tfds.SplitGenerator(
               name=tfds.Split.TEST,
               gen_kwargs={'file': 'test_data.zip'},
           ),

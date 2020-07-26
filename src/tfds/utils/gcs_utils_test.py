@@ -23,7 +23,7 @@ import tempfile
 
 import tfds as tfds
 from tfds import testing
-from tfds.core.utils import gcs_utils
+from tfds.utils import gcs_utils
 
 
 class GcsUtilsTest(testing.TestCase):

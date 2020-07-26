@@ -14,13 +14,13 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.utils.tqdm_utils."""
+"""Tests for tfds.utils.tqdm_utils."""
 
 
 
 from tfds import testing
-from tfds.core import dataset_utils
-from tfds.core.utils import tqdm_utils
+from tfds import dataset_utils
+from tfds.utils import tqdm_utils
 
 
 class TqdmUtilsTest(testing.TestCase):

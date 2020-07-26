@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.lazy_imports."""
+"""Tests for tfds.lazy_imports."""
 
 
 
@@ -50,11 +50,11 @@ class LazyImportsTest(testing.TestCase, parameterized.TestCase):
     # TODO(rsepassi): Re-enable skimage on Py3 (b/129964829)
     if module_name == "skimage" and six.PY3:
       return
-    getattr(tfds.core.lazy_imports, module_name)
+    getattr(tfds.lazy_imports, module_name)
 
   def test_bad_import(self):
     with self.assertRaisesWithPredicateMatch(ImportError, "extras_require"):
-      _ = tfds.core.lazy_imports.test_foo
+      _ = tfds.lazy_imports.test_foo
 
 
 if __name__ == "__main__":

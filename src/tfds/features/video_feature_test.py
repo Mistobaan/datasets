@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.features.video_feature."""
+"""Tests for tfds.features.video_feature."""
 
 
 
@@ -23,7 +23,7 @@ import os.path
 import numpy as np
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import features
+from tfds import features
 
 tf.enable_v2_behavior()
 

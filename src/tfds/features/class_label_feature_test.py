@@ -14,13 +14,13 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.features.class_label_feature."""
+"""Tests for tfds.features.class_label_feature."""
 
 
 
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import features
+from tfds import features
 
 tf.enable_v2_behavior()
 

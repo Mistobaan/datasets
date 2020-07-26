@@ -28,7 +28,7 @@ from absl import logging
 import six
 import tensorflow.compat.v2 as tf
 
-from tfds.core.features.text import text_encoder
+from tfds.features.text import text_encoder
 
 # Internally, an underscore indicates a single space, so, to ensure
 # user-supplied underscores are encoded properly, they are replaced with this

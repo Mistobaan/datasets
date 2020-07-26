@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.download.download_manager."""
+"""Tests for tfds.download.download_manager."""
 
 
 
@@ -26,11 +26,11 @@ import pickle
 from absl.testing import absltest
 import promise
 from tfds import testing
-from tfds.core.download import checksums as checksums_lib
-from tfds.core.download import download_manager as dm
-from tfds.core.download import downloader
-from tfds.core.download import extractor
-from tfds.core.download import resource as resource_lib
+from tfds.download import checksums as checksums_lib
+from tfds.download import download_manager as dm
+from tfds.download import downloader
+from tfds.download import extractor
+from tfds.download import resource as resource_lib
 
 
 ZIP = resource_lib.ExtractMethod.ZIP

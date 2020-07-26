@@ -14,11 +14,11 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.units."""
+"""Tests for tfds.units."""
 
 
 from tfds import testing
-from tfds.core import units
+from tfds import units
 
 
 class UnitsTest(testing.TestCase):

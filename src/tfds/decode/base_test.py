@@ -14,16 +14,16 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.transform.image.image_transform."""
+"""Tests for tfds.transform.image.image_transform."""
 
 
 
 import numpy as np
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import decode as decode_lib
-from tfds.core import features as features_lib
-from tfds.core import utils
+from tfds import decode as decode_lib
+from tfds import features as features_lib
+from tfds import utils
 
 tf.enable_v2_behavior()
 

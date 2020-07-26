@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.tfrecords_writer."""
+"""Tests for tfds.tfrecords_writer."""
 
 
 
@@ -23,13 +23,13 @@ import os
 from absl.testing import absltest
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import dataset_utils
-from tfds.core import example_parser
-from tfds.core import example_serializer
-from tfds.core import lazy_imports_lib
-from tfds.core import tfrecords_writer
-from tfds.core.tfrecords_writer import _ShardSpec
-from tfds.core.utils import shard_utils
+from tfds import dataset_utils
+from tfds import example_parser
+from tfds import example_serializer
+from tfds import lazy_imports_lib
+from tfds import tfrecords_writer
+from tfds.tfrecords_writer import _ShardSpec
+from tfds.utils import shard_utils
 
 
 class GetShardSpecsTest(testing.TestCase):

@@ -16,15 +16,15 @@
 # Lint as: python3
 """`tfds.download.DownloadManager` API."""
 
-from tfds.core.download.checksums import add_checksums_dir
-from tfds.core.download.download_manager import DownloadConfig
-from tfds.core.download.download_manager import DownloadManager
-from tfds.core.download.downloader import DownloadError
-from tfds.core.download.extractor import iter_archive
-from tfds.core.download.resource import ExtractMethod
-from tfds.core.download.resource import Resource
-from tfds.core.download.util import ComputeStatsMode
-from tfds.core.download.util import GenerateMode
+from tfds.download.checksums import add_checksums_dir
+from tfds.download.download_manager import DownloadConfig
+from tfds.download.download_manager import DownloadManager
+from tfds.download.downloader import DownloadError
+from tfds.download.extractor import iter_archive
+from tfds.download.resource import ExtractMethod
+from tfds.download.resource import Resource
+from tfds.download.util import ComputeStatsMode
+from tfds.download.util import GenerateMode
 
 __all__ = [
     "add_checksums_dir",

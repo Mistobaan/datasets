@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.example_serializer."""
+"""Tests for tfds.example_serializer."""
 
 
 
@@ -22,9 +22,9 @@ import numpy as np
 import tensorflow.compat.v2 as tf
 
 from tfds import testing
-from tfds.core import example_serializer
-from tfds.core.features import feature as feature_lib
-from tfds.core.utils import py_utils
+from tfds import example_serializer
+from tfds.features import feature as feature_lib
+from tfds.utils import py_utils
 
 
 class ExampleSerializerTest(testing.SubTestCase):

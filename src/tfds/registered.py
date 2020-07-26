@@ -29,12 +29,12 @@ from absl import flags
 from absl import logging
 import tensorflow.compat.v2 as tf
 
-from tfds.core import api_utils
-from tfds.core import constants
-from tfds.core import naming
-from tfds.core.utils import gcs_utils
-from tfds.core.utils import py_utils
-from tfds.core.utils import version
+from tfds import api_utils
+from tfds import constants
+from tfds import naming
+from tfds.utils import gcs_utils
+from tfds.utils import py_utils
+from tfds.utils import version
 
 
 FLAGS = flags.FLAGS
@@ -179,19 +179,19 @@ class RegisteredDataset(abc.ABCMeta):
 
 
 def list_builders():
-  """Returns the string names of all `tfds.core.DatasetBuilder`s."""
+  """Returns the string names of all `tfds.DatasetBuilder`s."""
   return sorted(list(_DATASET_REGISTRY))
 
 
 def builder_cls(name: str):
-  """Fetches a `tfds.core.DatasetBuilder` class by string name.
+  """Fetches a `tfds.DatasetBuilder` class by string name.
 
   Args:
     name: `str`, the registered name of the `DatasetBuilder` (the class name
       as camel or snake case: `MyDataset` or `my_dataset`).
 
   Returns:
-    A `tfds.core.DatasetBuilder` class.
+    A `tfds.DatasetBuilder` class.
 
   Raises:
     DatasetNotFoundError: if `name` is unrecognized.
@@ -212,7 +212,7 @@ def builder_cls(name: str):
 
 
 def builder(name, **builder_init_kwargs):
-  """Fetches a `tfds.core.DatasetBuilder` by string name.
+  """Fetches a `tfds.DatasetBuilder` by string name.
 
   Args:
     name: `str`, the registered name of the `DatasetBuilder` (the class name
@@ -230,7 +230,7 @@ def builder(name, **builder_init_kwargs):
       if any.
 
   Returns:
-    A `tfds.core.DatasetBuilder`.
+    A `tfds.DatasetBuilder`.
 
   Raises:
     DatasetNotFoundError: if `name` is unrecognized.
@@ -263,7 +263,7 @@ def load(name,
   If `split=None` (the default), returns all splits for the dataset. Otherwise,
   returns the specified split.
 
-  `load` is a convenience method that fetches the `tfds.core.DatasetBuilder` by
+  `load` is a convenience method that fetches the `tfds.DatasetBuilder` by
   string name, optionally calls `DatasetBuilder.download_and_prepare`
   (if `download=True`), and then calls `DatasetBuilder.as_dataset`.
   This is roughly equivalent to:
@@ -310,7 +310,7 @@ def load(name,
     shuffle_files: `bool`, whether to shuffle the input files.
       Defaults to `False`.
     download: `bool` (optional), whether to call
-      `tfds.core.DatasetBuilder.download_and_prepare`
+      `tfds.DatasetBuilder.download_and_prepare`
       before calling `tf.DatasetBuilder.as_dataset`. If `False`, data is
       expected to be in `data_dir`. If `True` and the data is already in
       `data_dir`, `download_and_prepare` is a no-op.
@@ -327,17 +327,17 @@ def load(name,
     read_config: `tfds.ReadConfig`, Additional options to configure the
       input pipeline (e.g. seed, num parallel reads,...).
     with_info: `bool`, if True, tfds.load will return the tuple
-      (tf.data.Dataset, tfds.core.DatasetInfo) containing the info associated
+      (tf.data.Dataset, tfds.DatasetInfo) containing the info associated
       with the builder.
     builder_kwargs: `dict` (optional), keyword arguments to be passed to the
-      `tfds.core.DatasetBuilder` constructor. `data_dir` will be passed
+      `tfds.DatasetBuilder` constructor. `data_dir` will be passed
       through by default.
     download_and_prepare_kwargs: `dict` (optional) keyword arguments passed to
-      `tfds.core.DatasetBuilder.download_and_prepare` if `download=True`. Allow
+      `tfds.DatasetBuilder.download_and_prepare` if `download=True`. Allow
       to control where to download and extract the cached data. If not set,
       cache_dir and manual_dir will automatically be deduced from data_dir.
     as_dataset_kwargs: `dict` (optional), keyword arguments passed to
-      `tfds.core.DatasetBuilder.as_dataset`.
+      `tfds.DatasetBuilder.as_dataset`.
     try_gcs: `bool`, if True, tfds.load will see if the dataset exists on
       the public GCS bucket before building it locally.
 
@@ -345,7 +345,7 @@ def load(name,
     ds: `tf.data.Dataset`, the dataset requested, or if `split` is None, a
       `dict<key: tfds.Split, value: tfds.data.Dataset>`. If `batch_size=-1`,
       these will be full datasets as `tf.Tensor`s.
-    ds_info: `tfds.core.DatasetInfo`, if `with_info` is True, then `tfds.load`
+    ds_info: `tfds.DatasetInfo`, if `with_info` is True, then `tfds.load`
       will return a tuple `(ds, ds_info)` containing dataset information
       (version, features, splits, num_examples,...). Note that the `ds_info`
       object documents the entire dataset, regardless of the `split` requested.

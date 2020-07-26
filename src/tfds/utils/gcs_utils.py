@@ -25,8 +25,8 @@ from typing import List, Optional
 
 import tensorflow.compat.v2 as tf
 
-from tfds.core.utils import py_utils
-from tfds.core.utils import tqdm_utils
+from tfds.utils import py_utils
+from tfds.utils import tqdm_utils
 
 GCS_ROOT_DIR = 'gs://tfds-data'
 

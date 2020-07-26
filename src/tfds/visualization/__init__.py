@@ -15,10 +15,10 @@
 
 """Visualizer utils."""
 
-from tfds.core.visualization.image_visualizer import ImageGridVisualizer
-from tfds.core.visualization.show_examples import show_examples
-from tfds.core.visualization.show_examples import show_statistics
-from tfds.core.visualization.visualizer import Visualizer
+from tfds.visualization.image_visualizer import ImageGridVisualizer
+from tfds.visualization.show_examples import show_examples
+from tfds.visualization.show_examples import show_statistics
+from tfds.visualization.visualizer import Visualizer
 
 
 __all__ = [

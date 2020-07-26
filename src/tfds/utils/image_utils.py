@@ -22,8 +22,8 @@ Note: these functions are not meant to be used inside of a TF graph.
 
 
 import tensorflow.compat.v2 as tf
-from tfds.core.utils import py_utils
-from tfds.core.utils import tf_utils
+from tfds.utils import py_utils
+from tfds.utils import tf_utils
 
 
 @py_utils.memoize()

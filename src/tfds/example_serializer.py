@@ -23,8 +23,8 @@ import numpy as np
 import six
 import tensorflow.compat.v2 as tf
 
-from tfds.core import utils
-from tfds.core.features import feature as feature_lib
+from tfds import utils
+from tfds.features import feature as feature_lib
 
 
 class ExampleSerializer(object):

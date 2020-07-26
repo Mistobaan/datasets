@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.registered."""
+"""Tests for tfds.registered."""
 
 
 
@@ -22,9 +22,9 @@ import abc
 import mock
 import six
 from tfds import testing
-from tfds.core import registered
-from tfds.core import splits
-from tfds.core.utils import py_utils
+from tfds import registered
+from tfds import splits
+from tfds.utils import py_utils
 
 
 @six.add_metaclass(registered.RegisteredDataset)

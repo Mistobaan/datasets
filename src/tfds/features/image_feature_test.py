@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.features.image_feature."""
+"""Tests for tfds.features.image_feature."""
 
 
 
@@ -24,7 +24,7 @@ from absl.testing import parameterized
 import numpy as np
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import features as features_lib
+from tfds import features as features_lib
 
 tf.enable_v2_behavior()
 

@@ -37,7 +37,7 @@ import uuid
 import six
 from six.moves import urllib
 import tensorflow.compat.v2 as tf
-from tfds.core import constants
+from tfds import constants
 
 
 # pylint: disable=g-import-not-at-top
@@ -347,8 +347,8 @@ def incomplete_dir(dirname):
 def tfds_dir() -> str:
   """Path to tfds directory.
 
-  The difference with `tfds.core.get_tfds_path` is that this function can be
-  used for write access while `tfds.core.get_tfds_path` should be used for
+  The difference with `tfds.get_tfds_path` is that this function can be
+  used for write access while `tfds.get_tfds_path` should be used for
   read-only.
 
   Returns:

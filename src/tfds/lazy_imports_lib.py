@@ -20,7 +20,7 @@
 
 import importlib
 
-from tfds.core.utils import py_utils as utils
+from tfds.utils import py_utils as utils
 
 
 def _try_import(module_name):

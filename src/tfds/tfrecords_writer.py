@@ -28,13 +28,13 @@ from absl import logging
 import six
 import tensorflow.compat.v2 as tf
 
-from tfds.core import example_parser
-from tfds.core import example_serializer
-from tfds.core import hashing
-from tfds.core import lazy_imports_lib
-from tfds.core import shuffle
-from tfds.core import utils
-from tfds.core.utils import shard_utils
+from tfds import example_parser
+from tfds import example_serializer
+from tfds import hashing
+from tfds import lazy_imports_lib
+from tfds import shuffle
+from tfds import utils
+from tfds.utils import shard_utils
 
 # TODO(tfds): Should be `TreeDict[FeatureValue]`
 Example = Any

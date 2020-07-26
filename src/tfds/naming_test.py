@@ -14,14 +14,14 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests tfds.core.naming."""
+"""Tests tfds.naming."""
 
 
 
 from absl.testing import parameterized
 from tfds import testing
-from tfds.core import naming
-from tfds.core import splits
+from tfds import naming
+from tfds import splits
 
 
 class NamingTest(parameterized.TestCase, testing.TestCase):

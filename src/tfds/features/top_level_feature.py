@@ -19,7 +19,7 @@
 
 
 
-from tfds.core.features import feature as feature_lib
+from tfds.features import feature as feature_lib
 
 
 class TopLevelFeature(feature_lib.FeatureConnector):

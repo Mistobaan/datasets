@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.features.audio_feature."""
+"""Tests for tfds.features.audio_feature."""
 
 
 
@@ -25,7 +25,7 @@ import numpy as np
 import pydub
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import features
+from tfds import features
 
 tf.enable_v2_behavior()
 

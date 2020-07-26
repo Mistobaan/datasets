@@ -17,30 +17,30 @@
 """Public API of tfds, without the registered dataset."""
 
 # pylint: disable=unused-import,g-import-not-at-top,g-bad-import-order,wrong-import-position
-from tfds.core import tf_compat
+from tfds import tf_compat
 tf_compat.ensure_tf_install()
 
 from tfds import core
-from tfds.core import folder_dataset
-from tfds.core import download
-from tfds.core import decode
-from tfds.core import features
-from tfds.core import units
-from tfds.core import visualization
-from tfds.core.folder_dataset import ImageFolder
-from tfds.core.folder_dataset import TranslateFolder
-from tfds.core.dataset_utils import as_numpy
-from tfds.core.download import GenerateMode
-from tfds.core.registered import builder
-from tfds.core.registered import builder_cls
-from tfds.core.registered import list_builders
-from tfds.core.registered import load
-from tfds.core.splits import Split
-from tfds.core.utils.gcs_utils import is_dataset_on_gcs
-from tfds.core.utils.read_config import ReadConfig
-from tfds.core.utils.tqdm_utils import disable_progress_bar
-from tfds.core.visualization import show_examples
-from tfds.core.visualization import show_statistics
+from tfds import folder_dataset
+from tfds import download
+from tfds import decode
+from tfds import features
+from tfds import units
+from tfds import visualization
+from tfds.folder_dataset import ImageFolder
+from tfds.folder_dataset import TranslateFolder
+from tfds.dataset_utils import as_numpy
+from tfds.download import GenerateMode
+from tfds.registered import builder
+from tfds.registered import builder_cls
+from tfds.registered import list_builders
+from tfds.registered import load
+from tfds.splits import Split
+from tfds.utils.gcs_utils import is_dataset_on_gcs
+from tfds.utils.read_config import ReadConfig
+from tfds.utils.tqdm_utils import disable_progress_bar
+from tfds.visualization import show_examples
+from tfds.visualization import show_statistics
 from tfds.version import __version__
 
 with core.registered.skip_registration():

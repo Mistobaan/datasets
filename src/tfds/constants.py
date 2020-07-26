@@ -41,14 +41,14 @@ _registered_data_dir = set()
 def add_data_dir(data_dir):
   """Registers a new default `data_dir` to search for datasets.
 
-  When a `tfds.core.DatasetBuilder` is created with `data_dir=None`, TFDS
+  When a `tfds.DatasetBuilder` is created with `data_dir=None`, TFDS
   will look in all registered `data_dir` (including the default one) to
   load existing datasets.
 
   * An error is raised if a dataset can be loaded from more than 1 registered
     data_dir.
   * This only affects reading datasets. Generation always uses the
-    `data_dir` kwargs when specified or `tfds.core.constant.DATA_DIR` otherwise.
+    `data_dir` kwargs when specified or `tfds.constant.DATA_DIR` otherwise.
 
   Args:
     data_dir: New data_dir to register.

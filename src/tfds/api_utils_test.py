@@ -14,12 +14,12 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.api_utils."""
+"""Tests for tfds.api_utils."""
 
 
 
 from tfds import testing
-from tfds.core import api_utils
+from tfds import api_utils
 
 
 class ApiUtilsTest(testing.TestCase):

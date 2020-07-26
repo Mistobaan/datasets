@@ -19,9 +19,9 @@
 
 
 import six
-from tfds.core.features import features_dict
-from tfds.core.features import sequence_feature
-from tfds.core.features import text_feature
+from tfds.features import features_dict
+from tfds.features import sequence_feature
+from tfds.features import text_feature
 try:
   # This fallback applies for all versions of Python before 3.3
   import collections.abc as collections_abc  # pylint:disable=g-import-not-at-top  # pytype: disable=module-attr

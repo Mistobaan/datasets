@@ -25,7 +25,7 @@ from typing import Any, Dict, Iterable, List
 
 import tensorflow.compat.v2 as tf
 
-from tfds.core import utils
+from tfds import utils
 
 
 _ROOT_DIR = os.path.normpath(os.path.join(os.path.dirname(__file__), '../..'))
@@ -89,7 +89,7 @@ def add_checksums_dir(checksums_dir: str) -> None:
   # Add the checksum dir (will be executed when the user import your dataset)
   tfds.download.add_checksums_dir(checksum_dir)
 
-  class MyDataset(tfds.core.DatasetBuilder):
+  class MyDataset(tfds.DatasetBuilder):
     ...
   ```
 

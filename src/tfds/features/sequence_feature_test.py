@@ -14,14 +14,14 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.features.sequence_feature."""
+"""Tests for tfds.features.sequence_feature."""
 
 
 
 import numpy as np
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import features as feature_lib
+from tfds import features as feature_lib
 
 tf.enable_v2_behavior()
 

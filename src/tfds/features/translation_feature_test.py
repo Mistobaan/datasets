@@ -15,14 +15,14 @@
 
 # Lint as: python3
 # coding=utf-8
-"""Tests for tfds.core.features.text_feature."""
+"""Tests for tfds.features.text_feature."""
 
 
 
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import features
-from tfds.core.features.text import text_encoder
+from tfds import features
+from tfds.features.text import text_encoder
 
 tf.enable_v2_behavior()
 

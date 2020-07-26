@@ -43,8 +43,8 @@ class Experiment(enum.Enum):
     EXP_A = enum.auto()  # Short description of experiment.
 
   class MyBuilder(...):
-    VERSION = tfds.core.Version('1.2.3', experiments={
-        tfds.core.Experiment.EXP_A: True,
+    VERSION = tfds.Version('1.2.3', experiments={
+        tfds.Experiment.EXP_A: True,
         })
   """
   # A Dummy experiment, which should NOT be used, except for testing.

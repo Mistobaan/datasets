@@ -23,8 +23,8 @@ import os
 from absl.testing import absltest
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core.download import extractor
-from tfds.core.download import resource as resource_lib
+from tfds.download import extractor
+from tfds.download import resource as resource_lib
 
 BZIP2 = resource_lib.ExtractMethod.BZIP2
 GZIP = resource_lib.ExtractMethod.GZIP

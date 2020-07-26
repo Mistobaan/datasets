@@ -18,7 +18,7 @@
 
 
 from tfds import testing
-from tfds.core.download import resource
+from tfds.download import resource
 
 NO_EXTRACT = resource.ExtractMethod.NO_EXTRACT
 TAR = resource.ExtractMethod.TAR

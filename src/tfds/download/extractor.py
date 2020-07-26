@@ -32,9 +32,9 @@ import promise
 import six
 import tensorflow.compat.v2 as tf
 
-from tfds.core import constants
-from tfds.core import utils
-from tfds.core.download import resource as resource_lib
+from tfds import constants
+from tfds import utils
+from tfds.download import resource as resource_lib
 
 if six.PY3:
   import bz2  # pylint:disable=g-import-not-at-top

@@ -14,15 +14,15 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for `tfds.core.visualization.show_examples`."""
+"""Tests for `tfds.visualization.show_examples`."""
 
 
 
 import mock
 
 from tfds import testing
-from tfds.core import registered
-from tfds.core import visualization
+from tfds import registered
+from tfds import visualization
 
 # Import for registration
 from tfds.image_classification import imagenet  # pylint: disable=unused-import,g-bad-import-order

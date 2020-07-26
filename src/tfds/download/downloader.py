@@ -31,9 +31,9 @@ import requests
 
 from six.moves import urllib
 import tensorflow.compat.v2 as tf
-from tfds.core import units
-from tfds.core import utils
-from tfds.core.download import checksums as checksums_lib
+from tfds import units
+from tfds import utils
+from tfds.download import checksums as checksums_lib
 
 _DRIVE_URL = re.compile(r'^https://drive\.google\.com/')
 

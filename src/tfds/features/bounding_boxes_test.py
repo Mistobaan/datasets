@@ -20,7 +20,7 @@
 
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import features
+from tfds import features
 
 tf.enable_v2_behavior()
 

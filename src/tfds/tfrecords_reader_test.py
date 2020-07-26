@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.tfrecords_reader."""
+"""Tests for tfds.tfrecords_reader."""
 
 
 
@@ -29,12 +29,12 @@ import tensorflow.compat.v2 as tf
 
 import tfds as tfds
 from tfds import testing
-from tfds.core import example_parser
-from tfds.core import splits
-from tfds.core import tfrecords_reader
-from tfds.core import tfrecords_writer
-from tfds.core.utils import read_config as read_config_lib
-from tfds.core.utils import shard_utils
+from tfds import example_parser
+from tfds import splits
+from tfds import tfrecords_reader
+from tfds import tfrecords_writer
+from tfds.utils import read_config as read_config_lib
+from tfds.utils import shard_utils
 
 
 # Skip the cardinality test for backward compatibility with TF <= 2.1.

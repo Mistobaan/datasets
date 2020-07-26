@@ -14,12 +14,12 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.utils.shard_utils."""
+"""Tests for tfds.utils.shard_utils."""
 
 
 
 from tfds import testing
-from tfds.core.utils import shard_utils
+from tfds.utils import shard_utils
 
 
 class GetReadInstructionsTest(testing.TestCase):

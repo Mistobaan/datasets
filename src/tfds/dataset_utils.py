@@ -19,9 +19,9 @@
 
 
 import tensorflow.compat.v2 as tf
-from tfds.core import api_utils
-from tfds.core import tf_compat
-from tfds.core import utils
+from tfds import api_utils
+from tfds import tf_compat
+from tfds import utils
 
 
 def _eager_dataset_iterator(dataset):

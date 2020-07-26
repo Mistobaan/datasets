@@ -19,7 +19,7 @@
 
 
 import tensorflow.compat.v2 as tf
-from tfds.core import utils
+from tfds import utils
 
 
 class ExampleParser(object):

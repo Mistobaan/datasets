@@ -14,14 +14,14 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.dataset_utils."""
+"""Tests for tfds.dataset_utils."""
 
 
 
 import numpy as np
 import tensorflow.compat.v2 as tf
 from tfds import testing
-from tfds.core import dataset_utils
+from tfds import dataset_utils
 
 tf.enable_v2_behavior()
 

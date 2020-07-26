@@ -21,8 +21,8 @@
 import hashlib
 import os
 from tfds import testing
-from tfds.core import constants
-from tfds.core.utils import py_utils
+from tfds import constants
+from tfds.utils import py_utils
 
 
 class PyUtilsTest(testing.TestCase):
@@ -201,11 +201,11 @@ class GetClassPathUrlTest(testing.TestCase):
 
   def test_get_class_path(self):
     cls_path = py_utils.get_class_path(py_utils.NonMutableDict)
-    self.assertEqual(cls_path, 'tfds.core.utils.py_utils.NonMutableDict')
+    self.assertEqual(cls_path, 'tfds.utils.py_utils.NonMutableDict')
     cls_path = py_utils.get_class_path(
         py_utils.NonMutableDict(), use_tfds_prefix=False)
     self.assertEqual(cls_path,
-                     'tfds.core.utils.py_utils.NonMutableDict')
+                     'tfds.utils.py_utils.NonMutableDict')
 
   def test_get_class_url(self):
     cls_url = py_utils.get_class_url(py_utils.NonMutableDict)

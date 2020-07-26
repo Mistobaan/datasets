@@ -19,7 +19,7 @@
 import os
 import mock
 
-from tfds.core.folder_dataset import image_folder
+from tfds.folder_dataset import image_folder
 import tfds.public_api as tfds
 
 _EXAMPLE_DIR = os.path.join(

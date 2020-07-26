@@ -18,9 +18,9 @@
 
 """
 
-from tfds.core.decode.base import Decoder
-from tfds.core.decode.base import make_decoder
-from tfds.core.decode.base import SkipDecoding
+from tfds.decode.base import Decoder
+from tfds.decode.base import make_decoder
+from tfds.decode.base import SkipDecoding
 
 __all__ = [
     'Decoder',

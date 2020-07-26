@@ -22,11 +22,11 @@ import os
 from typing import Dict, List, Tuple
 
 import tensorflow.compat.v2 as tf
-from tfds.core import dataset_builder
-from tfds.core import dataset_info
-from tfds.core import features as features_lib
-from tfds.core import splits as split_lib
-from tfds.core.utils import version
+from tfds import dataset_builder
+from tfds import dataset_info
+from tfds import features as features_lib
+from tfds import splits as split_lib
+from tfds.utils import version
 
 # Dict of 'split_name'-> 'language' -> `List[text_data]`
 SplitExampleDict = Dict[str, Dict[str, List[str]]]

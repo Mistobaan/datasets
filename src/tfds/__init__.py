@@ -17,13 +17,13 @@
 # pylint: disable=line-too-long
 """`tfds` (`tfds`) defines a collection of datasets ready-to-use with TensorFlow.
 
-Each dataset is defined as a `tfds.core.DatasetBuilder`, which encapsulates
+Each dataset is defined as a `tfds.DatasetBuilder`, which encapsulates
 the logic to download the dataset and construct an input pipeline, as well as
 contains the dataset documentation (version, splits, number of examples, etc.).
 
 The main library entrypoints are:
 
-* `tfds.builder`: fetch a `tfds.core.DatasetBuilder` by name
+* `tfds.builder`: fetch a `tfds.DatasetBuilder` by name
 * `tfds.load`: convenience method to construct a builder, download the data, and
   create an input pipeline, returning a `tf.data.Dataset`.
 

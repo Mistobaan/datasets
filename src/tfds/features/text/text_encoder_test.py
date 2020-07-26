@@ -15,7 +15,7 @@
 
 # Lint as: python3
 # coding=utf-8
-"""Tests for tfds.core.features.text.text_encoder."""
+"""Tests for tfds.features.text.text_encoder."""
 
 
 from __future__ import unicode_literals
@@ -25,7 +25,7 @@ import os
 from absl.testing import parameterized
 import numpy as np
 from tfds import testing
-from tfds.core.features.text import text_encoder
+from tfds.features.text import text_encoder
 
 ZH_HELLO = '你好 '
 EN_HELLO = 'hello '

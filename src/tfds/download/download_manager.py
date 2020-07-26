@@ -29,14 +29,14 @@ import promise
 import six
 import tensorflow.compat.v2 as tf
 
-from tfds.core import api_utils
-from tfds.core import utils
-from tfds.core.download import checksums
-from tfds.core.download import downloader
-from tfds.core.download import extractor
-from tfds.core.download import kaggle
-from tfds.core.download import resource as resource_lib
-from tfds.core.download import util
+from tfds import api_utils
+from tfds import utils
+from tfds.download import checksums
+from tfds.download import downloader
+from tfds.download import extractor
+from tfds.download import kaggle
+from tfds.download import resource as resource_lib
+from tfds.download import util
 
 
 class NonMatchingChecksumError(Exception):
@@ -63,7 +63,7 @@ class NonMatchingChecksumError(Exception):
 
 
 class DownloadConfig(object):
-  """Configuration for `tfds.core.DatasetBuilder.download_and_prepare`."""
+  """Configuration for `tfds.DatasetBuilder.download_and_prepare`."""
 
   def __init__(
       self,

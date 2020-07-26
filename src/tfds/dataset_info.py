@@ -43,14 +43,14 @@ from absl import logging
 import six
 import tensorflow.compat.v2 as tf
 
-from tfds.core import api_utils
-from tfds.core import lazy_imports_lib
-from tfds.core import naming
-from tfds.core import splits as splits_lib
-from tfds.core import utils
-from tfds.core.features import top_level_feature
-from tfds.core.proto import dataset_info_pb2
-from tfds.core.utils import gcs_utils
+from tfds import api_utils
+from tfds import lazy_imports_lib
+from tfds import naming
+from tfds import splits as splits_lib
+from tfds import utils
+from tfds.features import top_level_feature
+from tfds.proto import dataset_info_pb2
+from tfds.utils import gcs_utils
 
 from google.protobuf import json_format
 
@@ -59,7 +59,7 @@ from google.protobuf import json_format
 DATASET_INFO_FILENAME = "dataset_info.json"
 LICENSE_FILENAME = "LICENSE"
 
-INFO_STR = """tfds.core.DatasetInfo(
+INFO_STR = """tfds.DatasetInfo(
     name='{name}',
     version={version},
     description='{description}',
@@ -109,12 +109,12 @@ class DatasetInfo(object):
       supervised_keys: `tuple` of `(input_key, target_key)`, Specifies the
         input feature and the label for supervised learning, if applicable for
         the dataset. The keys correspond to the feature names to select in
-        `info.features`. When calling `tfds.core.DatasetBuilder.as_dataset()`
+        `info.features`. When calling `tfds.DatasetBuilder.as_dataset()`
         with `as_supervised=True`, the `tf.data.Dataset` object will yield
         the (input, target) defined here.
       homepage: `str`, optional, the homepage for this dataset.
       citation: `str`, optional, the citation to use for this dataset.
-      metadata: `tfds.core.Metadata`, additonal object which will be
+      metadata: `tfds.Metadata`, additonal object which will be
         stored/restored with the dataset. This allows for storing additional
         information with the dataset.
       redistribution_info: `dict`, optional, information needed for
@@ -152,7 +152,7 @@ class DatasetInfo(object):
 
     if metadata and not isinstance(metadata, Metadata):
       raise ValueError(
-          "Metadata should be a `tfds.core.Metadata` instance. Received "
+          "Metadata should be a `tfds.Metadata` instance. Received "
           "{}".format(metadata))
     self._metadata = metadata
 
@@ -249,7 +249,7 @@ class DatasetInfo(object):
       from GCS or file)
 
     Args:
-      split_dict: `tfds.core.SplitDict`, the new split
+      split_dict: `tfds.SplitDict`, the new split
     """
     assert isinstance(split_dict, splits_lib.SplitDict)
 
@@ -525,7 +525,7 @@ class Metadata(dict):
   To implement the interface, overwrite `save_metadata` and
   `load_metadata`.
 
-  See `tfds.core.MetadataDict` for a simple implementation that acts as a
+  See `tfds.MetadataDict` for a simple implementation that acts as a
   dict that saves data to/from a JSON file.
   """
 
@@ -541,7 +541,7 @@ class Metadata(dict):
 
 
 class MetadataDict(Metadata, dict):
-  """A `tfds.core.Metadata` object that acts as a `dict`.
+  """A `tfds.Metadata` object that acts as a `dict`.
 
   By default, the metadata will be serialized as JSON.
   """
@@ -562,7 +562,7 @@ class MetadataDict(Metadata, dict):
 
 
 class BeamMetadataDict(MetadataDict):
-  """A `tfds.core.Metadata` object supporting Beam-generated datasets."""
+  """A `tfds.Metadata` object supporting Beam-generated datasets."""
 
   def __init__(self, *args, **kwargs):
     super(BeamMetadataDict, self).__init__(*args, **kwargs)

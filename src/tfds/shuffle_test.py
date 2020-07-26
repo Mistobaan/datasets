@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Tests for tfds.core.shuffle."""
+"""Tests for tfds.shuffle."""
 
 
 
@@ -22,7 +22,7 @@ import collections
 
 from absl.testing.absltest import mock
 from tfds import testing
-from tfds.core import shuffle
+from tfds import shuffle
 
 _ITEMS = [
     (1, b'The'),

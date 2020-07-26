@@ -21,10 +21,10 @@
 import typing
 from typing import List, Union
 
-from tfds.core import proto
-from tfds.core import tfrecords_reader
-from tfds.core import utils
-from tfds.core.utils import shard_utils
+from tfds import proto
+from tfds import tfrecords_reader
+from tfds import utils
+from tfds.utils import shard_utils
 
 
 @utils.as_proto_cls(proto.SplitInfo)
@@ -45,7 +45,7 @@ class SplitInfo(object):
 
   def __repr__(self) -> str:
     num_examples = self.num_examples or "unknown"
-    return "<tfds.core.SplitInfo num_examples=%s>" % str(num_examples)
+    return "<tfds.SplitInfo num_examples=%s>" % str(num_examples)
 
   @property
   def file_instructions(self) -> List[shard_utils.FileInstruction]:

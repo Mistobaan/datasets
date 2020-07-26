@@ -16,6 +16,6 @@
 # Lint as: python3
 """Public API of the proto package."""
 
-from tfds.core.proto import dataset_info_generated_pb2 as dataset_info_pb2  # pylint: disable=line-too-long
+from tfds.proto import dataset_info_generated_pb2 as dataset_info_pb2  # pylint: disable=line-too-long
 
 SplitInfo = dataset_info_pb2.SplitInfo

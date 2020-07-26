@@ -21,10 +21,10 @@
 import numpy as np
 import tensorflow.compat.v2 as tf
 
-from tfds.core import utils
-from tfds.core.features import feature as feature_lib
-from tfds.core.features import features_dict
-from tfds.core.features import top_level_feature
+from tfds import utils
+from tfds.features import feature as feature_lib
+from tfds.features import features_dict
+from tfds.features import top_level_feature
 
 
 class Sequence(top_level_feature.TopLevelFeature):
