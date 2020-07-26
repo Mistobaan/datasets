@@ -16,9 +16,7 @@
 # Lint as: python3
 """Async download API with checksum verification. No business logic."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import concurrent.futures
 import contextlib

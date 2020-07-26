@@ -17,9 +17,7 @@
 """Wrapper around FeatureDict to allow better control over decoding.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 from tfds.core.features import feature as feature_lib
 

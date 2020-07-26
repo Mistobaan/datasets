@@ -16,9 +16,7 @@
 # Lint as: python3
 """Test import."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
 
 import tfds as tfds  # pylint: disable=unused-import
 from tfds import testing
