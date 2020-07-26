@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright 2020 The TensorFlow Datasets Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -429,7 +428,7 @@ class DownloadManager(object):
     # processed once, even if passed twice to download_manager.
     @utils.build_synchronize_decorator()
     @utils.memoize()
-    async def _download(self, resource: Union[str, resource_lib.Resource]):
+    def _download(self, resource: Union[str, resource_lib.Resource]):
         """Download resource, returns Promise->path to downloaded file.
 
     Args:
@@ -439,7 +438,7 @@ class DownloadManager(object):
       path: The path to the downloaded resource.
     """
         # Normalize the input
-        if isinstance(resource, str):
+        if isinstance(resource, six.string_types):
             resource = resource_lib.Resource(url=resource)
         url = resource.url
 
@@ -464,7 +463,7 @@ class DownloadManager(object):
                 url_path=url_path,
                 url_info=self._recorded_url_infos[url],
             )
-            return future
+            return promise.Promise.resolve(future)
         # Otherwise, url_infos are either already registered, or will be registered
         # in the `_handle_download_result` callback.
 
@@ -496,7 +495,7 @@ class DownloadManager(object):
 
     @utils.build_synchronize_decorator()
     @utils.memoize()
-    async def _extract(self, resource):
+    def _extract(self, resource):
         """Extract a single archive, returns Promise->path to extraction result."""
         if isinstance(resource, six.string_types):
             resource = resource_lib.Resource(path=resource)
@@ -504,7 +503,7 @@ class DownloadManager(object):
         extract_method = resource.extract_method
         if extract_method == resource_lib.ExtractMethod.NO_EXTRACT:
             logging.info("Skipping extraction for %s (method=NO_EXTRACT).", path)
-            return path
+            return promise.Promise.resolve(path)
         method_name = resource_lib.ExtractMethod(extract_method).name
         extract_path = os.path.join(
             self._extract_dir, "%s.%s" % (method_name, os.path.basename(path))
@@ -518,10 +517,14 @@ class DownloadManager(object):
     @utils.memoize()
     def _download_extract(self, resource):
         """Download-extract `Resource` or url, returns Promise->path."""
-        if isinstance(resource, str):  # TODO this should check if is a URL
+        if isinstance(resource, six.string_types):
             resource = resource_lib.Resource(url=resource)
-        await self._download(resource)
-        await self._extract(resource)
+
+        def callback(path):
+            resource.path = path
+            return self._extract(resource)
+
+        return self._download(resource).then(callback)
 
     def download_kaggle_data(self, competition_or_dataset: str) -> str:
         """Download data for a given Kaggle Dataset or competition.

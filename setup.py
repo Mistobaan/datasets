@@ -38,26 +38,19 @@ DOCLINES = __doc__.split('\n')
 
 REQUIRED_PKGS = [
     'absl-py==0.9.0',
+    'tensorflow>=1.15.3,<2.0',
+    'tensorflow-metadata',
     # 'attrs>=18.1.0',
     # 'dill',  # TODO(tfds): move to TESTS_REQUIRE.
     # 'future',
-    # 'numpy',
-    # 'promise',
-    # 'protobuf>=3.6.1',
-    # 'requests>=2.19.0',
-    # 'six',
-    # 'tensorflow-metadata',
+    # 'numpy', # this should be tensorflow's deps
+    'promise', # these should be removed with async/await #TODO
+    'protobuf>=3.6.1',
+    'requests>=2.19.0',
+    'six', # we can't unsix ..
     # 'termcolor',
-    # 'tqdm',
+    'tqdm',
     # 'wrapt',
-    # # Python 2 backports
-    # 'bz2file;python_version<"3"',
-    # 'functools32;python_version<"3"',
-    # 'futures;python_version<"3"',
-    # # shutil.disk_usage was introduced in Python 3.3, use psutil instead.
-    # 'psutil;python_version<"3.3"',
-    # # enum introduced in Python 3.4
-    # 'enum34;python_version<"3.4"'
 ]
 
 TESTS_REQUIRE = [
@@ -80,8 +73,6 @@ DATASET_EXTRAS = {
 
 EXTRAS_REQUIRE = {
     'matplotlib': ['matplotlib'],
-    'tensorflow': ['tensorflow>=1.15.0'],
-    'tensorflow_gpu': ['tensorflow-gpu>=1.15.0'],
     'tensorflow-data-validation': ['tensorflow-data-validation'],
 
     # Tests dependencies are installed in ./oss_scripts/oss_pip_install.sh

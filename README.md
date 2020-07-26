@@ -1,5 +1,16 @@
 # TensorFlow Datasets
 
+This is a highly opinionated fork of the Tensorflow Dataset library.
+
+The ONLY case use leverages these tecnologies:
+- tensorflow 1.15.3 graph mode (NO EAGER)
+- TPU 
+- Apache Beam / Google Dataflow
+- Google Cloud Storage
+- Kubeflow/Kubernetes 
+- Python 3.7
+--- 
+
 TensorFlow Datasets provides many public datasets as `tf.data.Datasets`.
 
 [![Kokoro](https://storage.googleapis.com/tfds-kokoro-public/kokoro-build.svg)](https://storage.googleapis.com/tfds-kokoro-public/kokoro-build.html)

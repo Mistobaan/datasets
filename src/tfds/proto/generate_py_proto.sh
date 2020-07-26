@@ -1,12 +1,13 @@
 #!/bin/bash
 
-# This script use the protoc compiler to generate the python code of the
+# This script use the protoc compiler to generate the python code of 
 # all of our proto files.
 
 
 # Ensure we have the desired protoc version.
-if [[ $(protoc --version) != 'libprotoc 3.11.2' ]]; then
-  echo 'Please use version 3.11.2 or above.'
+if [[ $(protoc --version) != 'libprotoc 3.11.4' ]]; then
+  echo 'Please use version 3.11.4 or above.'
+  echo 'sudo snap install protobuf --classic'
   echo 'Please run install_protoc.sh to install it.'
   exit
 fi
@@ -27,7 +28,7 @@ echo "Temporary directory created: "
 echo ${TMP_DIR}
 
 
-TMP_TFDS_PROTO_DIR="${TMP_TFDS_DIR}/tfds/core/proto"
+TMP_TFDS_PROTO_DIR="${TMP_TFDS_DIR}/src/tfds/proto"
 DATASET_INFO_PROTO="${TMP_TFDS_PROTO_DIR}/dataset_info.proto"
 if [ ! -f ${DATASET_INFO_PROTO} ]; then
     echo "${DATASET_INFO_PROTO} not found."
@@ -51,7 +52,6 @@ pylint_skip_file "${GENERATED_DATASET_INFO_PY}"
 
 
 LICENSING_TEXT=$(cat <<-END
-# coding=utf-8
 # Copyright 2018 The TensorFlow Datasets Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");

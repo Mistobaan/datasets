@@ -1,4 +1,3 @@
-# coding=utf-8
 # Copyright 2020 The TensorFlow Datasets Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +16,7 @@
 """Test for ImageFolder."""
 
 import os
-import mock
+from unittest import mock
 
 from tfds.folder_dataset import image_folder
 import tfds.public_api as tfds
