@@ -17,16 +17,14 @@
 """Tests for tfds.import_testing."""
 
 
-
 import tensorflow.compat.v2 as tf
 import tfds.public_api as tfds
 
 
 class ImportTestingTest(tf.test.TestCase):
+    def test_testing_imported(self):
+        self.assertIsNotNone(tfds.testing)
 
-  def test_testing_imported(self):
-    self.assertIsNotNone(tfds.testing)
 
-
-if __name__ == '__main__':
-  tf.test.main()
+if __name__ == "__main__":
+    tf.test.main()

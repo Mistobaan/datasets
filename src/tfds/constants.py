@@ -17,20 +17,18 @@
 """Default values for some parameters of the API when no values are passed."""
 
 
-
 # IMPORTANT: when changing values here, update docstrings.
 
 import os
 
 # Github base URL
-SRC_BASE_URL = 'https://github.com/tensorflow/datasets/tree/master/'
+SRC_BASE_URL = "https://github.com/tensorflow/datasets/tree/master/"
 
 # Directory where to store processed datasets.
-DATA_DIR = os.environ.get('TFDS_DATA_DIR',
-                          os.path.join('~', 'tfds'))
+DATA_DIR = os.environ.get("TFDS_DATA_DIR", os.path.join("~", "tfds"))
 
 # Suffix of files / directories which aren't finished downloading / extracting.
-INCOMPLETE_SUFFIX = '.incomplete'
+INCOMPLETE_SUFFIX = ".incomplete"
 
 # Note: GCS constants are defined in `core/utils/gcs_utils.py`
 
@@ -39,7 +37,7 @@ _registered_data_dir = set()
 
 
 def add_data_dir(data_dir):
-  """Registers a new default `data_dir` to search for datasets.
+    """Registers a new default `data_dir` to search for datasets.
 
   When a `tfds.DatasetBuilder` is created with `data_dir=None`, TFDS
   will look in all registered `data_dir` (including the default one) to
@@ -53,12 +51,10 @@ def add_data_dir(data_dir):
   Args:
     data_dir: New data_dir to register.
   """
-  _registered_data_dir.add(data_dir)
+    _registered_data_dir.add(data_dir)
 
 
 def list_data_dirs():
-  """Return the list of all registered `data_dir`."""
-  all_data_dirs = _registered_data_dir | {DATA_DIR}
-  return sorted(os.path.expanduser(d) for d in all_data_dirs)
-
-
+    """Return the list of all registered `data_dir`."""
+    all_data_dirs = _registered_data_dir | {DATA_DIR}
+    return sorted(os.path.expanduser(d) for d in all_data_dirs)

@@ -16,7 +16,6 @@
 """Benchmark utils."""
 
 
-
 import time
 from typing import Optional, Dict, Union
 
@@ -32,11 +31,9 @@ StatDict = Dict[str, Union[int, float]]
 
 
 def benchmark(
-    ds: tf.data.Dataset,
-    num_iter: Optional[int] = None,
-    batch_size: int = 1,
+    ds: tf.data.Dataset, num_iter: Optional[int] = None, batch_size: int = 1,
 ) -> Dict[str, StatDict]:
-  """Benchmarks a `tf.data.Dataset`.
+    """Benchmarks a `tf.data.Dataset`.
 
   Usage:
 
@@ -59,59 +56,51 @@ def benchmark(
   Returns:
     statistics: The recorded statistics, for eventual post-processing
   """
-  # Benchmark the first batch separatelly (setup overhead)
-  start_time = time.perf_counter()  # pytype: disable=module-attr
-  ds_iter = iter(ds)  # pytype: disable=wrong-arg-types
-  next(ds_iter)  # First warmup batch
-  first_batch_time = time.perf_counter()  # pytype: disable=module-attr
+    # Benchmark the first batch separatelly (setup overhead)
+    start_time = time.perf_counter()  # pytype: disable=module-attr
+    ds_iter = iter(ds)  # pytype: disable=wrong-arg-types
+    next(ds_iter)  # First warmup batch
+    first_batch_time = time.perf_counter()  # pytype: disable=module-attr
 
-  # Benchmark the following batches
-  i = None
-  for i, _ in tqdm_utils.tqdm(enumerate(ds_iter)):
-    if num_iter and i > num_iter:
-      break
-  end_time = time.perf_counter()  # pytype: disable=module-attr
+    # Benchmark the following batches
+    i = None
+    for i, _ in tqdm_utils.tqdm(enumerate(ds_iter)):
+        if num_iter and i > num_iter:
+            break
+    end_time = time.perf_counter()  # pytype: disable=module-attr
 
-  if num_iter and i < num_iter:
-    logging.warning(
-        'Number of iteration shorter than expected ({} vs {})'.format(
-            i, num_iter
+    if num_iter and i < num_iter:
+        logging.warning(
+            "Number of iteration shorter than expected ({} vs {})".format(i, num_iter)
         )
+
+    logging.info("\n************ Summary ************\n")
+    num_examples = (i + 1) * batch_size
+    return {
+        "first": _log_stats("First only", start_time, first_batch_time, batch_size),
+        "last": _log_stats("First excluded", first_batch_time, end_time, num_examples),
+        "first+last": _log_stats(
+            "First included", start_time, end_time, num_examples + batch_size
+        ),
+        "raw": {
+            "start_time": start_time,
+            "first_batch_time": first_batch_time,
+            "end_time": end_time,
+            "num_iter": i + 2,  # First batch and zero-shifted
+        },
+    }
+
+
+def _log_stats(msg: str, start: float, end: float, num_examples: int) -> StatDict:
+    """Log and returns stats."""
+    total_time = end - start
+    stats = {
+        "duration": total_time,
+        "num_examples": num_examples,
+        "avg": num_examples / total_time,
+    }
+    logging.info(
+        "Examples/sec ({}) {avg:.2f} ex/sec (total: {num_examples} ex, "
+        "{duration:.2f} sec)".format(msg, **stats)
     )
-
-  logging.info('\n************ Summary ************\n')
-  num_examples = (i + 1) * batch_size
-  return {
-      'first': _log_stats(
-          'First only', start_time, first_batch_time, batch_size
-      ),
-      'last': _log_stats(
-          'First excluded', first_batch_time, end_time, num_examples
-      ),
-      'first+last': _log_stats(
-          'First included', start_time, end_time, num_examples + batch_size
-      ),
-      'raw': {
-          'start_time': start_time,
-          'first_batch_time': first_batch_time,
-          'end_time': end_time,
-          'num_iter': i + 2,  # First batch and zero-shifted
-      },
-  }
-
-
-def _log_stats(
-    msg: str, start: float, end: float, num_examples: int
-) -> StatDict:
-  """Log and returns stats."""
-  total_time = end - start
-  stats = {
-      'duration': total_time,
-      'num_examples': num_examples,
-      'avg': num_examples / total_time,
-  }
-  logging.info(
-      'Examples/sec ({}) {avg:.2f} ex/sec (total: {num_examples} ex, '
-      '{duration:.2f} sec)'.format(msg, **stats)
-  )
-  return stats
+    return stats

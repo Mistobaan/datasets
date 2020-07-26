@@ -17,10 +17,6 @@
 """Public API of tfds, without the registered dataset."""
 
 # pylint: disable=unused-import,g-import-not-at-top,g-bad-import-order,wrong-import-position
-from tfds import tf_compat
-tf_compat.ensure_tf_install()
-
-from tfds import core
 from tfds import folder_dataset
 from tfds import download
 from tfds import decode
@@ -35,6 +31,7 @@ from tfds.registered import builder
 from tfds.registered import builder_cls
 from tfds.registered import list_builders
 from tfds.registered import load
+from tfds.registered import skip_registration
 from tfds.splits import Split
 from tfds.utils.gcs_utils import is_dataset_on_gcs
 from tfds.utils.read_config import ReadConfig
@@ -43,10 +40,10 @@ from tfds.visualization import show_examples
 from tfds.visualization import show_statistics
 from tfds.version import __version__
 
-with core.registered.skip_registration():
-  # We import testing namespace but without registering the tests datasets
-  # (e.g. DummyMnist,...).
-  from tfds import testing
+with skip_registration():
+    # We import testing namespace but without registering the tests datasets
+    # (e.g. DummyMnist,...).
+    from tfds import testing
 
 
 __all__ = [

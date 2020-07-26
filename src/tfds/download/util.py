@@ -17,12 +17,11 @@
 """Utils functions."""
 
 
-
 import enum
 
 
 class GenerateMode(enum.Enum):
-  """`Enum` for how to treat pre-existing downloads and data.
+    """`Enum` for how to treat pre-existing downloads and data.
 
   The default mode is `REUSE_DATASET_IF_EXISTS`, which will reuse both
   raw downloads and the prepared dataset if they exist.
@@ -36,13 +35,13 @@ class GenerateMode(enum.Enum):
   | `FORCE_REDOWNLOAD`                 | Fresh     | Fresh   |
   """
 
-  REUSE_DATASET_IF_EXISTS = 'reuse_dataset_if_exists'
-  REUSE_CACHE_IF_EXISTS = 'reuse_cache_if_exists'
-  FORCE_REDOWNLOAD = 'force_redownload'
+    REUSE_DATASET_IF_EXISTS = "reuse_dataset_if_exists"
+    REUSE_CACHE_IF_EXISTS = "reuse_cache_if_exists"
+    FORCE_REDOWNLOAD = "force_redownload"
 
 
 class ComputeStatsMode(enum.Enum):
-  """Mode to decide if dynamic dataset info fields should be computed or not.
+    """Mode to decide if dynamic dataset info fields should be computed or not.
 
   Mode can be:
 
@@ -55,6 +54,6 @@ class ComputeStatsMode(enum.Enum):
 
   """
 
-  AUTO = 'auto'
-  FORCE = 'force'
-  SKIP = 'skip'
+    AUTO = "auto"
+    FORCE = "force"
+    SKIP = "skip"

@@ -23,7 +23,6 @@ This logic is shared between:
 """
 
 
-
 from typing import List, Sequence
 
 import attr
@@ -31,7 +30,7 @@ import attr
 
 @attr.s(frozen=True)
 class FileInstruction(object):  # TODO(epot): Uses dataclasses instead
-  """Instruction to read a single shard/file.
+    """Instruction to read a single shard/file.
 
   Attributes:
     filename: The filenames contains the relative path, not absolute.
@@ -40,32 +39,30 @@ class FileInstruction(object):  # TODO(epot): Uses dataclasses instead
     take: Indicates how many examples to read (`None` to read all)
     num_examples: `int`, The total number of examples
   """
-  filename = attr.ib()
-  skip = attr.ib()
-  take = attr.ib()
-  num_examples = attr.ib()
 
-  def asdict(self):
-    return {
-        'filename': self.filename,
-        'skip': self.skip,
-        'take': self.take,
-        'num_examples': self.num_examples,
-    }
+    filename = attr.ib()
+    skip = attr.ib()
+    take = attr.ib()
+    num_examples = attr.ib()
 
-  def replace(self, **kwargs):
-    new_attrs = self.asdict()
-    new_attrs.update(kwargs)
-    return type(self)(**new_attrs)
+    def asdict(self):
+        return {
+            "filename": self.filename,
+            "skip": self.skip,
+            "take": self.take,
+            "num_examples": self.num_examples,
+        }
+
+    def replace(self, **kwargs):
+        new_attrs = self.asdict()
+        new_attrs.update(kwargs)
+        return type(self)(**new_attrs)
 
 
 def get_file_instructions(
-    from_: int,
-    to: int,
-    filenames: Sequence[str],
-    shard_lengths: Sequence[int],
+    from_: int, to: int, filenames: Sequence[str], shard_lengths: Sequence[int],
 ) -> List[FileInstruction]:
-  """Returns a list of files (+skip/take) to read [from_:to] items from shards.
+    """Returns a list of files (+skip/take) to read [from_:to] items from shards.
 
   Args:
     from_: int, Index (included) of element from which to read.
@@ -77,23 +74,25 @@ def get_file_instructions(
   Returns:
     list of dict(filename, skip, take).
   """
-  index_start = 0  # Beginning (included) of moving window.
-  index_end = 0  # End (excluded) of moving window.
-  file_instructions = []
-  for filename, length in zip(filenames, shard_lengths):
-    if not length:
-      continue  # Empty shard - can happen with temporary buckets.
-    index_end += length
-    if from_ < index_end and to > index_start:  # There is something to take.
-      skip = from_ - index_start if from_ > index_start else 0
-      take = to - index_start - skip if to < index_end else -1
-      if take == 0:
-        continue
-      file_instructions.append(FileInstruction(
-          filename=filename,
-          skip=skip,
-          take=take,
-          num_examples=length - skip if take == -1 else take,
-      ))
-    index_start += length
-  return file_instructions
+    index_start = 0  # Beginning (included) of moving window.
+    index_end = 0  # End (excluded) of moving window.
+    file_instructions = []
+    for filename, length in zip(filenames, shard_lengths):
+        if not length:
+            continue  # Empty shard - can happen with temporary buckets.
+        index_end += length
+        if from_ < index_end and to > index_start:  # There is something to take.
+            skip = from_ - index_start if from_ > index_start else 0
+            take = to - index_start - skip if to < index_end else -1
+            if take == 0:
+                continue
+            file_instructions.append(
+                FileInstruction(
+                    filename=filename,
+                    skip=skip,
+                    take=take,
+                    num_examples=length - skip if take == -1 else take,
+                )
+            )
+        index_start += length
+    return file_instructions

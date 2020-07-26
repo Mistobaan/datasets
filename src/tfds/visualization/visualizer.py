@@ -18,7 +18,6 @@
 """
 
 
-
 import abc
 from typing import Any
 
@@ -29,7 +28,7 @@ from tfds import dataset_info
 
 
 def extract_keys(feature_dict, feature_cls):
-  """Extracts keys from features dict based on feature type.
+    """Extracts keys from features dict based on feature type.
 
   Args:
     feature_dict: `tfds.features.FeaturesDict` from which extract keys
@@ -38,16 +37,16 @@ def extract_keys(feature_dict, feature_cls):
   Returns:
     List of extracted keys matching the class.
   """
-  return [k for k, f in feature_dict.items() if isinstance(f, feature_cls)]
+    return [k for k, f in feature_dict.items() if isinstance(f, feature_cls)]
 
 
 @six.add_metaclass(abc.ABCMeta)
 class Visualizer(object):
-  """Visualizer."""
+    """Visualizer."""
 
-  @abc.abstractmethod
-  def match(self, ds_info: dataset_info.DatasetInfo) -> bool:
-    """Returns whether the visualizer is compatible with the dataset.
+    @abc.abstractmethod
+    def match(self, ds_info: dataset_info.DatasetInfo) -> bool:
+        """Returns whether the visualizer is compatible with the dataset.
 
     Args:
       ds_info: `tfds.DatasetInfo` object of the dataset to visualize.
@@ -56,14 +55,14 @@ class Visualizer(object):
       bool: True if the visualizer can be applied to the dataset.
     """
 
-  @abc.abstractmethod
-  def show(
-      self,
-      ds: tf.data.Dataset,
-      ds_info: dataset_info.DatasetInfo,
-      **options_kwargs: Any
-  ):
-    """Display the dataset.
+    @abc.abstractmethod
+    def show(
+        self,
+        ds: tf.data.Dataset,
+        ds_info: dataset_info.DatasetInfo,
+        **options_kwargs: Any
+    ):
+        """Display the dataset.
 
     Args:
       ds: `tf.data.Dataset`. The tf.data.Dataset object to visualize. Examples

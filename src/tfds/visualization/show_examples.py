@@ -18,7 +18,6 @@
 """
 
 
-
 from typing import Any
 
 import tensorflow.compat.v2 as tf
@@ -36,11 +35,9 @@ _ALL_VISUALIZERS = [
 
 
 def show_examples(
-    ds: tf.data.Dataset,
-    ds_info: dataset_info.DatasetInfo,
-    **options_kwargs: Any
+    ds: tf.data.Dataset, ds_info: dataset_info.DatasetInfo, **options_kwargs: Any
 ):
-  """Visualize images (and labels) from an image classification dataset.
+    """Visualize images (and labels) from an image classification dataset.
 
   This function is for interactive use (Colab, Jupyter). It displays and return
   a plot of (rows*columns) images from a tf.data.Dataset.
@@ -65,19 +62,21 @@ def show_examples(
   Returns:
     fig: The `matplotlib.Figure` object
   """
-  if not isinstance(ds_info, dataset_info.DatasetInfo):  # Arguments inverted
-    # `absl.logging` does not appear on Colab by default, so uses print instead.
-    print('WARNING: For consistency with `tfds.load`, the `tfds.show_examples` '
-          'signature has been modified from (info, ds) to (ds, info).\n'
-          'The old signature is deprecated and will be removed. '
-          'Please change your call to `tfds.show_examples(ds, info)`')
-    ds, ds_info = ds_info, ds
-  for visualizer in _ALL_VISUALIZERS:
-    if visualizer.match(ds_info):
-      return visualizer.show(ds, ds_info, **options_kwargs)
-    raise ValueError(
-        'Visualisation not supported for dataset `{}`'.format(ds_info.name)
-    )
+    if not isinstance(ds_info, dataset_info.DatasetInfo):  # Arguments inverted
+        # `absl.logging` does not appear on Colab by default, so uses print instead.
+        print(
+            "WARNING: For consistency with `tfds.load`, the `tfds.show_examples` "
+            "signature has been modified from (info, ds) to (ds, info).\n"
+            "The old signature is deprecated and will be removed. "
+            "Please change your call to `tfds.show_examples(ds, info)`"
+        )
+        ds, ds_info = ds_info, ds
+    for visualizer in _ALL_VISUALIZERS:
+        if visualizer.match(ds_info):
+            return visualizer.show(ds, ds_info, **options_kwargs)
+        raise ValueError(
+            "Visualisation not supported for dataset `{}`".format(ds_info.name)
+        )
 
 
 def show_statistics(
@@ -85,7 +84,7 @@ def show_statistics(
     split: splits.Split = splits.Split.TRAIN,
     disable_logging: bool = True,
 ) -> None:
-  """Display the datasets statistics on a Colab/Jupyter notebook.
+    """Display the datasets statistics on a Colab/Jupyter notebook.
 
   `tfds.show_statistics` is a wrapper around
   [tensorflow_data_validation](https://www.tensorflow.org/tfx/data_validation/get_started)
@@ -121,15 +120,17 @@ def show_statistics(
   Returns:
     `None`
   """
-  tfdv = lazy_imports_lib.lazy_imports.tensorflow_data_validation
+    tfdv = lazy_imports_lib.lazy_imports.tensorflow_data_validation
 
-  if split not in ds_info.splits:
-    raise ValueError(
-        'Invalid requested split: \'{}\'. Only {} are availables.'.format(
-            split, list(ds_info.splits)))
+    if split not in ds_info.splits:
+        raise ValueError(
+            "Invalid requested split: '{}'. Only {} are availables.".format(
+                split, list(ds_info.splits)
+            )
+        )
 
-  # Creates the statistics.
-  statistics = statistics_pb2.DatasetFeatureStatisticsList()
-  statistics.datasets.add().CopyFrom(ds_info.splits[split].statistics)
-  with utils.disable_logging() if disable_logging else utils.nullcontext():
-    return tfdv.visualize_statistics(statistics)
+    # Creates the statistics.
+    statistics = statistics_pb2.DatasetFeatureStatisticsList()
+    statistics.datasets.add().CopyFrom(ds_info.splits[split].statistics)
+    with utils.disable_logging() if disable_logging else utils.nullcontext():
+        return tfdv.visualize_statistics(statistics)

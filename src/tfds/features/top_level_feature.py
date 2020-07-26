@@ -18,12 +18,11 @@
 """
 
 
-
 from tfds.features import feature as feature_lib
 
 
 class TopLevelFeature(feature_lib.FeatureConnector):
-  """Top-level `FeatureConnector` to manage decoding.
+    """Top-level `FeatureConnector` to manage decoding.
 
   Note that `FeatureConnector` which are declared as `TopLevelFeature` can be
   nested. However, only the top-level feature can be decoded.
@@ -32,21 +31,21 @@ class TopLevelFeature(feature_lib.FeatureConnector):
   eventually better support for augmentations.
   """
 
-  def __init__(self, *args, **kwargs):
-    """Constructor."""
-    self._is_top_level = False
-    super(TopLevelFeature, self).__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        """Constructor."""
+        self._is_top_level = False
+        super(TopLevelFeature, self).__init__(*args, **kwargs)
 
-  def _set_top_level(self):
-    """Indicates that the feature is top level.
+    def _set_top_level(self):
+        """Indicates that the feature is top level.
 
     Internal function called by `DatasetInfo`.
     """
-    self._is_top_level = True
+        self._is_top_level = True
 
-  def decode_example(self, serialized_example, decoders=None):
-    # pylint: disable=line-too-long
-    """Decode the serialize examples.
+    def decode_example(self, serialized_example, decoders=None):
+        # pylint: disable=line-too-long
+        """Decode the serialize examples.
 
     Args:
       serialized_example: Nested `dict` of `tf.Tensor`
@@ -59,75 +58,70 @@ class TopLevelFeature(feature_lib.FeatureConnector):
     Returns:
       example: Nested `dict` containing the decoded nested examples.
     """
-    # pylint: enable=line-too-long
-    if not self._is_top_level:
-      raise AssertionError(
-          'Feature {} can only be decoded when defined as top-level '
-          'feature, through info.features.decode_example()'.format(
-              type(self).__name__))
+        # pylint: enable=line-too-long
+        if not self._is_top_level:
+            raise AssertionError(
+                "Feature {} can only be decoded when defined as top-level "
+                "feature, through info.features.decode_example()".format(
+                    type(self).__name__
+                )
+            )
 
-    # Step 1: Flatten the nested dict => []
-    flat_example = self._flatten(serialized_example)
-    flat_features = self._flatten(self)
-    flat_serialized_info = self._flatten(self.get_serialized_info())
-    flat_decoders = self._flatten(decoders)
+        # Step 1: Flatten the nested dict => []
+        flat_example = self._flatten(serialized_example)
+        flat_features = self._flatten(self)
+        flat_serialized_info = self._flatten(self.get_serialized_info())
+        flat_decoders = self._flatten(decoders)
 
-    # Step 2: Apply the decoding
-    flatten_decoded = [
-        _decode_feature(  # pylint: disable=g-complex-comprehension
-            feature=feature,
-            example=example,
-            serialized_info=serialized_info,
-            decoder=decoder,
-        ) for (
-            feature,
-            example,
-            serialized_info,
-            decoder,
-        ) in zip(
-            flat_features,
-            flat_example,
-            flat_serialized_info,
-            flat_decoders
-        )
-    ]
+        # Step 2: Apply the decoding
+        flatten_decoded = [
+            _decode_feature(  # pylint: disable=g-complex-comprehension
+                feature=feature,
+                example=example,
+                serialized_info=serialized_info,
+                decoder=decoder,
+            )
+            for (feature, example, serialized_info, decoder,) in zip(
+                flat_features, flat_example, flat_serialized_info, flat_decoders
+            )
+        ]
 
-    # Step 3: Restore nesting [] => {}
-    nested_decoded = self._nest(flatten_decoded)
-    return nested_decoded
+        # Step 3: Restore nesting [] => {}
+        nested_decoded = self._nest(flatten_decoded)
+        return nested_decoded
 
 
 def _decode_feature(feature, example, serialized_info, decoder):
-  """Decode a single feature."""
-  # Eventually overwrite the default decoding
-  if decoder is not None:
-    decoder.setup(feature=feature)
-  else:
-    decoder = feature
+    """Decode a single feature."""
+    # Eventually overwrite the default decoding
+    if decoder is not None:
+        decoder.setup(feature=feature)
+    else:
+        decoder = feature
 
-  sequence_rank = _get_sequence_rank(serialized_info)
-  if sequence_rank == 0:
-    return decoder.decode_example(example)
-  elif sequence_rank == 1:
-    # Return a batch of examples from a sequence
-    return decoder.decode_batch_example(example)
-  elif sequence_rank > 1:
-    # Use ragged tensor if the sequance rank is greater than one
-    return decoder.decode_ragged_example(example)
+    sequence_rank = _get_sequence_rank(serialized_info)
+    if sequence_rank == 0:
+        return decoder.decode_example(example)
+    elif sequence_rank == 1:
+        # Return a batch of examples from a sequence
+        return decoder.decode_batch_example(example)
+    elif sequence_rank > 1:
+        # Use ragged tensor if the sequance rank is greater than one
+        return decoder.decode_ragged_example(example)
 
 
 def _get_sequence_rank(serialized_info):
-  """Return the number of sequence dimensions of the feature."""
-  if isinstance(serialized_info, dict):
-    all_sequence_rank = [s.sequence_rank for s in serialized_info.values()]
-  else:
-    all_sequence_rank = [serialized_info.sequence_rank]
+    """Return the number of sequence dimensions of the feature."""
+    if isinstance(serialized_info, dict):
+        all_sequence_rank = [s.sequence_rank for s in serialized_info.values()]
+    else:
+        all_sequence_rank = [serialized_info.sequence_rank]
 
-  sequence_ranks = set(all_sequence_rank)
-  if len(sequence_ranks) != 1:
-    raise NotImplementedError(
-        'Decoding do not support mixing sequence and context features within a '
-        'single FeatureConnector. Received inputs of different sequence_rank: '
-        '{}'.format(sequence_ranks)
-    )
-  return next(iter(sequence_ranks))
+    sequence_ranks = set(all_sequence_rank)
+    if len(sequence_ranks) != 1:
+        raise NotImplementedError(
+            "Decoding do not support mixing sequence and context features within a "
+            "single FeatureConnector. Received inputs of different sequence_rank: "
+            "{}".format(sequence_ranks)
+        )
+    return next(iter(sequence_ranks))

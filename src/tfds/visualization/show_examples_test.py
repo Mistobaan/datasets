@@ -17,7 +17,6 @@
 """Tests for `tfds.visualization.show_examples`."""
 
 
-
 import mock
 
 from tfds import testing
@@ -25,28 +24,27 @@ from tfds import registered
 from tfds import visualization
 
 # Import for registration
-from tfds.image_classification import imagenet  # pylint: disable=unused-import,g-bad-import-order
+from tfds.image_classification import (
+    imagenet,
+)  # pylint: disable=unused-import,g-bad-import-order
 
 
 class ShowExamplesTest(testing.TestCase):
+    @mock.patch("matplotlib.pyplot.figure")
+    def test_show_examples(self, mock_fig):
+        with testing.mock_data(num_examples=20):
+            ds, ds_info = registered.load("imagenet2012", split="train", with_info=True)
+        visualization.show_examples(ds, ds_info)
 
-  @mock.patch('matplotlib.pyplot.figure')
-  def test_show_examples(self, mock_fig):
-    with testing.mock_data(num_examples=20):
-      ds, ds_info = registered.load(
-          'imagenet2012', split='train', with_info=True)
-    visualization.show_examples(ds, ds_info)
-
-  # TODO(tfds): Should add test when there isn't enough examples (ds.take(3))
+    # TODO(tfds): Should add test when there isn't enough examples (ds.take(3))
 
 
 class ShowStatisticsTest(testing.TestCase):
+    def test_show_examples(self):
+        with testing.mock_data():
+            builder = registered.builder("imagenet2012")
+            visualization.show_statistics(builder.info)
 
-  def test_show_examples(self):
-    with testing.mock_data():
-      builder = registered.builder('imagenet2012')
-      visualization.show_statistics(builder.info)
 
-
-if __name__ == '__main__':
-  testing.test_main()
+if __name__ == "__main__":
+    testing.test_main()

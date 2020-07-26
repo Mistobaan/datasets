@@ -17,21 +17,21 @@
 """Tests for tfds.registered."""
 
 
-
 import tfds as tfds
 
 
 class ListBuilderTest(tfds.testing.TestCase):
-  """Ensure that the tests datasets are not registered."""
+    """Ensure that the tests datasets are not registered."""
 
-  def test_list_builder(self):
-    test_datasets = {
-        tfds.testing.DummyMnist.name,
-        tfds.testing.DummyDatasetSharedGenerator.name,
-    }
-    registered_datasets = set(tfds.list_builders())
-    # The tests datasets should not be present in the registered datasets
-    self.assertEmpty(test_datasets & registered_datasets)
+    def test_list_builder(self):
+        test_datasets = {
+            tfds.testing.DummyMnist.name,
+            tfds.testing.DummyDatasetSharedGenerator.name,
+        }
+        registered_datasets = set(tfds.list_builders())
+        # The tests datasets should not be present in the registered datasets
+        self.assertEmpty(test_datasets & registered_datasets)
+
 
 if __name__ == "__main__":
-  tfds.testing.test_main()
+    tfds.testing.test_main()

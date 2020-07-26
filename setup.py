@@ -37,7 +37,7 @@ if nightly:
 DOCLINES = __doc__.split('\n')
 
 REQUIRED_PKGS = [
-    # 'absl-py',
+    'absl-py==0.9.0',
     # 'attrs>=18.1.0',
     # 'dill',  # TODO(tfds): move to TESTS_REQUIRE.
     # 'future',

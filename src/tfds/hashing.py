@@ -47,7 +47,6 @@ result in same order.
 """
 
 
-
 import hashlib
 from typing import Union
 
@@ -59,23 +58,23 @@ HashKey = Union[str, bytes, int]
 
 
 def _to_bytes(data):
-  if not isinstance(data, (six.string_types, bytes)):
-    data = str(data)
-  elif isinstance(data, str):
-    # For windows compatibility, we normalize the key in case a
-    # filepath is passed as key ('path\\to\\file' -> 'path/to/file')
-    data = data.replace('\\', '/')
-  return tf.compat.as_bytes(data)
+    if not isinstance(data, (six.string_types, bytes)):
+        data = str(data)
+    elif isinstance(data, str):
+        # For windows compatibility, we normalize the key in case a
+        # filepath is passed as key ('path\\to\\file' -> 'path/to/file')
+        data = data.replace("\\", "/")
+    return tf.compat.as_bytes(data)
 
 
 class Hasher(object):
-  """Hasher: to initialize a md5 with salt."""
+    """Hasher: to initialize a md5 with salt."""
 
-  def __init__(self, salt):
-    self._md5 = hashlib.md5(_to_bytes(salt))
+    def __init__(self, salt):
+        self._md5 = hashlib.md5(_to_bytes(salt))
 
-  def hash_key(self, key: HashKey) -> int:
-    """Returns 128 bits hash of given key.
+    def hash_key(self, key: HashKey) -> int:
+        """Returns 128 bits hash of given key.
 
     Args:
       key (bytes, string or anything convertible to a string): key to be hashed.
@@ -89,6 +88,6 @@ class Hasher(object):
     Returns:
       128 bits integer, hash of key.
     """
-    md5 = self._md5.copy()
-    md5.update(_to_bytes(key))
-    return int(md5.hexdigest(), 16)
+        md5 = self._md5.copy()
+        md5.update(_to_bytes(key))
+        return int(md5.hexdigest(), 16)

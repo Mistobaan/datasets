@@ -16,7 +16,6 @@
 """Test dataset builder without TFDV."""
 
 
-
 import tensorflow as tf
 import tfds as tfds
 
@@ -24,16 +23,15 @@ tf.compat.v1.enable_eager_execution()
 
 
 class BuilderNoStatsTest(tfds.testing.TestCase):
+    def test_no_tfdv_dir(self):
+        with tfds.testing.tmp_dir(self.get_temp_dir()) as tmp_dir:
+            builder = tfds.testing.DummyMnist(data_dir=tmp_dir)
+            builder.download_and_prepare()  # tfdv not present. Statistics skipped.
 
-  def test_no_tfdv_dir(self):
-    with tfds.testing.tmp_dir(self.get_temp_dir()) as tmp_dir:
-      builder = tfds.testing.DummyMnist(data_dir=tmp_dir)
-      builder.download_and_prepare()  # tfdv not present. Statistics skipped.
-
-      # Statistics skipped
-      num_examples = int(builder.info.splits['train'].statistics.num_examples)
-      self.assertEqual(num_examples, 0)
+            # Statistics skipped
+            num_examples = int(builder.info.splits["train"].statistics.num_examples)
+            self.assertEqual(num_examples, 0)
 
 
-if __name__ == '__main__':
-  tfds.testing.test_main()
+if __name__ == "__main__":
+    tfds.testing.test_main()

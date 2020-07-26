@@ -17,7 +17,6 @@
 """Audio feature."""
 
 
-
 import numpy as np
 import six
 import tensorflow.compat.v2 as tf
@@ -28,17 +27,13 @@ from tfds.features import feature
 
 
 class Audio(feature.Tensor):
-  """`FeatureConnector` for audio, encoded as raw integer wave form."""
+    """`FeatureConnector` for audio, encoded as raw integer wave form."""
 
-  @api_utils.disallow_positional_args
-  def __init__(
-      self,
-      file_format=None,
-      shape=(None,),
-      dtype=tf.int64,
-      sample_rate=None,
-  ):
-    """Constructs the connector.
+    @api_utils.disallow_positional_args
+    def __init__(
+        self, file_format=None, shape=(None,), dtype=tf.int64, sample_rate=None,
+    ):
+        """Constructs the connector.
 
     Args:
       file_format: `str`, the audio file format. Can be any format ffmpeg
@@ -49,33 +44,36 @@ class Audio(feature.Tensor):
         `info.features['audio'].sample_rate`. This value isn't used neither in
         encoding nor decoding.
     """
-    self._file_format = file_format
-    if len(shape) != 1:
-      raise TypeError(
-          "Audio feature currently only supports 1-D values, got %s." % shape)
-    self._shape = shape
-    self._sample_rate = sample_rate
-    super(Audio, self).__init__(shape=shape, dtype=dtype)
+        self._file_format = file_format
+        if len(shape) != 1:
+            raise TypeError(
+                "Audio feature currently only supports 1-D values, got %s." % shape
+            )
+        self._shape = shape
+        self._sample_rate = sample_rate
+        super(Audio, self).__init__(shape=shape, dtype=dtype)
 
-  def _encode_file(self, fobj, file_format):
-    audio_segment = lazy_imports_lib.lazy_imports.pydub.AudioSegment.from_file(
-        fobj, format=file_format)
-    np_dtype = np.dtype(self.dtype.as_numpy_dtype)
-    return super(Audio, self).encode_example(
-        np.array(audio_segment.get_array_of_samples()).astype(np_dtype))
+    def _encode_file(self, fobj, file_format):
+        audio_segment = lazy_imports_lib.lazy_imports.pydub.AudioSegment.from_file(
+            fobj, format=file_format
+        )
+        np_dtype = np.dtype(self.dtype.as_numpy_dtype)
+        return super(Audio, self).encode_example(
+            np.array(audio_segment.get_array_of_samples()).astype(np_dtype)
+        )
 
-  def encode_example(self, audio_or_path_or_fobj):
-    if isinstance(audio_or_path_or_fobj, (np.ndarray, list)):
-      return audio_or_path_or_fobj
-    elif isinstance(audio_or_path_or_fobj, six.string_types):
-      filename = audio_or_path_or_fobj
-      file_format = self._file_format or filename.split(".")[-1]
-      with tf.io.gfile.GFile(filename, "rb") as audio_f:
-        return self._encode_file(audio_f, file_format)
-    else:
-      return self._encode_file(audio_or_path_or_fobj, self._file_format)
+    def encode_example(self, audio_or_path_or_fobj):
+        if isinstance(audio_or_path_or_fobj, (np.ndarray, list)):
+            return audio_or_path_or_fobj
+        elif isinstance(audio_or_path_or_fobj, six.string_types):
+            filename = audio_or_path_or_fobj
+            file_format = self._file_format or filename.split(".")[-1]
+            with tf.io.gfile.GFile(filename, "rb") as audio_f:
+                return self._encode_file(audio_f, file_format)
+        else:
+            return self._encode_file(audio_or_path_or_fobj, self._file_format)
 
-  @property
-  def sample_rate(self):
-    """Returns the `sample_rate` metadata associated with the dataset."""
-    return self._sample_rate
+    @property
+    def sample_rate(self):
+        """Returns the `sample_rate` metadata associated with the dataset."""
+        return self._sample_rate

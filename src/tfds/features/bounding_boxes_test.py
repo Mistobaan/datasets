@@ -17,7 +17,6 @@
 """Tests for bounding_boxes."""
 
 
-
 import tensorflow.compat.v2 as tf
 from tfds import testing
 from tfds import features
@@ -26,27 +25,21 @@ tf.enable_v2_behavior()
 
 
 class BBoxFeatureTest(testing.FeatureExpectationsTestCase):
+    def test_feature(self):
 
-  def test_feature(self):
-
-    self.assertFeature(
-        feature=features.BBoxFeature(),
-        shape=(4,),
-        dtype=tf.float32,
-        tests=[
-            # Numpy array
-            testing.FeatureExpectationItem(
-                value=features.BBox(
-                    ymin=0.0,
-                    xmin=0.25,
-                    ymax=1.0,
-                    xmax=0.75,
+        self.assertFeature(
+            feature=features.BBoxFeature(),
+            shape=(4,),
+            dtype=tf.float32,
+            tests=[
+                # Numpy array
+                testing.FeatureExpectationItem(
+                    value=features.BBox(ymin=0.0, xmin=0.25, ymax=1.0, xmax=0.75,),
+                    expected=[0.0, 0.25, 1.0, 0.75],
                 ),
-                expected=[0.0, 0.25, 1.0, 0.75],
-            ),
-        ],
-    )
+            ],
+        )
 
 
-if __name__ == '__main__':
-  testing.test_main()
+if __name__ == "__main__":
+    testing.test_main()

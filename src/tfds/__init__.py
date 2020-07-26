@@ -40,5 +40,5 @@ from tfds.public_api import *  # pylint: disable=wildcard-import
 
 # __all__ for import * as well as documentation
 from tfds import public_api  # pylint: disable=g-bad-import-order
-__all__ = public_api.__all__
 
+__all__ = public_api.__all__
