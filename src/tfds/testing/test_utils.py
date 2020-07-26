@@ -15,10 +15,6 @@
 # Lint as: python3
 """Test utilities."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-
 import contextlib
 import functools
 import io
@@ -514,7 +510,11 @@ class DummyMnist(dataset_builder.GeneratorBasedBuilder):
 def test_main():
     """Entrypoint for tests."""
     tf.enable_v2_behavior()
-    tf.test.main()
+    try:
+        tf.test.main()
+    except Exception as exc:
+        pass
+        raise exc
 
 
 @contextlib.contextmanager

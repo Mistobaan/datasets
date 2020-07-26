@@ -29,7 +29,6 @@ from tfds.image_classification import (
 
 
 class ShowExamplesTest(testing.TestCase):
-
     @mock.patch("matplotlib.pyplot.figure")
     def test_show_examples(self, mock_fig):
         with testing.mock_data(num_examples=20):

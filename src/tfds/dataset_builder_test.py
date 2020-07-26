@@ -490,11 +490,9 @@ class BuilderRestoreGcsTest(testing.TestCase):
     @classmethod
     def setUpClass(cls):
         super(BuilderRestoreGcsTest, cls).setUpClass()
-        dataset_builder._is_py2_download_and_prepare_disabled = False
 
     @classmethod
     def tearDownClass(cls):
-        dataset_builder._is_py2_download_and_prepare_disabled = True
         super(BuilderRestoreGcsTest, cls).tearDownClass()
 
     def setUp(self):
@@ -519,7 +517,7 @@ class BuilderRestoreGcsTest(testing.TestCase):
         patcher = absltest.mock.patch.object(
             dataset_info.DatasetInfo, "compute_dynamic_properties",
         )
-        self.compute_dynamic_property = patcher.start()
+        # self.compute_dynamic_property = patcher.start()
         self.addCleanup(patcher.stop)
 
     def test_stats_restored_from_gcs(self):

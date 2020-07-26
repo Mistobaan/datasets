@@ -62,9 +62,9 @@ GCS bucket (recommended if you're running on GCP), you can instead pass
 """
 
 
-# Some tests are still running under Python 2, so internally we still whitelist
-# Py2 temporary.
-_is_py2_download_and_prepare_disabled = True
+# # Some tests are still running under Python 2, so internally we still whitelist
+# # Py2 temporary.
+# _is_py2_download_and_prepare_disabled = True
 
 
 class BuilderConfig(object):
@@ -294,14 +294,6 @@ class DatasetBuilder(object):
             logging.info("Reusing dataset %s (%s)", self.name, self._data_dir)
             return
 
-        # Disable `download_and_prepare` (internally, we are still
-        # allowing Py2 for the `dataset_builder_tests.py` & cie
-        if _is_py2_download_and_prepare_disabled and six.PY2:
-            raise NotImplementedError(
-                "TFDS has dropped `builder.download_and_prepare` support for "
-                "Python 2. Please update your code to Python 3."
-            )
-
         if self.version.tfds_version_to_prepare:
             available_to_prepare = ", ".join(
                 str(v) for v in self.versions if not v.tfds_version_to_prepare
@@ -403,6 +395,9 @@ class DatasetBuilder(object):
 
                         skip_stats_computation = False
                     except ImportError:
+                        logging.info(
+                            "no tensorflow_data_validation module. skipping stats computation"
+                        )
                         skip_stats_computation = True
 
                     splits = list(self.info.splits.values())

@@ -38,10 +38,12 @@ from tfds.utils.tqdm_utils import disable_progress_bar
 from tfds.visualization import show_examples
 from tfds.visualization import show_statistics
 from tfds.version import __version__
-from tfds.dataset_builder import GeneratorBasedBuilder
+from tfds.dataset_builder import GeneratorBasedBuilder, BuilderConfig
 from tfds.utils.version import Version
 from tfds.dataset_info import DatasetInfo
-from tfds.splits import SplitGenerator
+from tfds.splits import SplitGenerator, SplitInfo
+from tfds.lazy_imports_lib import lazy_imports
+from tfds.api_utils import disallow_positional_args
 
 with skip_registration():
     # We import testing namespace but without registering the tests datasets
@@ -75,5 +77,9 @@ __all__ = [
     "Version",
     "DatasetInfo",
     "SplitGenerator",
+    "SplitInfo",
+    "lazy_imports",
+    "BuilderConfig",
     "__version__",
+    "disallow_positional_args",
 ]

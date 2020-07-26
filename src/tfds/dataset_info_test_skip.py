@@ -27,6 +27,7 @@ from tfds import dataset_builder
 from tfds import dataset_info
 from tfds import features
 from tfds.utils import py_utils
+
 # from tfds.image_classification import mnist TODO: should not depend on external datasets
 
 from google.protobuf import text_format
@@ -65,6 +66,7 @@ class RandomShapedImageGenerator(DummyDatasetSharedGenerator):
             yield i, {
                 "im": np.random.randint(0, 255, size=(height, width, 3), dtype=np.uint8)
             }
+
 
 class DatasetInfoTest(testing.TestCase):
     @classmethod
