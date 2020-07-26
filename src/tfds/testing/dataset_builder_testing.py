@@ -249,31 +249,31 @@ class DatasetBuilderTestCase(parameterized.TestCase, test_utils.SubTestCase):
         self.assertIsInstance(info, dataset_info.DatasetInfo)
         self.assertEqual(self.builder.name, info.name)
 
-    def _add_url(self, url_or_urls):
-        if self._stop_record_download:
-            # Stop record the checksums if dl_manager.download_checksums has been
-            # called (as checksums may be stored remotelly)
-            return
-        if isinstance(url_or_urls, download.resource.Resource):
-            self._download_urls.add(url_or_urls.url)
-        else:
-            self._download_urls.add(url_or_urls)
+    #def _add_url(self, url_or_urls, checksum_or_checksums):
+        # if self._stop_record_download:
+        #     # Stop record the checksums if dl_manager.download_checksums has been
+        #     # called (as checksums may be stored remotely)
+        #     return
+        # if isinstance(url_or_urls, download.resource.Resource):
+        #     self._download_urls.add(url_or_urls)
+        # else:
+        # assert isinstance(url_or_urls, str), "url must be a str"
+        # self._download_urls.add(download.resource.Resource(url=url_or_urls, url_checksum=checksum_or_checksums))
 
-    def _get_dl_extract_result(self, url):
-        tf.nest.map_structure(self._add_url, url)
-        del url
+    def _get_dl_extract_result(self, resource):
+        tf.nest.map_structure(self._download_urls.add, resource)
         if self.DL_EXTRACT_RESULT is None:
             return self.example_dir
         return tf.nest.map_structure(
             lambda fname: os.path.join(self.example_dir, fname), self.DL_EXTRACT_RESULT,
         )
 
-    def _get_dl_download_result(self, url):
-        tf.nest.map_structure(self._add_url, url)
+    def _get_dl_download_result(self, resource):
+        tf.nest.map_structure(self._download_urls.add, resource)
         if self.DL_DOWNLOAD_RESULT is None:
             # This is only to be backwards compatible with old approach.
             # In the future it will be replaced with using self.example_dir.
-            return self._get_dl_extract_result(url)
+            return self._get_dl_extract_result(resource)
         return tf.nest.map_structure(
             lambda fname: os.path.join(self.example_dir, fname),
             self.DL_DOWNLOAD_RESULT,
@@ -326,7 +326,7 @@ class DatasetBuilderTestCase(parameterized.TestCase, test_utils.SubTestCase):
             return
 
         err_msg = (
-            "If you are developping outside TFDS and want to opt-out, "
+            "If you are developing outside TFDS and want to opt-out, "
             "please add `SKIP_CHECKSUMS = True` to the "
             "`DatasetBuilderTestCase`"
         )

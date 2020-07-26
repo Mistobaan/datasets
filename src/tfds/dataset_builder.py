@@ -901,57 +901,58 @@ class FileAdapterBuilder(DatasetBuilder):
     def _split_generators(self, dl_manager):
         """Specify feature dictionary generators and dataset splits.
 
-    This function returns a list of `SplitGenerator`s defining how to generate
-    data and what splits to use.
+        This function returns a list of `SplitGenerator`s defining how to generate
+        data and what splits to use.
 
-    Example:
+        Example:
 
-      return[
-          tfds.SplitGenerator(
-              name=tfds.Split.TRAIN,
-              gen_kwargs={'file': 'train_data.zip'},
-          ),
-          tfds.SplitGenerator(
-              name=tfds.Split.TEST,
-              gen_kwargs={'file': 'test_data.zip'},
-          ),
-      ]
+        return[
+            tfds.SplitGenerator(
+                name=tfds.Split.TRAIN,
+                gen_kwargs={'file': 'train_data.zip'},
+            ),
+            tfds.SplitGenerator(
+                name=tfds.Split.TEST,
+                gen_kwargs={'file': 'test_data.zip'},
+            ),
+        ]
 
-    The above code will first call `_generate_examples(file='train_data.zip')`
-    to write the train data, then `_generate_examples(file='test_data.zip')` to
-    write the test data.
+        The above code will first call `_generate_examples(file='train_data.zip')`
+        to write the train data, then `_generate_examples(file='test_data.zip')` to
+        write the test data.
 
-    Datasets are typically split into different subsets to be used at various
-    stages of training and evaluation.
+        Datasets are typically split into different subsets to be used at various
+        stages of training and evaluation.
 
-    Note that for datasets without a `VALIDATION` split, you can use a
-    fraction of the `TRAIN` data for evaluation as you iterate on your model
-    so as not to overfit to the `TEST` data.
+        Note that for datasets without a `VALIDATION` split, you can use a
+        fraction of the `TRAIN` data for evaluation as you iterate on your model
+        so as not to overfit to the `TEST` data.
 
-    For downloads and extractions, use the given `download_manager`.
-    Note that the `DownloadManager` caches downloads, so it is fine to have each
-    generator attempt to download the source data.
+        For downloads and extractions, use the given `download_manager`.
+        Note that the `DownloadManager` caches downloads, so it is fine to have each
+        generator attempt to download the source data.
 
-    A good practice is to download all data in this function, and then
-    distribute the relevant parts to each split with the `gen_kwargs` argument
+        A good practice is to download all data in this function, and then
+        distribute the relevant parts to each split with the `gen_kwargs` argument
 
-    Args:
-      dl_manager: (DownloadManager) Download manager to download the data
+        Args:
+        dl_manager: (DownloadManager) Download manager to download the data
 
-    Returns:
-      `list<SplitGenerator>`.
-    """
+        Returns:
+        `list<SplitGenerator>`.
+        """
         raise NotImplementedError()
 
     @abc.abstractmethod
     def _prepare_split(self, split_generator, **kwargs):
-        """Generate the examples and record them on disk.
+        """
+        Generate the examples and record them on disk.
 
-    Args:
-      split_generator: `SplitGenerator`, Split generator to process
-      **kwargs: Additional kwargs forwarded from _download_and_prepare (ex:
-        beam pipeline)
-    """
+        Args:
+        split_generator: `SplitGenerator`, Split generator to process
+        **kwargs: Additional kwargs forwarded from _download_and_prepare (ex:
+            beam pipeline)
+        """
         raise NotImplementedError()
 
     def _make_split_generators_kwargs(self, prepare_split_kwargs):
@@ -1113,35 +1114,35 @@ class BeamBasedBuilder(FileAdapterBuilder):
     def _build_pcollection(self, pipeline, **kwargs):
         """Build the beam pipeline examples for each `SplitGenerator`.
 
-    This function extracts examples from the raw data with parallel transforms
-    in a Beam pipeline. It is called once for each `SplitGenerator` defined in
-    `_split_generators`. The examples from the PCollection will be
-    encoded and written to disk.
+        This function extracts examples from the raw data with parallel transforms
+        in a Beam pipeline. It is called once for each `SplitGenerator` defined in
+        `_split_generators`. The examples from the PCollection will be
+        encoded and written to disk.
 
-    Warning: When running in a distributed setup, make sure that the data
-    which will be read (download_dir, manual_dir,...) and written (data_dir)
-    can be accessed by the workers jobs. The data should be located in a
-    shared filesystem, like GCS.
+        Warning: When running in a distributed setup, make sure that the data
+        which will be read (download_dir, manual_dir,...) and written (data_dir)
+        can be accessed by the workers jobs. The data should be located in a
+        shared filesystem, like GCS.
 
-    Example:
+        Example:
 
-    ```
-    def _build_pcollection(pipeline, extracted_dir):
-      return (
-          pipeline
-          | beam.Create(gfile.io.listdir(extracted_dir))
-          | beam.Map(_process_file)
-      )
-    ```
+        ```
+        def _build_pcollection(pipeline, extracted_dir):
+        return (
+            pipeline
+            | beam.Create(gfile.io.listdir(extracted_dir))
+            | beam.Map(_process_file)
+        )
+        ```
 
-    Args:
-      pipeline: `beam.Pipeline`, root Beam pipeline
-      **kwargs: Arguments forwarded from the SplitGenerator.gen_kwargs
+        Args:
+        pipeline: `beam.Pipeline`, root Beam pipeline
+        **kwargs: Arguments forwarded from the SplitGenerator.gen_kwargs
 
-    Returns:
-      pcollection: `PCollection`, an Apache Beam PCollection containing the
-        example to send to `self.info.features.encode_example(...)`.
-    """
+        Returns:
+        pcollection: `PCollection`, an Apache Beam PCollection containing the
+            example to send to `self.info.features.encode_example(...)`.
+        """
         raise NotImplementedError()
 
     def _download_and_prepare(self, dl_manager, download_config):

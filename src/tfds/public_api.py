@@ -38,7 +38,7 @@ from tfds.utils.tqdm_utils import disable_progress_bar
 from tfds.visualization import show_examples
 from tfds.visualization import show_statistics
 from tfds.version import __version__
-from tfds.dataset_builder import GeneratorBasedBuilder, BuilderConfig
+from tfds.dataset_builder import GeneratorBasedBuilder, BuilderConfig, BeamBasedBuilder
 from tfds.utils.version import Version
 from tfds.dataset_info import DatasetInfo
 from tfds.splits import SplitGenerator, SplitInfo
@@ -80,6 +80,7 @@ __all__ = [
     "SplitInfo",
     "lazy_imports",
     "BuilderConfig",
+    "BeamBasedBuilder",
     "__version__",
     "disallow_positional_args",
 ]

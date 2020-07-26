@@ -13,8 +13,8 @@
 # limitations under the License.
 
 # Lint as: python3
-"""Methods to retrieve and store size/checksums associated to URLs.
-
+"""
+Methods to retrieve and store size/checksums associated to URLs.
 """
 
 
@@ -35,12 +35,13 @@ _CHECKSUM_SUFFIX = ".txt"
 
 
 class UrlInfo(object):  # TODO(tfds): Use dataclasses
-    """Small wrapper around the url metadata (checksum, size).
+    """
+    Small wrapper around the url metadata (checksum, size).
 
-  Attributes:
-    size: Download size of the file
-    checksum: Checksum of the file
-  """
+    Attributes:
+        size: Download size of the file
+        checksum: Checksum of the file
+    """
 
     def __init__(self, size: int, checksum: str):
         self.size = size
@@ -71,26 +72,27 @@ class UrlInfo(object):  # TODO(tfds): Use dataclasses
 
 
 def add_checksums_dir(checksums_dir: str) -> None:
-    """Registers a new checksums dir.
+    """
+    Registers a new checksums dir.
 
-  This function allow external datasets not present in the tfds repository to
-  define their own checksums_dir containing the dataset downloads checksums.
+    This function allow external datasets not present in the tfds repository to
+    define their own checksums_dir containing the dataset downloads checksums.
 
-  Note: When redistributing your dataset, you should distribute the checksums
-  files with it and set `add_checksums_dir` when the user is importing your
-  `my_dataset.py`.
+    Note: When redistributing your dataset, you should distribute the checksums
+    files with it and set `add_checksums_dir` when the user is importing your
+    `my_dataset.py`.
 
-  ```
-  # Set-up the folder containing the 'my_dataset.txt' checksums.
-  checksum_dir = os.path.join(os.path.dirname(__file__), 'checksums/')
-  checksum_dir = os.path.normpath(checksum_dir)
+    ```
+    # Set-up the folder containing the 'my_dataset.txt' checksums.
+    checksum_dir = os.path.join(os.path.dirname(__file__), 'checksums/')
+    checksum_dir = os.path.normpath(checksum_dir)
 
-  # Add the checksum dir (will be executed when the user import your dataset)
-  tfds.download.add_checksums_dir(checksum_dir)
+    # Add the checksum dir (will be executed when the user import your dataset)
+    tfds.download.add_checksums_dir(checksum_dir)
 
-  class MyDataset(tfds.DatasetBuilder):
-    ...
-  ```
+    class MyDataset(tfds.DatasetBuilder):
+        ...
+    ```
 
   Args:
     checksums_dir: `str`, checksums dir to add to the registry
@@ -171,22 +173,23 @@ def get_all_url_infos() -> Dict[str, UrlInfo]:
 
 
 def store_checksums(dataset_name: str, url_infos: Dict[str, UrlInfo]) -> None:
-    """Store given checksums and sizes for specific dataset.
+    """
+    Store given checksums and sizes for specific dataset.
 
-  Content of file is never disgarded, only updated. This is to ensure that if
-  process is killed right after first download finishes, checksums registered
-  during previous runs aren't lost.
+    Content of file is never disgarded, only updated. This is to ensure that if
+    process is killed right after first download finishes, checksums registered
+    during previous runs aren't lost.
 
-  It is the responsibility of the caller not to call function multiple times in
-  parallel for a given dataset.
+    It is the responsibility of the caller not to call function multiple times in
+    parallel for a given dataset.
 
-  Only original file content is updated. This means the entire set of new sizes
-  and checksums must be given at every call.
+    Only original file content is updated. This means the entire set of new sizes
+    and checksums must be given at every call.
 
-  Args:
-    dataset_name: string.
-    url_infos: dict, {url: (size_in_bytes, checksum)}.
-  """
+    Args:
+        dataset_name: string.
+        url_infos: dict, {url: (size_in_bytes, checksum)}.
+    """
     path = _get_path(dataset_name)
     original_data = _get_url_infos(path)
     new_data = original_data.copy()

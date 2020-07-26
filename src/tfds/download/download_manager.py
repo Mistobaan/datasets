@@ -180,24 +180,25 @@ class DownloadManager(object):
         force_checksums_validation: bool = False,
         register_checksums: bool = False,
     ):
-        """Download manager constructor.
+        """
+        Download manager constructor.
 
-    Args:
-      download_dir: Path to directory where downloads are stored.
-      extract_dir: Path to directory where artifacts are extracted.
-      manual_dir: Path to manually downloaded/extracted data directory.
-      manual_dir_instructions: Human readable instructions on how to
-        prepare contents of the manual_dir for this dataset.
-      checksums_path: Path to the checksums file.
-      dataset_name: Name of dataset this instance will be used for. If
-        provided, downloads will contain which datasets they were used for.
-      force_download: If True, always [re]download.
-      force_extraction: If True, always [re]extract.
-      force_checksums_validation: If True, raises an error if an URL do not
-        have checksums.
-      register_checksums: If True, dl checksums aren't
-        checked, but stored into file.
-    """
+        Args:
+            download_dir: Path to directory where downloads are stored.
+            extract_dir: Path to directory where artifacts are extracted.
+            manual_dir: Path to manually downloaded/extracted data directory.
+            manual_dir_instructions: Human readable instructions on how to
+                prepare contents of the manual_dir for this dataset.
+            checksums_path: Path to the checksums file.
+            dataset_name: Name of dataset this instance will be used for. If
+                provided, downloads will contain which datasets they were used for.
+            force_download: If True, always [re]download.
+            force_extraction: If True, always [re]extract.
+            force_checksums_validation: If True, raises an error if an URL do not
+                have checksums.
+            register_checksums: If True, dl checksums aren't
+                checked, but stored into file.
+        """
         self._dataset_name = dataset_name
         self._download_dir = os.path.expanduser(download_dir)
         self._extract_dir = os.path.expanduser(
@@ -283,25 +284,26 @@ class DownloadManager(object):
         url_path: str,
         url_info: checksums.UrlInfo,
     ) -> str:
-        """Post-processing of the downloaded file.
+        """
+        Post-processing of the downloaded file.
 
-    * Write `.INFO` file
-    * Rename `tmp_dir/file.xyz` -> `url_path`
-    * Validate/record checksums
-    * Eventually rename `url_path` -> `file_path` when `record_checksums=True`
+        * Write `.INFO` file
+        * Rename `tmp_dir/file.xyz` -> `url_path`
+        * Validate/record checksums
+        * Eventually rename `url_path` -> `file_path` when `record_checksums=True`
 
-    Args:
-      resource: The url to download.
-      tmp_dir_path: Temporary dir where the file was downloaded.
-      url_path: Destination path.
-      url_info: File checksums, size, computed during download.
+        Args:
+            resource: The url to download.
+            tmp_dir_path: Temporary dir where the file was downloaded.
+            url_path: Destination path.
+            url_info: File checksums, size, computed during download.
 
-    Returns:
-      dst_path: `url_path` (or `file_path` when `register_checksums=True`)
+        Returns:
+            dst_path: `url_path` (or `file_path` when `register_checksums=True`)
 
-    Raises:
-      NonMatchingChecksumError:
-    """
+        Raises:
+            NonMatchingChecksumError:
+        """
         # Extract the file name, path from the tmp_dir
         fnames = tf.io.gfile.listdir(tmp_dir_path)
         if len(fnames) != 1:
@@ -318,7 +320,6 @@ class DownloadManager(object):
             path=url_path,
             dataset_name=self._dataset_name,
             original_fname=original_fname,
-            url_info=url_info,
         )
         # Unconditionally overwrite because either file doesn't exist or
         # FORCE_DOWNLOAD=true
@@ -331,7 +332,7 @@ class DownloadManager(object):
         # Even if `_handle_download_result` is executed asyncronously, Python
         # built-in ops are atomic in CPython (and Pypy), so it should be safe
         # to update `_recorded_url_infos`.
-        self._recorded_url_infos[resource.url] = url_info
+        self._recorded_url_infos[resource.url] = resource.local_path_info
 
         # Validate the download checksum, or register checksums
         dst_path = url_path
@@ -355,18 +356,19 @@ class DownloadManager(object):
     def _save_url_info_and_rename(
         self, url: str, url_path: str, url_info: checksums.UrlInfo,
     ) -> str:
-        """Saves the checksums on disk and renames `url_path` -> `file_path`.
+        """
+        Saves the checksums on disk and renames `url_path` -> `file_path`.
 
-    This function assume the file has already be downloaded in `url_path`.
+        This function assume the file has already be downloaded in `url_path`.
 
-    Args:
-      url: Url downloaded
-      url_path: Path of the downloaded file.
-      url_info: Downloaded file information.
+        Args:
+            url: Url downloaded
+            url_path: Path of the downloaded file.
+            url_info: Downloaded file information.
 
-    Returns:
-      file_path: The downloaded file after renaming.
-    """
+        Returns:
+            file_path: The downloaded file after renaming.
+        """
         # Record checksums/download size
         # As downloads are cached even without checksum, we could
         # avoid recording the checksums for each urls, and record them once
@@ -429,16 +431,17 @@ class DownloadManager(object):
     @utils.build_synchronize_decorator()
     @utils.memoize()
     def _download(self, resource: Union[str, resource_lib.Resource]):
-        """Download resource, returns Promise->path to downloaded file.
+        """
+        Download resource, returns Promise->path to downloaded file.
 
-    Args:
-      resource: The URL to download.
+        Args:
+            resource: The URL to download.
 
-    Returns:
-      path: The path to the downloaded resource.
-    """
+        Returns:
+            path: The path to the downloaded resource.
+        """
         # Normalize the input
-        if isinstance(resource, six.string_types):
+        if isinstance(resource, str):
             resource = resource_lib.Resource(url=resource)
         url = resource.url
 
@@ -483,15 +486,15 @@ class DownloadManager(object):
         tf.io.gfile.makedirs(download_dir_path)
         logging.info("Downloading %s into %s...", url, download_dir_path)
 
-        def callback(url_info):
+        def callback(resource):
             return self._handle_download_result(
                 resource=resource,
                 tmp_dir_path=download_dir_path,
                 url_path=url_path,
-                url_info=url_info,
+                url_info=resource.local_path_info,
             )
 
-        return self._downloader.download(url, download_dir_path).then(callback)
+        return self._downloader.download(resource, download_dir_path).then(callback)
 
     @utils.build_synchronize_decorator()
     @utils.memoize()
@@ -515,30 +518,25 @@ class DownloadManager(object):
 
     @utils.build_synchronize_decorator()
     @utils.memoize()
-    def _download_extract(self, resource):
+    def _download_extract(self, resource: resource_lib.Resource):
         """Download-extract `Resource` or url, returns Promise->path."""
-        if isinstance(resource, six.string_types):
-            resource = resource_lib.Resource(url=resource)
 
-        def callback(path):
-            resource.path = path
-            return self._extract(resource)
-
-        return self._download(resource).then(callback)
+        return self._download(resource).then(self._extract)
 
     def download_kaggle_data(self, competition_or_dataset: str) -> str:
-        """Download data for a given Kaggle Dataset or competition.
+        """
+        Download data for a given Kaggle Dataset or competition.
 
-    Note: This function requires the Kaggle CLI tool.
-    Read the installation guide at https://www.kaggle.com/docs/api.
+        Note: This function requires the Kaggle CLI tool.
+        Read the installation guide at https://www.kaggle.com/docs/api.
 
-    Args:
-      competition_or_dataset: Dataset name (`zillow/zecon`) or
-        competition name (`titanic`)
+        Args:
+            competition_or_dataset: Dataset name (`zillow/zecon`) or
+                competition name (`titanic`)
 
-    Returns:
-      The path to the downloaded files.
-    """
+        Returns:
+            The path to the downloaded files.
+        """
         return kaggle.download_kaggle_data(competition_or_dataset, self._download_dir)
 
     def download(self, url_or_urls):
@@ -590,29 +588,30 @@ class DownloadManager(object):
         with self._extractor.tqdm():
             return _map_promise(self._extract, path_or_paths)
 
-    def download_and_extract(self, url_or_urls):
-        """Download and extract given url_or_urls.
+    def download_and_extract(self, resources):
+        """
+        Download and extract given url_or_urls.
 
-    Is roughly equivalent to:
+        Is roughly equivalent to:
 
-    ```
-    extracted_paths = dl_manager.extract(dl_manager.download(url_or_urls))
-    ```
+        ```
+        extracted_paths = dl_manager.extract(dl_manager.download(url_or_urls))
+        ```
 
-    Args:
-      url_or_urls: url or `list`/`dict` of urls to download and extract. Each
-        url can be a `str` or `tfds.download.Resource`.
+        Args:
+        url_or_urls: url or `list`/`dict` of urls to download and extract. Each
+            url can be a `str` or `tfds.download.Resource`.
 
-    If not explicitly specified in `Resource`, the extraction method will
-    automatically be deduced from downloaded file name.
+        If not explicitly specified in `Resource`, the extraction method will
+        automatically be deduced from downloaded file name.
 
-    Returns:
-      extracted_path(s): `str`, extracted paths of given URL(s).
-    """
+        Returns:
+        extracted_path(s): `str`, extracted paths of given URL(s).
+        """
         # Add progress bar to follow the download state
         with self._downloader.tqdm():
             with self._extractor.tqdm():
-                return _map_promise(self._download_extract, url_or_urls)
+                return _map_promise(self._download_extract, resources)
 
     @property
     def manual_dir(self):

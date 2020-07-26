@@ -237,22 +237,21 @@ def write_info_file(
     path: str,
     dataset_name: str,
     original_fname: str,
-    url_info: checksums_lib.UrlInfo,
 ) -> None:
-    """Write the INFO file next to local file.
+    """
+    Write the INFO file next to local file.
 
-  Although the method is synchronized, there is still a risk two processes
-  running at the same time overlap here. Risk accepted, since potentially lost
-  data (`dataset_name`) is only for human consumption.
+    Although the method is synchronized, there is still a risk two processes
+    running at the same time overlap here. Risk accepted, since potentially lost
+    data (`dataset_name`) is only for human consumption.
 
-  Args:
-    resource: resource for which to write the INFO file.
-    path: path of downloaded file.
-    dataset_name: data used to dl the file.
-    original_fname: name of file as downloaded.
-    url_info: checksums/size info of the url
-  """
-    url_info_dict = url_info.asdict()
+    Args:
+        resource: resource for which to write the INFO file.
+        path: path of downloaded file.
+        dataset_name: dataset name used to download the file.
+        original_fname: name of file as downloaded.
+    """
+    url_info_dict = resource.local_path_info.asdict()
     info_path = _get_info_path(path)
     info = _read_info(info_path) or {}
     urls = set(info.get("urls", []) + [resource.url])
@@ -294,19 +293,26 @@ class Resource(object):
     """Represents a resource to download, extract, or both."""
 
     @api_utils.disallow_positional_args()
-    def __init__(self, url=None, extract_method=None, path=None):
+    def __init__(self, url=None, extract_method=None, local_path=None, url_checksum=None, local_path_info=None):
         """Resource constructor.
 
-    Args:
-      url: `str`, the URL at which to download the resource.
-      extract_method: `ExtractMethod` to be used to extract resource. If
-        not set, will be guessed from downloaded file name `original_fname`.
-      path: `str`, path of resource on local disk. Can be None if resource has
-        not be downloaded yet. In such case, `url` must be set.
-    """
+        Args:
+        url: `str`, the URL at which to download the resource.
+        extract_method: `ExtractMethod` to be used to extract resource. If
+            not set, will be guessed from downloaded file name `original_fname`.
+        local_path: `str`, path of resource on local disk. Can be None if resource has
+            not be downloaded yet. In such case, `url` must be set.
+        url_checksum: the checksum of the url resource
+
+        """
         self.url = url
-        self.path = path
+        self.local_path = local_path
+        self.local_path_info = local_path_info
         self._extract_method = extract_method
+        self.url_checksum = url_checksum
+
+        if not (self.url or self.local_path):
+            raise ValueError("either url or local path must be set")
 
     @classmethod
     def exists_locally(cls, path):

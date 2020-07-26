@@ -32,6 +32,7 @@ import tensorflow.compat.v2 as tf
 from tfds import units
 from tfds import utils
 from tfds.download import checksums as checksums_lib
+from tfds.download import resource as resource_lib
 
 _DRIVE_URL = re.compile(r"^https://drive\.google\.com/")
 
@@ -59,18 +60,20 @@ class DownloadError(Exception):
 
 
 class _Downloader(object):
-    """Class providing async download API with checksum validation.
+    """
+    Class providing async download API with checksum validation.
 
-  Do not instantiate this class directly. Instead, call `get_downloader()`.
-  """
+    NOTE: Do not instantiate this class directly. Instead, call `get_downloader()`.
+    """
 
     def __init__(self, max_simultaneous_downloads: int = 50, checksumer=None):
-        """Init _Downloader instance.
+        """
+        Init _Downloader instance.
 
-    Args:
-      max_simultaneous_downloads: `int`, max number of simultaneous downloads.
-      checksumer: `hashlib.HASH`. Defaults to `hashlib.sha256`.
-    """
+        Args:
+            max_simultaneous_downloads: `int`, max number of simultaneous downloads.
+            checksumer: `hashlib.HASH`. Defaults to `hashlib.sha256`.
+        """
         self._executor = concurrent.futures.ThreadPoolExecutor(
             max_workers=max_simultaneous_downloads
         )
@@ -82,26 +85,27 @@ class _Downloader(object):
     def tqdm(self) -> Iterator[None]:
         """Add a progression bar for the current download."""
         async_tqdm = utils.async_tqdm
-        with async_tqdm(total=0, desc="Dl Completed...", unit=" url") as pbar_url:
-            with async_tqdm(total=0, desc="Dl Size...", unit=" MiB") as pbar_dl_size:
+        with async_tqdm(total=0, desc="Download Completed...", unit=" url") as pbar_url:
+            with async_tqdm(total=0, desc="Download Size...", unit=" MiB") as pbar_dl_size:
                 self._pbar_url = pbar_url
                 self._pbar_dl_size = pbar_dl_size
                 yield
 
-    def download(self, url: str, destination_path: str):
-        """Download url to given path.
+    def download(self, resource: "Resource", destination_path: str):
+        """
+        Download url to given path.
 
-    Returns Promise -> sha256 of downloaded file.
+        Returns Promise -> sha256 of downloaded file.
 
-    Args:
-      url: address of resource to download.
-      destination_path: `str`, path to directory where to download the resource.
+        Args:
+            url: address of resource to download.
+            destination_path: `str`, path to directory where to download the resource.
 
-    Returns:
-      Promise obj -> (`str`, int): (downloaded object checksum, size in bytes).
-    """
+        Returns:
+            Promise obj -> (`str`, int): (downloaded object checksum, size in bytes).
+        """
         self._pbar_url.update_total(1)
-        future = self._executor.submit(self._sync_download, url, destination_path)
+        future = self._executor.submit(self._sync_download, resource, destination_path)
         return promise.Promise.resolve(future)
 
     def _sync_file_copy(
@@ -114,33 +118,34 @@ class _Downloader(object):
         )
         return checksums_lib.UrlInfo(checksum=hexdigest, size=size)
 
-    def _sync_download(self, url: str, destination_path: str) -> checksums_lib.UrlInfo:
-        """Synchronous version of `download` method.
+    def _sync_download(self, resource: resource_lib.Resource, destination_path: str) -> resource_lib.Resource:
+        """
+        Synchronous version of `download` method.
 
-    To download through a proxy, the `HTTP_PROXY`, `HTTPS_PROXY`,
-    `REQUESTS_CA_BUNDLE`,... environement variables can be exported, as
-    described in:
-    https://requests.readthedocs.io/en/master/user/advanced/#proxies
+        To download through a proxy, the `HTTP_PROXY`, `HTTPS_PROXY`,
+        `REQUESTS_CA_BUNDLE`,... environement variables can be exported, as
+        described in:
+        https://requests.readthedocs.io/en/master/user/advanced/#proxies
 
-    Args:
-      url: url to download
-      destination_path: path where to write it
+        Args:
+            url: url to download
+            destination_path: path where to write it
 
-    Returns:
-      None
+        Returns:
+            None
 
-    Raises:
-      DownloadError: when download fails.
-    """
+        Raises:
+            DownloadError: when download fails.
+        """
         try:
             # If url is on a filesystem that gfile understands, use copy. Otherwise,
             # use requests (http) or urllib (ftp).
-            if not url.startswith("http"):
-                return self._sync_file_copy(url, destination_path)
+            if not resource.url.startswith("http"):
+                return self._sync_file_copy(resource.url, destination_path)
         except tf.errors.UnimplementedError:
             pass
 
-        with _open_url(url) as (response, iter_content):
+        with _open_url(resource.url) as (response, iter_content):
             fname = _get_filename(response)
             path = os.path.join(destination_path, fname)
             size = 0
@@ -163,19 +168,28 @@ class _Downloader(object):
                         self._pbar_dl_size.update(size_mb // unit_mb)
                         size_mb %= unit_mb
         self._pbar_url.update(1)
-        return checksums_lib.UrlInfo(checksum=checksum.hexdigest(), size=size)
+        checksum_digest = checksum.hexdigest() 
+        if resource.url_checksum != checksum_digest:
+            raise DownloadError('checksum mismatch')
+
+        return resource_lib.Resource(
+            url=url, 
+            local_path=path,
+            local_path_info=checksums_lib.UrlInfo(checksum=checksum_digest, size=size)
+        )
 
 
 def _open_url(url: str) -> ContextManager[Tuple[Response, Iterable[bytes]]]:
-    """Context manager to open an url.
+    """
+    Context manager to open an url.
 
-  Args:
-    url: The url to open
+    Args:
+        url: The url to open
 
-  Returns:
-    response: The url response with `.url` and `.header` attributes.
-    iter_content: A `bytes` iterator which yield the content.
-  """
+    Returns:
+        response: The url response with `.url` and `.header` attributes.
+        iter_content: A `bytes` iterator which yield the content.
+    """
     # Download FTP urls with `urllib`, otherwise use `requests`
     open_fn = _open_with_urllib if url.startswith("ftp") else _open_with_requests
     return open_fn(url)
