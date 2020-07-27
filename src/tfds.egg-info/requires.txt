@@ -1,6 +1,7 @@
 absl-py==0.8.0
 tensorflow<2.0,>=1.15.3
 tensorflow-metadata
+attrs<19.0.0,>=18.1.0
 promise
 protobuf>=3.6.1
 requests>=2.19.0

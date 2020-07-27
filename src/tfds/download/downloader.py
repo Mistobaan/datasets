@@ -34,6 +34,8 @@ from tfds import utils
 from tfds.download import checksums as checksums_lib
 from tfds.download import resource as resource_lib
 
+from absl import logging
+
 _DRIVE_URL = re.compile(r"^https://drive\.google\.com/")
 
 
@@ -109,14 +111,37 @@ class _Downloader(object):
         return promise.Promise.resolve(future)
 
     def _sync_file_copy(
-        self, filepath: str, destination_path: str
-    ) -> checksums_lib.UrlInfo:
-        out_path = os.path.join(destination_path, os.path.basename(filepath))
-        tf.io.gfile.copy(filepath, out_path)
+        self, resource: resource_lib.Resource, destination_path: str
+    ) -> resource_lib.Resource:
+        out_path = os.path.join(destination_path, os.path.basename(resource.url))
+        def _check_progress():
+            remote_stats = tf.io.gfile.stats(resource.url)
+            while True:
+                self._pbar_dl_size.update_total(1000)
+                local_stats = tf.io.gfile.stats(out_path)
+                print(local_stats, remote_stats)
+                self._pba
+                import time
+                time.sleep(1000)
+
+        future = self._executor.submit(_check_progress)
+        tf.io.gfile.copy(resource.url, out_path)
         hexdigest, size = utils.read_checksum_digest(
             out_path, checksum_cls=self._checksumer_cls
         )
-        return checksums_lib.UrlInfo(checksum=hexdigest, size=size)
+        url_hexdigest = resource.url_checksum.split(':')[-1] 
+        if url_hexdigest != hexdigest:
+            raise DownloadError("checksum: %s != %s" % (url_hexdigest, hexdigest))
+        
+        self._pbar_dl_size.update_total(size)
+        self._pbar_dl_size.update(size)
+
+        return resource_lib.Resource(
+            url=resource.url,
+            url_checksum=url_hexdigest,
+            local_path=out_path,
+            local_path_info=checksums_lib.UrlInfo(checksum=hexdigest, size=size)
+        )
 
     def _sync_download(self, resource: resource_lib.Resource, destination_path: str) -> resource_lib.Resource:
         """
@@ -141,9 +166,13 @@ class _Downloader(object):
             # If url is on a filesystem that gfile understands, use copy. Otherwise,
             # use requests (http) or urllib (ftp).
             if not resource.url.startswith("http"):
-                return self._sync_file_copy(resource.url, destination_path)
+                return self._sync_file_copy(resource, destination_path)
         except tf.errors.UnimplementedError:
+            logging.info('could not handle file %s' % resource.url)
             pass
+        # except Exception as exc:
+        #     logging.info('could not handle file %s' % resource.url)
+        #     return
 
         with _open_url(resource.url) as (response, iter_content):
             fname = _get_filename(response)
@@ -170,7 +199,7 @@ class _Downloader(object):
         self._pbar_url.update(1)
         checksum_digest = checksum.hexdigest() 
         if resource.url_checksum != checksum_digest:
-            raise DownloadError('checksum mismatch')
+            raise DownloadError('checksum mismatch: %s!=%s file:%s' % (resource.url_checksum, checksum_digest, path))
 
         return resource_lib.Resource(
             url=url, 
@@ -191,7 +220,10 @@ def _open_url(url: str) -> ContextManager[Tuple[Response, Iterable[bytes]]]:
         iter_content: A `bytes` iterator which yield the content.
     """
     # Download FTP urls with `urllib`, otherwise use `requests`
-    open_fn = _open_with_urllib if url.startswith("ftp") else _open_with_requests
+    if url.startswith('gs'):
+        open_fn = tf.io.gfile.GFile
+    else:
+        open_fn = _open_with_urllib if url.startswith("ftp") else _open_with_requests
     return open_fn(url)
 
 
@@ -211,6 +243,14 @@ def _open_with_urllib(url: str) -> Iterator[Tuple[Response, Iterable[bytes]]]:
         yield (
             response,
             iter(functools.partial(response.read, io.DEFAULT_BUFFER_SIZE), b""),
+        )
+
+@contextlib.contextmanager
+def _open_with_gfile(url: str) -> Iterator[Tuple[Response, Iterable[bytes]]]:
+    with tf.io.gfile.GFile(url) as gcs_fd:  # pytype: disable=attribute-error
+        yield (
+            gcs_fd,
+            iter(functools.partial(gcs_fd.read, io.DEFAULT_BUFFER_SIZE), b""),
         )
 
 

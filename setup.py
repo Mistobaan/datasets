@@ -40,7 +40,7 @@ REQUIRED_PKGS = [
     'absl-py==0.8.0',
     'tensorflow>=1.15.3,<2.0',
     'tensorflow-metadata',
-    # 'attrs>=18.1.0',
+    'attrs>=18.1.0,<19.0.0',
     # 'future',
     # 'numpy', # this should be tensorflow's deps
     'promise', # these should be removed with async/await #TODO

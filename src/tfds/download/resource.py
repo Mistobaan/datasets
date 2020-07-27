@@ -326,4 +326,4 @@ class Resource(object):
         """Returns `ExtractMethod` to use on resource. Cannot be None."""
         if self._extract_method:
             return self._extract_method
-        return get_extract_method(self.path)
+        return get_extract_method(self.local_path)

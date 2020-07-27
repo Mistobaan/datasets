@@ -354,15 +354,15 @@ class DownloadManager(object):
         return dst_path
 
     def _save_url_info_and_rename(
-        self, url: str, url_path: str, url_info: checksums.UrlInfo,
-    ) -> str:
+        self, resource: resource_lib.Resource,
+    ) -> resource_lib.Resource:
         """
         Saves the checksums on disk and renames `url_path` -> `file_path`.
 
         This function assume the file has already be downloaded in `url_path`.
 
         Args:
-            url: Url downloaded
+            TODO: url: Url downloaded
             url_path: Path of the downloaded file.
             url_info: Downloaded file information.
 
@@ -378,9 +378,11 @@ class DownloadManager(object):
 
         # Rename (after checksum got saved succesfully)
         file_path = self._get_final_dl_path(url, url_info.checksum)
-        tf.io.gfile.rename(url_path, file_path, overwrite=True)
-        resource_lib.rename_info_file(url_path, file_path, overwrite=True)
-        return file_path
+        tf.io.gfile.rename(resource.local_path, file_path, overwrite=True)
+        resource_lib.rename_info_file(resource.local_path, file_path, overwrite=True)
+        return resource_lib.Resouce(
+            local_path=file_path
+        )
 
     def _find_existing_path(self, url: str, url_path: str) -> Optional[str]:
         """Returns the downloaded file path if it exists.
@@ -430,7 +432,7 @@ class DownloadManager(object):
     # processed once, even if passed twice to download_manager.
     @utils.build_synchronize_decorator()
     @utils.memoize()
-    def _download(self, resource: Union[str, resource_lib.Resource]):
+    def _download(self, resource: resource_lib.Resource) -> resource_lib.Resource:
         """
         Download resource, returns Promise->path to downloaded file.
 
@@ -440,16 +442,11 @@ class DownloadManager(object):
         Returns:
             path: The path to the downloaded resource.
         """
-        # Normalize the input
-        if isinstance(resource, str):
-            resource = resource_lib.Resource(url=resource)
-        url = resource.url
-
         # Compute the existing path if the file was previously downloaded
         url_path = self._get_final_dl_path(
-            url, hashlib.sha256(url.encode("utf-8")).hexdigest()
+            resource.url, hashlib.sha256(resource.url.encode("utf-8")).hexdigest()
         )
-        existing_path = self._find_existing_path(url=url, url_path=url_path)
+        existing_path = self._find_existing_path(url=resource.url, url_path=url_path)
 
         # If register checksums and file already downloaded, then:
         # * Record the url_infos of the downloaded file
@@ -462,9 +459,10 @@ class DownloadManager(object):
             )
             future = self._executor.submit(
                 self._save_url_info_and_rename,
-                url=url,
+                resource=resource, 
+                #url=url,
                 url_path=url_path,
-                url_info=self._recorded_url_infos[url],
+                #url_info=self._recorded_url_infos[url],
             )
             return promise.Promise.resolve(future)
         # Otherwise, url_infos are either already registered, or will be registered
@@ -472,8 +470,8 @@ class DownloadManager(object):
 
         # If the file file already exists (`file_path` or `url_path`), return it.
         if existing_path:
-            logging.info("URL %s already downloaded: reusing %s.", url, existing_path)
-            return promise.Promise.resolve(existing_path)
+            logging.info("URL %s already downloaded: reusing %s.", resource.url, existing_path)
+            return promise.Promise.resolve(resource_lib.Resource(local_path=existing_path))
 
         # Otherwise, download the file, and eventually computing the checksums.
         # There is a slight difference between downloader and extractor here:
@@ -498,11 +496,9 @@ class DownloadManager(object):
 
     @utils.build_synchronize_decorator()
     @utils.memoize()
-    def _extract(self, resource):
+    def _extract(self, resource: resource_lib.Resource):
         """Extract a single archive, returns Promise->path to extraction result."""
-        if isinstance(resource, six.string_types):
-            resource = resource_lib.Resource(path=resource)
-        path = resource.path
+        path = resource.local_path
         extract_method = resource.extract_method
         if extract_method == resource_lib.ExtractMethod.NO_EXTRACT:
             logging.info("Skipping extraction for %s (method=NO_EXTRACT).", path)

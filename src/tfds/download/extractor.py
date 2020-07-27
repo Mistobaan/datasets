@@ -93,7 +93,7 @@ class _Extractor(object):
             for path, handle in iter_archive(from_path, method):
                 path = tf.compat.as_text(path)
                 dst_path = path and os.path.join(to_path_tmp, path) or to_path_tmp
-                _copy(handle, dst_path)
+                _copy(self._pbar_path, handle, dst_path)
         except BaseException as err:
             msg = "Error while extracting {} to {} (file: {}) : {}".format(
                 from_path, to_path, path, err
@@ -116,7 +116,7 @@ class _Extractor(object):
         return to_path
 
 
-def _copy(src_file, dest_path):
+def _copy(pbar, src_file, dest_path):
     """Copy data read from src file obj to new file in dest_path."""
     tf.io.gfile.makedirs(os.path.dirname(dest_path))
     with tf.io.gfile.GFile(dest_path, "wb") as dest_file:
@@ -124,8 +124,8 @@ def _copy(src_file, dest_path):
             data = src_file.read(io.DEFAULT_BUFFER_SIZE)
             if not data:
                 break
+            pbar.update(len(data))
             dest_file.write(data)
-
 
 def _normpath(path):
     path = os.path.normpath(path)

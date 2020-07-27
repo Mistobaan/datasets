@@ -24,6 +24,6 @@ Classifier: Intended Audience :: Science/Research
 Classifier: License :: OSI Approved :: Apache Software License
 Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
 Requires-Python: >=3.6
-Provides-Extra: matplotlib
 Provides-Extra: tensorflow-data-validation
 Provides-Extra: tests
+Provides-Extra: matplotlib
