@@ -230,13 +230,14 @@ def check_splits_equals(splits1, splits2):
 
 
 class SplitGenerator(object):
-    """Defines the split information for the generator.
+    """
+    Defines the split information for the generator.
 
-  This should be used as returned value of
-  `GeneratorBasedBuilder._split_generators`.
-  See `GeneratorBasedBuilder._split_generators` for more info and example
-  of usage.
-  """
+    This should be used as returned value of
+    `GeneratorBasedBuilder._split_generators`.
+    See `GeneratorBasedBuilder._split_generators` for more info and example
+    of usage.
+    """
 
     def __init__(self, name, gen_kwargs=None):
         """Constructs a `SplitGenerator`.

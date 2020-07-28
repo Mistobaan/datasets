@@ -479,10 +479,10 @@ class DownloadManager(object):
         # manages the temp directory of downloader.
         download_dir_path = os.path.join(
             self._download_dir,
-            "%s.tmp.%s" % (resource_lib.get_dl_dirname(url), uuid.uuid4().hex),
+            "%s.tmp.%s" % (resource_lib.get_dl_dirname(resource.url), uuid.uuid4().hex),
         )
         tf.io.gfile.makedirs(download_dir_path)
-        logging.info("Downloading %s into %s...", url, download_dir_path)
+        logging.info("Downloading %s into %s...", resource.url, download_dir_path)
 
         def callback(resource):
             return self._handle_download_result(
@@ -509,7 +509,7 @@ class DownloadManager(object):
         )
         if not self._force_extraction and tf.io.gfile.exists(extract_path):
             logging.info("Reusing extraction of %s at %s.", path, extract_path)
-            return promise.Promise.resolve(extract_path)
+            return promise.Promise.resolve(resource_lib.Resource(local_path=extract_path))
         return self._extractor.extract(path, extract_method, extract_path)
 
     @utils.build_synchronize_decorator()

@@ -105,40 +105,41 @@ class BuilderConfig(object):
 
 @six.add_metaclass(registered.RegisteredDataset)
 class DatasetBuilder(object):
-    """Abstract base class for all datasets.
+    """
+    Abstract base class for all datasets.
 
-  `DatasetBuilder` has 3 key methods:
+    `DatasetBuilder` has 3 key methods:
 
-    * `tfds.DatasetBuilder.info`: documents the dataset, including feature
-      names, types, and shapes, version, splits, citation, etc.
-    * `tfds.DatasetBuilder.download_and_prepare`: downloads the source data
-      and writes it to disk.
-    * `tfds.DatasetBuilder.as_dataset`: builds an input pipeline using
-      `tf.data.Dataset`s.
+        * `tfds.DatasetBuilder.info`: documents the dataset, including feature
+        names, types, and shapes, version, splits, citation, etc.
+        * `tfds.DatasetBuilder.download_and_prepare`: downloads the source data
+        and writes it to disk.
+        * `tfds.DatasetBuilder.as_dataset`: builds an input pipeline using
+        `tf.data.Dataset`s.
 
-  **Configuration**: Some `DatasetBuilder`s expose multiple variants of the
-  dataset by defining a `tfds.BuilderConfig` subclass and accepting a
-  config object (or name) on construction. Configurable datasets expose a
-  pre-defined set of configurations in `tfds.DatasetBuilder.builder_configs`.
+    **Configuration**: Some `DatasetBuilder`s expose multiple variants of the
+    dataset by defining a `tfds.BuilderConfig` subclass and accepting a
+    config object (or name) on construction. Configurable datasets expose a
+    pre-defined set of configurations in `tfds.DatasetBuilder.builder_configs`.
 
-  Typical `DatasetBuilder` usage:
+    Typical `DatasetBuilder` usage:
 
-  ```python
-  mnist_builder = tfds.builder("mnist")
-  mnist_info = mnist_builder.info
-  mnist_builder.download_and_prepare()
-  datasets = mnist_builder.as_dataset()
+    ```python
+    mnist_builder = tfds.builder("mnist")
+    mnist_info = mnist_builder.info
+    mnist_builder.download_and_prepare()
+    datasets = mnist_builder.as_dataset()
 
-  train_dataset, test_dataset = datasets["train"], datasets["test"]
-  assert isinstance(train_dataset, tf.data.Dataset)
+    train_dataset, test_dataset = datasets["train"], datasets["test"]
+    assert isinstance(train_dataset, tf.data.Dataset)
 
-  # And then the rest of your input pipeline
-  train_dataset = train_dataset.repeat().shuffle(1024).batch(128)
-  train_dataset = train_dataset.prefetch(2)
-  features = tf.compat.v1.data.make_one_shot_iterator(train_dataset).get_next()
-  image, label = features['image'], features['label']
-  ```
-  """
+    # And then the rest of your input pipeline
+    train_dataset = train_dataset.repeat().shuffle(1024).batch(128)
+    train_dataset = train_dataset.prefetch(2)
+    features = tf.compat.v1.data.make_one_shot_iterator(train_dataset).get_next()
+    image, label = features['image'], features['label']
+    ```
+    """
 
     # Name of the dataset, filled by metaclass based on class name.
     name = None
@@ -168,23 +169,24 @@ class DatasetBuilder(object):
 
     @api_utils.disallow_positional_args
     def __init__(self, data_dir=None, config=None, version=None):
-        """Constructs a DatasetBuilder.
+        """
+        Constructs a DatasetBuilder.
 
-    Callers must pass arguments as keyword arguments.
+        Callers must pass arguments as keyword arguments.
 
-    Args:
-      data_dir: `str`, directory to read/write data. Defaults to the value of
-        the environment variable TFDS_DATA_DIR, if set, otherwise falls back to
-        "~/tfds".
-      config: `tfds.BuilderConfig` or `str` name, optional configuration
-        for the dataset that affects the data generated on disk. Different
-        `builder_config`s will have their own subdirectories and versions.
-      version: `str`. Optional version at which to load the dataset. An error is
-        raised if specified version cannot be satisfied. Eg: '1.2.3', '1.2.*'.
-        The special value "experimental_latest" will use the highest version,
-        even if not default. This is not recommended unless you know what you
-        are doing, as the version could be broken.
-    """
+        Args:
+        data_dir: `str`, directory to read/write data. Defaults to the value of
+            the environment variable TFDS_DATA_DIR, if set, otherwise falls back to
+            "~/tfds".
+        config: `tfds.BuilderConfig` or `str` name, optional configuration
+            for the dataset that affects the data generated on disk. Different
+            `builder_config`s will have their own subdirectories and versions.
+        version: `str`. Optional version at which to load the dataset. An error is
+            raised if specified version cannot be satisfied. Eg: '1.2.3', '1.2.*'.
+            The special value "experimental_latest" will use the highest version,
+            even if not default. This is not recommended unless you know what you
+            are doing, as the version could be broken.
+        """
         # For pickling:
         self._original_state = dict(data_dir=data_dir, config=config, version=version)
         # To do the work:
