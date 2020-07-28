@@ -91,7 +91,8 @@ setup(
     url='https://github.com/tensorflow/datasets',
     download_url='https://github.com/tensorflow/datasets/tags',
     license='Apache 2.0',
-    #packages=[find_packages('src/tfds')],
+    packages=find_packages('src'),
+    package_dir={'':'src'},
     package_data={
         # 'tensorflow_datasets': DATASET_FILES + [
         #     'scripts/documentation/templates/*',
